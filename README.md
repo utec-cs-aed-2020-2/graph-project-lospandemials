@@ -3,7 +3,7 @@
 --------
 
 ## Integrantes
-- 
+- Neira Riveros, Jorge Luis
 - 
 - 
 
