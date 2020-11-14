@@ -1,5 +1,4 @@
 #include "lib.h"
-
 #include "Tester/tester.h"
 #include "Parser/parser.h"
 
@@ -12,7 +11,7 @@ int main(int argc, char *argv[]) {
         std::cout << "================================================" << std::endl;
         
         Tester::executeExamples();
-        Tester::executeParser();
+        //Tester::executeParser();
         
     }catch (invalid_argument& e){
         cerr << e.what() << endl;
