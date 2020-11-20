@@ -4,8 +4,8 @@
 
 ## Integrantes
 - Neira Riveros, Jorge Luis
-- 
-- 
+- Berendson Villanueva, Sebastian
+- Escalante Ccoyllo, Sebastian Amaru
 
 ----
 
