@@ -88,4 +88,20 @@ UnDirectedGraph<TV, TE> Prim<TV, TE>::apply(std::string id){
     return result;
 }
 
+template<typename TV, typename TE>
+UnDirectedGraph<TV, TE> Prim<TV, TE>::apply(){
+    for(auto p : this->vertexes)
+        this->visited[p.second] = false;
+
+    UnDirectedGraph<TV, TE> result;
+    DisjoinSetArray<Vertex<TV, TE>*> ds(data);
+    ds.MakeSet();
+    
+    for(auto p : this->vertexes)
+        if(!this->visited[p.second])
+            PrimAlgorithm(result, p.first, ds);
+
+    return result;
+}
+
 #endif
