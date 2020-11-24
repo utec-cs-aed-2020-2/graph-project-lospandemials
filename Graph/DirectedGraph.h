@@ -6,45 +6,73 @@
 template<typename TV, typename TE>
 class DirectedGraph : public Graph<TV, TE>{
 public:
-    DirectedGraph(){
-
-    }
-    ~DirectedGraph(){
-        this->clear();
-    }
-
-    bool insertVertex(std::string id, TV vertex) override;
+    DirectedGraph(){}
+    ~DirectedGraph(){}
     bool createEdge(std::string id1, std::string id2, TE w) override;
-    bool deleteVertex(std::string id) override;
     bool deleteEdge(std::string id1, std::string id2) override;
-    
-    void display();
+    bool isConnected() override;
+    bool isStronglyConnected() override;
+    void display() override;
 };
 
-template<typename TV, typename TE>
-bool DirectedGraph<TV, TE>::insertVertex(std::string id, TV vertex){
-    return true;
-}
 
 template<typename TV, typename TE>
 bool DirectedGraph<TV, TE>::createEdge(std::string id1, std::string id2, TE w){
-    return true;
-}
-
-template<typename TV, typename TE>
-bool DirectedGraph<TV, TE>::deleteVertex(std::string id){
+    if(id1 == id2 || !this->vertexes.count(id1) || !this->vertexes.count(id2))    return false;
+    Vertex<TV, TE>* vertex1 = this->vertexes[id1];
+    Vertex<TV, TE>* vertex2 = this->vertexes[id2];
+    for(auto e : vertex1->edges)
+        if(e->vertexes[1] == vertex2)    return false;
+    Edge<TV, TE>* newEdge1 = new Edge<TV, TE>(vertex1, vertex2, w);
+    vertex1->edges.push_back(newEdge1);
     return true;
 }
 
 template<typename TV, typename TE>
 bool DirectedGraph<TV, TE>::deleteEdge(std::string id1, std::string id2){
+    if(id1 == id2 || !this->vertexes.count(id1) || !this->vertexes.count(id2))    return false;
+    for(auto it = begin(this->vertexes[id1]->edges); it != end(this->vertexes[id1]->edges); ++it){
+        if((*it)->vertexes[1] == this->vertexes[id2]){
+            (*it)->killSelf();
+            this->vertexes[id1]->edges.erase(it);
+            return true;
+        }
+    }
+    return false;
+}
+
+template<typename TV, typename TE>
+bool DirectedGraph<TV, TE>::isConnected(){
+    throw std::runtime_error("RUNTIME ERROR: This is directed graph.");
+}
+
+template<typename TV, typename TE>
+bool DirectedGraph<TV, TE>::isStronglyConnected(){
+    //Hacer un BFS por cada nodo O(V*(V+E))
+    //kosaraju's BFS, dos BFS O(V+E)
+    if(this->vertexes.size() <= 1)  return true;
+    auto it = begin(this->vertexes);
+    std::string id = (*it).first;
+    if(!this->BFSisConnected(id)) return false;
+
+    std::unordered_map<Vertex<TV, TE>*, std::string> ids;
+    DirectedGraph<TV, TE> complementGraph;
+    for(auto p : this->vertexes){
+        complementGraph.insertVertex(p.first, p.second->data);
+        ids[p.second] = p.first;
+    }
+    for(auto p : this->vertexes)
+        for(auto e : p.second->edges)
+            complementGraph.createEdge(ids[e->vertexes[1]], ids[e->vertexes[0]], e->weight);
+    complementGraph.display();
+    if(!complementGraph.BFSisConnected(id)) return false;
     return true;
 }
 
 template<typename TV, typename TE>
 void DirectedGraph<TV, TE>::display(){
-    std::cout << "-------------DirectedGraph-------------\n";
-    this->display();
+    std::cout << "-------------DirectedGraph------------\n";
+    Graph<TV, TE>::display();
 }
 
 #endif
