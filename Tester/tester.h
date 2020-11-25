@@ -12,6 +12,48 @@ void KruskalPrimExample3();
 void isConnectedMsg(bool cond);
 
 namespace Tester{
+
+    void executeFunctionExamples(){
+        UnDirectedGraph<char, int>  ugraph1;
+        ugraph1.insertVertex("1", '1');
+        ugraph1.insertVertex("2", '2');
+        ugraph1.insertVertex("3", '3');
+        ugraph1.insertVertex("4", '4');
+        ugraph1.createEdge("1", "2", 1);
+        ugraph1.createEdge("1", "3", 1);
+        ugraph1.createEdge("2", "3", 1);
+        ugraph1.createEdge("2", "4", 1);
+
+        UnDirectedGraph<char, int>  ugraph2;
+        ugraph2.insertVertex("1", '1');
+        ugraph2.insertVertex("2", '2');
+        ugraph2.insertVertex("3", '3');
+        ugraph2.insertVertex("4", '4');
+        ugraph2.insertVertex("5", '5');
+        ugraph2.insertVertex("6", '6');
+        ugraph2.createEdge("1", "2", 1);
+        ugraph2.createEdge("1", "3", 1);
+        ugraph2.createEdge("2", "3", 1);
+        ugraph2.createEdge("2", "4", 1);
+        ugraph2.createEdge("5", "6", 1);
+
+        UnDirectedGraph<char, int>  ugraph3;
+        ugraph3.insertVertex("1", '1');
+        ugraph3.insertVertex("2", '2');
+        ugraph3.insertVertex("3", '3');
+        ugraph3.insertVertex("4", '4');
+        ugraph3.insertVertex("5", '5');
+        ugraph3.insertVertex("6", '6');
+        ugraph3.createEdge("1", "2", 1);
+        ugraph3.createEdge("2", "3", 1);
+        ugraph3.createEdge("3", "4", 1);
+        ugraph3.createEdge("4", "5", 1);
+        ugraph3.createEdge("5", "6", 1);
+        ugraph3.createEdge("6", "1", 1);
+
+        
+    }
+
     void executeExamples(){
         KruskalPrimExample1();
         pause("ver otro ejemplo");
