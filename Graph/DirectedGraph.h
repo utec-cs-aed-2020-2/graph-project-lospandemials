@@ -6,11 +6,9 @@
 template<typename TV, typename TE>
 class DirectedGraph : public Graph<TV, TE>{
 public:
-    DirectedGraph(){
-    }
-    ~DirectedGraph(){
-    }
-
+    DirectedGraph(){}
+    ~DirectedGraph(){}
+>>>>>>> 4625d3d13d52db82470ff052bdcc0697b7b2e4a8
     bool createEdge(std::string id1, std::string id2, TE w) override;
     bool deleteEdge(std::string id1, std::string id2) override;
     bool isConnected() override;
@@ -57,7 +55,11 @@ bool DirectedGraph<TV, TE>::isStronglyConnected(){
     auto it = begin(this->vertexes);
     std::string id = (*it).first;
     if(!this->BFSisConnected(id)) return false;
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 4625d3d13d52db82470ff052bdcc0697b7b2e4a8
     std::unordered_map<Vertex<TV, TE>*, std::string> ids;
     DirectedGraph<TV, TE> complementGraph;
     for(auto p : this->vertexes){
@@ -74,7 +76,11 @@ bool DirectedGraph<TV, TE>::isStronglyConnected(){
 
 template<typename TV, typename TE>
 void DirectedGraph<TV, TE>::display(){
+<<<<<<< HEAD
     std::cout << "\n-------------DirectedGraph-------------\n";
+=======
+    std::cout << "-------------DirectedGraph------------\n";
+>>>>>>> 4625d3d13d52db82470ff052bdcc0697b7b2e4a8
     Graph<TV, TE>::display();
 }
 
