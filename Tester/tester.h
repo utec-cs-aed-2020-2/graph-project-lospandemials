@@ -23,7 +23,102 @@ namespace Tester{
     }
 
     void executeParser(){
-        return;
+        std::string path;
+        if(cond)  path = "/home/runner/ProyectoGrafos/Parser/Data/pe.json";
+        else  path = "/home/runner/ProyectoGrafos/Parser/Data/airports.json";
+
+        std::cout << "Please wait while the graph is created ...\n";
+        
+        UnDirectedGraph<Airport, double> graph;
+        Parser parser(path);
+        parser.readJSON();
+        parser.uGraphMake(graph);
+        
+        std::cout << "Graph created.\n";
+        pause();
+        
+        int option;
+        do{
+            do{
+                if(cond)  menu3();
+                else  menu4();
+                std::cout << "\t1. Print graph.\n";
+                std::cout << "\t2. Apply Kruskal algorithm.\n";
+                std::cout << "\t3. Apply Prim algorithm from vertex.\n";
+                std::cout << "\t4. MST from both algorithm.\n";
+                std::cout << "\t5. Print one vertex by id.\n";
+                std::cout << "\t6. Print vertexes by country.\n";
+                std::cout << "\t7. Check for a path from 2 vertexes\n";
+                std::cout << "\t8. Back\n";
+                std::cout << "\nSelect option: ";
+                std::cin >> option;
+                console_clear();
+            }while(!check(option, 1, 8));
+            if(cond)  menu3();
+            else  menu4();
+
+            Kruskal<Airport, double> kruskal(&graph);
+            Prim<Airport, double> prim(&graph);
+
+            switch(option){
+                case 1:{
+                    graph.display();
+                    isConnectedMsg(graph.isConnected());
+                    pause();
+                    break;
+                }
+                case 2:{
+                    std::cout << "\n-------------Kruskal Test-------------\n";
+                    UnDirectedGraph<Airport, double> resultKruskal = kruskal.apply();
+                    resultKruskal.display(); 
+                    isConnectedMsg(resultKruskal.isConnected());
+                    pause();
+                    break;
+                }
+                case 3:{
+                    std::cout << "\n-------------Prim Test--------------\n";
+                    std::string id;
+                    std::cout << "Ingrese id (2789, 2786, 2802): ";
+                    std::cin >> id;
+                    UnDirectedGraph<Airport, double> resultPrim = prim.apply(id);
+                    resultPrim.display();
+                    isConnectedMsg(resultPrim.isConnected());
+                    pause();
+                    break;
+                }
+                case 4:{
+                    std::cout << "\n-------------Kruskal Test-------------\n";
+                    UnDirectedGraph<Airport, double> resultKruskal = kruskal.apply();
+                    resultKruskal.display(); 
+                    isConnectedMsg(resultKruskal.isConnected());
+                    std::cout << "\n\n--------------Prim Test-------------\n";
+                    UnDirectedGraph<Airport, double> resultPrim = prim.apply();
+                    resultPrim.display();
+                    isConnectedMsg(resultPrim.isConnected());
+                    if(resultKruskal == resultPrim) std::cout << "Equal graphs\n";
+                    else  std::cout << "Different graphs\n";
+                    pause();
+                    break;
+                }
+                case 5:{
+                    
+                    pause();
+                    break;
+                }
+                case 6:{
+                    
+                    pause();
+                    break;
+                }
+                case 7:{
+                    
+                    pause();
+                    break;
+                }
+                default:
+                    break;
+            }
+        }while(option != 8);
     }
 }
 
