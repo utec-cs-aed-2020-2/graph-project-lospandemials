@@ -51,9 +51,50 @@ namespace Tester{
         ugraph3.createEdge("5", "6", 1);
         ugraph3.createEdge("6", "1", 1);
 
-        
-    }
+        DirectedGraph<char, int>  dgraph1;
+        dgraph1.insertVertex("1", '1');
+        dgraph1.insertVertex("2", '2');
+        dgraph1.insertVertex("3", '3');
+        dgraph1.insertVertex("4", '4');
+        dgraph1.createEdge("1", "2", 1);
+        dgraph1.createEdge("1", "3", 1);
+        dgraph1.createEdge("2", "3", 1);
+        dgraph1.createEdge("2", "4", 1);
 
+        DirectedGraph<char, int>  dgraph2;
+        //https://www.plexinfo.com/2017/03/c-program-to-check-if-directed-graph-is-strongly-connected.html
+        dgraph2.insertVertex("1", '1');
+        dgraph2.insertVertex("2", '2');
+        dgraph2.insertVertex("3", '3');
+        dgraph2.insertVertex("4", '4');
+        dgraph2.createEdge("1", "2", 1);
+        dgraph2.createEdge("1", "4", 1);
+        dgraph2.createEdge("2", "3", 1);
+        dgraph2.createEdge("3", "1", 1);
+        dgraph2.createEdge("4", "3", 1);
+        int option1;
+        do{
+            option1 = menu1();
+            console_clear();
+            switch(option1){
+                case 1:
+                    
+                    break;
+                case 2:
+                    
+                    break;  
+                case 3:
+                    
+                    break;
+                case 4:
+                    
+                    break;
+                default:
+                    break;
+            }
+        }while(option1 != 5);
+    }
+    
     void executeExamples(){
         KruskalPrimExample1();
         pause("ver otro ejemplo");
