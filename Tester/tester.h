@@ -78,16 +78,70 @@ namespace Tester{
             console_clear();
             switch(option1){
                 case 1:
+                    std::cout << "---------Density---------\n";
+                    std::cout << "\nUnDirectedGraph 1\n";
+                    ugraph1.display();
+                    std::cout << "\nDensity: " << ugraph1.density() << "\n";
+                    std::cout << "\nIsDense(0.5): ";
+                    if(ugraph1.isDense()) std::cout << "YES\n";
+                    else  std::cout << "NO\n";                  
                     
+                    std::cout << "\nDirectedGraph 1\n";
+                    dgraph1.display();
+                    std::cout << "\nDensity: " << dgraph1.density() << "\n";
+                    std::cout << "\nIsDense(0.4): ";
+                    if(dgraph1.isDense(0.4)) std::cout << "YES\n";
+                    else  std::cout << "NO\n";                  
+
+                    pause();
                     break;
                 case 2:
-                    
+                    std::cout << "---------isConnected---------\n";
+                    std::cout << "\nUnDirectedGraph 1\n";
+                    ugraph1.display();
+                    std::cout << "\nIsConnected: ";
+                    if(ugraph1.isConnected()) std::cout << "YES\n";
+                    else  std::cout << "NO\n";
+
+                    std::cout << "\nUnDirectedGraph 2\n";
+                    ugraph2.display();
+                    std::cout << "\nIsConnected: ";
+                    if(ugraph2.isConnected()) std::cout << "YES\n";
+                    else  std::cout << "NO\n";
+
+                    pause();
                     break;  
                 case 3:
-                    
+                    std::cout << "---------isStronglyConnected---------\n";
+                    std::cout << "\nDirectedGraph 1\n";
+                    dgraph1.display();
+                    std::cout << "\nIsStronglyConnected: ";
+                    if(dgraph1.isStronglyConnected()) std::cout << "YES\n";
+                    else  std::cout << "NO\n";
+
+                    std::cout << "\nDirectedGraph 2\n";
+                    dgraph2.display();
+                    std::cout << "\nIsStronglyConnected: ";
+                    if(dgraph2.isStronglyConnected()) std::cout << "YES\n";
+                    else  std::cout << "NO\n";
+
+                    pause();
                     break;
                 case 4:
-                    
+                    std::cout << "---------isBipartite---------\n";
+                    std::cout << "\nUnDirectedGraph 1\n";
+                    ugraph1.display();
+                    std::cout << "\nIsBipartite: ";
+                    if(ugraph1.isBipartite()) std::cout << "YES\n";
+                    else  std::cout << "NO\n";
+
+                    std::cout << "\nUnDirectedGraph 3\n";
+                    ugraph3.display();
+                    std::cout << "\nIsBipartite: ";
+                    if(ugraph3.isBipartite()) std::cout << "YES\n";
+                    else  std::cout << "NO\n";
+
+                    pause();
                     break;
                 default:
                     break;
