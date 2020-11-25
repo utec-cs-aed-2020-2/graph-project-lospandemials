@@ -8,7 +8,7 @@ class DirectedGraph : public Graph<TV, TE>{
 public:
     DirectedGraph(){}
     ~DirectedGraph(){}
->>>>>>> 4625d3d13d52db82470ff052bdcc0697b7b2e4a8
+    
     bool createEdge(std::string id1, std::string id2, TE w) override;
     bool deleteEdge(std::string id1, std::string id2) override;
     bool isConnected() override;
