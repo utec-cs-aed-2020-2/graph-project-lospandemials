@@ -6,15 +6,14 @@
 template<typename TV, typename TE>
 class UnDirectedGraph : public Graph<TV, TE>{
 public:
-    UnDirectedGraph() {
-    }
-    ~UnDirectedGraph(){
-    }
+    UnDirectedGraph() {}
+    ~UnDirectedGraph(){}
 
     bool createEdge(std::string id1, std::string id2, TE w) override;
     bool deleteEdge(std::string id1, std::string id2) override;
     bool isConnected() override;
     bool isStronglyConnected() override;
+    bool isBipartite() override;
     void display() override;
 };
 
@@ -57,6 +56,7 @@ bool UnDirectedGraph<TV, TE>::deleteEdge(std::string id1, std::string id2){
 
 template<typename TV, typename TE>
 bool UnDirectedGraph<TV, TE>::isConnected(){
+    if(this->vertexes.size() <= 1)  return false;
     auto it = begin(this->vertexes);
     return this->BFSisConnected((*it).first);
 }
@@ -64,6 +64,34 @@ bool UnDirectedGraph<TV, TE>::isConnected(){
 template<typename TV, typename TE>
 bool UnDirectedGraph<TV, TE>::isStronglyConnected(){
     throw std::runtime_error("RUNTIME ERROR: This is undirected graph.");
+}
+
+template<typename TV, typename TE>
+bool UnDirectedGraph<TV, TE>::isBipartite(){
+    if(this->vertexes.size() <= 1 || !isConnected())  return false;
+    std::unordered_map<Vertex<TV, TE>*, bool> color;
+    
+    auto it = begin(this->vertexes);
+    Vertex<TV, TE>* curVertex = (*it).second;
+
+    std::queue<Vertex<TV, TE>*> q;
+    q.push(curVertex);
+    color[curVertex] = true;
+    while(!q.empty()){
+        curVertex = q.front();
+        q.pop();
+        for(auto edge : curVertex->edges){
+            if(color.count(edge->vertexes[1])){
+                if(color[edge->vertexes[1]] == color[curVertex]){
+                    return false;
+                }
+            }else{
+                color[edge->vertexes[1]] = !color[curVertex];
+                q.push(edge->vertexes[1]);
+            }
+        }
+    }
+    return true;
 }
 
 template<typename TV, typename TE>
