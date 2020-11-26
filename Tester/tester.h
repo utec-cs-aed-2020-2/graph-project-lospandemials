@@ -64,7 +64,6 @@ namespace Tester{
         dgraph1.createEdge("2", "4", 1);
 
         DirectedGraph<char, int>  dgraph2;
-        //https://www.plexinfo.com/2017/03/c-program-to-check-if-directed-graph-is-strongly-connected.html
         dgraph2.insertVertex("1", '1');
         dgraph2.insertVertex("2", '2');
         dgraph2.insertVertex("3", '3');
@@ -297,7 +296,6 @@ void showGraph(UnDirectedGraph<TV, TE> &graph){
 
 void KruskalPrimExample1(){
     //TEST 1:
-    //https://www.geeksforgeeks.org/kruskals-algorithm-simple-implementation-for-adjacency-matrix/
     UnDirectedGraph<char, int> graph;
     graph.insertVertex("0", '0');
     graph.insertVertex("1", '1');
@@ -350,7 +348,6 @@ void KruskalPrimExample1(){
 
 void KruskalPrimExample2(){
     //TEST 2:
-    //https://towardsdatascience.com/kruskals-minimum-spanning-tree-implementation-8179e6916cd8
     UnDirectedGraph<char, int> graph;
     graph.insertVertex("A", 'A');
     graph.insertVertex("B", 'B');
@@ -402,7 +399,6 @@ void KruskalPrimExample2(){
 
 void KruskalPrimExample3(){
     //TEST 3:
-    //https://www.chegg.com/homework-help/questions-and-answers/consider-unionfindjava-implements-unionfind-data-structure-task-write-kruskal-class-find-m-q49754845
     UnDirectedGraph<char, int> graph;
     graph.insertVertex("A", 'A');
     graph.insertVertex("B", 'B');
