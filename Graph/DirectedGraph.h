@@ -8,11 +8,11 @@ class DirectedGraph : public Graph<TV, TE>{
 public:
     DirectedGraph(){}
     ~DirectedGraph(){}
-    
     bool createEdge(std::string id1, std::string id2, TE w) override;
     bool deleteEdge(std::string id1, std::string id2) override;
     bool isConnected() override;
     bool isStronglyConnected() override;
+    bool isBipartite() override;
     void display() override;
 };
 
@@ -51,15 +51,11 @@ template<typename TV, typename TE>
 bool DirectedGraph<TV, TE>::isStronglyConnected(){
     //Hacer un BFS por cada nodo O(V*(V+E))
     //kosaraju's BFS, dos BFS O(V+E)
-    if(this->vertexes.size() <= 1)  return true;
+    if(this->vertexes.size() <= 1)  return false;
     auto it = begin(this->vertexes);
     std::string id = (*it).first;
     if(!this->BFSisConnected(id)) return false;
-<<<<<<< HEAD
     
-=======
-
->>>>>>> 4625d3d13d52db82470ff052bdcc0697b7b2e4a8
     std::unordered_map<Vertex<TV, TE>*, std::string> ids;
     DirectedGraph<TV, TE> complementGraph;
     for(auto p : this->vertexes){
@@ -69,18 +65,18 @@ bool DirectedGraph<TV, TE>::isStronglyConnected(){
     for(auto p : this->vertexes)
         for(auto e : p.second->edges)
             complementGraph.createEdge(ids[e->vertexes[1]], ids[e->vertexes[0]], e->weight);
-    complementGraph.display();
     if(!complementGraph.BFSisConnected(id)) return false;
     return true;
 }
 
 template<typename TV, typename TE>
+bool DirectedGraph<TV, TE>::isBipartite(){
+    throw std::runtime_error("RUNTIME ERROR: This is directed graph.");
+}
+
+template<typename TV, typename TE>
 void DirectedGraph<TV, TE>::display(){
-<<<<<<< HEAD
-    std::cout << "\n-------------DirectedGraph-------------\n";
-=======
     std::cout << "-------------DirectedGraph------------\n";
->>>>>>> 4625d3d13d52db82470ff052bdcc0697b7b2e4a8
     Graph<TV, TE>::display();
 }
 
