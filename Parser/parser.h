@@ -40,7 +40,7 @@ void Parser::readJSON(){
     std::ifstream datafile(this->path);
     json j = json::parse(datafile);
     
-    std::cout << "\nThere are " << j.size() << " airpoirts in the jsonfile\n";
+    std::cout << "\nThere are " << j.size() << " airpoirts in the jsonfile.\n";
     for(auto p : j){
         double longitude = 0.0, latitude = 0.0;
         std::string strLongitude = p["Longitude"].get<std::string>();
@@ -69,7 +69,7 @@ void Parser::uGraphMake(UnDirectedGraph<Airport, double> &tempGraph){
         for(auto e : p.second)
             if(this->data.count(e))
                 tempGraph.createEdge(p.first, e, this->data[p.first] - this->data[e]);
-    std::cout << "\n" << this->data.size() << " airports created\n\n";
+    std::cout << "\n" << this->data.size() << " airports created.\n\n";
 }
 
 void Parser::dGraphMake(DirectedGraph<Airport, double> &tempGraph){
@@ -79,7 +79,7 @@ void Parser::dGraphMake(DirectedGraph<Airport, double> &tempGraph){
     for(auto p : this->conexions)
         for(auto e : p.second)
             tempGraph.createEdge(p.first, e, this->data[p.first] - this->data[e]);
-    std::cout << "\n" << this->data.size() << " airports created\n\n";
+    std::cout << "\n" << this->data.size() << " airports created.\n\n";
 }
 
 void Parser::showIDs(){

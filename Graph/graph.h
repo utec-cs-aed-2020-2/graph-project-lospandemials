@@ -58,15 +58,15 @@ protected:
     bool BFSisConnected(std::string id);
 public:
     Graph(){}
-    ~Graph(){
+    virtual ~Graph(){
         this->clear();
     }
     bool insertVertex(std::string id, TV vertex);
     virtual bool createEdge(std::string id1, std::string id2, TE w) = 0;
-    //virtual bool createEdge(std::string id1, std::string id2) = 0;
     bool deleteVertex(std::string id);
     virtual bool deleteEdge(std::string id1, std::string id2) = 0;
     bool operator()(std::string start, std::string end);
+    bool operator()(std::string id);
     float density() const;
     bool isDense(float threshold = 0.5) const;
     virtual bool isConnected() = 0;
@@ -75,7 +75,6 @@ public:
     bool empty();
     void clear();
     virtual void display() = 0;
-    bool displayVertex(std::string id);
     bool twoVerticesPath(std::string id1, std::string id2);
     void graphSize();
     bool operator==(Graph& graph);
@@ -99,7 +98,7 @@ bool Graph<TV, TE>::insertVertex(std::string id, TV vertex){
 template<typename TV, typename TE>
 bool Graph<TV, TE>::deleteVertex(std::string id){
     if(!this->vertexes.count(id)){
-        std::cout << "\n--- ERROR: Vertex was not created\n";
+        std::cout << "\n--- ERROR: Vertex was not deleted\n";
         return false;
     }
     for(Edge<TV, TE>* e : this->vertexes[id]->edges){
@@ -124,7 +123,6 @@ bool Graph<TV, TE>::operator()(std::string start, std::string end){
         std::cout << "Invalid ids\n";
         return false;
     }    
-    
     for(Edge<TV, TE>* edge : this->vertexes[start]->edges){
         if(edge->vertexes[1] == this->vertexes[end]){
             std::cout << "There is a path from " << this->vertexes[start]->data << " to " << this->vertexes[end]->data << " with a distance of " << edge->weight << "\n";
@@ -133,6 +131,19 @@ bool Graph<TV, TE>::operator()(std::string start, std::string end){
     }
     std::cout << "No path found\n";
     return false;
+}
+
+template<typename TV, typename TE>
+bool Graph<TV, TE>::operator()(std::string id){
+    if(!this->vertexes.count(id)){
+        std::cout << "Invalid id\n";
+        return false;
+    }    
+    std::cout << id << " (" << this->vertexes[id]->data << "): <" << this->vertexes[id]->edges.size() << ">:\n";
+    for(auto it = begin(this->vertexes[id]->edges); it != end(this->vertexes[id]->edges); ++it)
+        std::cout << "\t" << (*it)->vertexes[1]->data << " (" << (*it)->weight << ")\n";
+    std::cout << "\n";
+    return true;
 }
 
 template<typename TV, typename TE>
@@ -192,25 +203,16 @@ bool Graph<TV, TE>::BFSisConnected(std::string id){
 
 template<typename TV, typename TE>
 void Graph<TV, TE>::display(){
+    if(empty()){
+        std::cout << "Empty Graph\n";
+        return;
+    }
     for(auto p : this->vertexes){
         std::cout << p.first << " (" << p.second->data << ") <" << p.second->edges.size() << ">:\n";
         for(auto it = begin(p.second->edges); it != end(p.second->edges); ++it)
             std::cout << "\t" << (*it)->vertexes[1]->data << " (" << (*it)->weight << ")\n";
         std::cout << "\n";
     }
-}
-
-template<typename TV, typename TE>
-bool Graph<TV, TE>::displayVertex(std::string id){
-    if(!this->vertexes.count(id)){
-        std::cout << "No ID found.\n";
-        return false;
-    }
-    std::cout << id << " (" << this->vertexes[id]->data << "): <" << this->vertexes[id]->edges.size() << ">:\n";
-    for(auto it = begin(this->vertexes[id]->edges); it != end(this->vertexes[id]->edges); ++it)
-        std::cout << "\t" << (*it)->vertexes[1]->data << " (" << (*it)->weight << ")\n";
-    std::cout << "\n";
-    return true;
 }
 
 template<typename TV, typename TE>

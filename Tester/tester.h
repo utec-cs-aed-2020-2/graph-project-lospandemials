@@ -226,11 +226,11 @@ namespace Tester{
                     std::cout << "\n-------------Kruskal - Prim Test-------------\n";
                     UnDirectedGraph<Airport, double> resultKruskal = kruskal.apply();
                     UnDirectedGraph<Airport, double> resultPrim = prim.apply();
-                    if(resultKruskal == resultPrim) std::cout << "\tEqual MST\n";
-                    else  std::cout << "\tDifferent MST\n";
-                    std::cout << "Kruskal:\n";
+                    if(resultKruskal == resultPrim) std::cout << "\nPrim and Kruskal give EQUAL MST\n\n";
+                    else  std::cout << "\nPrim and Kruskal give EQUAL MST\n\n";
+                    std::cout << "Kruskal:\n\n";
                     showGraph(resultKruskal);
-                    std::cout << "Prim:\n";
+                    std::cout << "Prim:\n\n";
                     showGraph(resultPrim);
                     pause();
                     break;
@@ -241,7 +241,7 @@ namespace Tester{
                     parser.showIDs();
                     std::cout << "\nInsert id (2789, 2786, 2802): ";
                     std::cin >> id;
-                    graph.displayVertex(id);
+                    graph(id);
                     pause();
                     break;
                 }
@@ -254,7 +254,7 @@ namespace Tester{
                     std::getline(std::cin, id);
                     std::vector<std::string> vectorIDs = parser.airportsCountry(id);
                     for(std::string e : vectorIDs)
-                        graph.displayVertex(e);
+                        graph(e);
                     pause();
                     break;
                 }
@@ -404,7 +404,7 @@ namespace Tester{
                     std::string id;
                     std::cout << "\nInsert a vertex (char): ";
                     std::cin >> id;
-                    graph->displayVertex(id);
+                    graph->operator()(id);
                     std::cout << "\n";
                     pause();
                     break;

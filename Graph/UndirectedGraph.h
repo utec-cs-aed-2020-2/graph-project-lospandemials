@@ -19,14 +19,19 @@ public:
 
 template<typename TV, typename TE>
 bool UnDirectedGraph<TV, TE>::createEdge(std::string id1, std::string id2, TE w){
-    if(id1 == id2 || !this->vertexes.count(id1) || !this->vertexes.count(id2)){
-        std::cout << "\n--- ERROR: Edge was not created\n";
+    if(!this->vertexes.count(id1) || !this->vertexes.count(id2)){
+        std::cout << "\n--- ERROR: IDs not found.\n";
+        return false;
+    }    
+    if(id1 == id2){
+        std::cout << "\n--- ERROR: IDs are equal.\n";
         return false;
     }    
     Vertex<TV, TE>* vertex1 = this->vertexes[id1];
     Vertex<TV, TE>* vertex2 = this->vertexes[id2];
     for(auto e : vertex1->edges)
-        if(e->vertexes[1] == vertex2)    return false;
+        if(e->vertexes[1] == vertex2)
+            return false;
     Edge<TV, TE>* newEdge1 = new Edge<TV, TE>(vertex1, vertex2, w);
     Edge<TV, TE>* newEdge2 = new Edge<TV, TE>(vertex2, vertex1, w);
     vertex1->edges.push_back(newEdge1);
@@ -36,8 +41,12 @@ bool UnDirectedGraph<TV, TE>::createEdge(std::string id1, std::string id2, TE w)
 
 template<typename TV, typename TE>
 bool UnDirectedGraph<TV, TE>::deleteEdge(std::string id1, std::string id2){
-    if(id1 == id2 || !this->vertexes.count(id1) || !this->vertexes.count(id2)){
-        std::cout << "\n--- ERROR: Edge was not deleted\n";
+    if(!this->vertexes.count(id1) || !this->vertexes.count(id2)){
+        std::cout << "\n--- ERROR: IDs not found.\n";
+        return false;
+    }
+    if(id1 == id2){
+        std::cout << "\n--- ERROR: IDs are equal.\n";
         return false;
     }    
     bool flag = false; //Para saber si existe un edge entre id1 y id2
