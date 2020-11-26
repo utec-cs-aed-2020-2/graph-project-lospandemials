@@ -11,8 +11,10 @@ void KruskalPrimExample2();
 void KruskalPrimExample3();
 void isConnectedMsg(bool cond);
 
-namespace Tester{
+template<typename TV, typename TE>
+void showGraph(UnDirectedGraph<TV, TE> &graph);
 
+namespace Tester{
     void executeFunctionExamples(){
         UnDirectedGraph<char, int>  ugraph1;
         ugraph1.insertVertex("1", '1');
@@ -148,7 +150,7 @@ namespace Tester{
             }
         }while(option1 != 5);
     }
-    
+
     void executeExamples(){
         KruskalPrimExample1();
         pause("ver otro ejemplo");
@@ -157,9 +159,10 @@ namespace Tester{
         pause("ver otro ejemplo");
         menu2();
         KruskalPrimExample3();
+        
     }
 
-    void executeParser(){
+    void executeParser(bool cond){
         std::string path;
         if(cond)  path = "/home/runner/ProyectoGrafos/Parser/Data/pe.json";
         else  path = "/home/runner/ProyectoGrafos/Parser/Data/airports.json";
@@ -199,56 +202,72 @@ namespace Tester{
 
             switch(option){
                 case 1:{
-                    graph.display();
-                    isConnectedMsg(graph.isConnected());
+                    showGraph(graph);
                     pause();
                     break;
                 }
                 case 2:{
                     std::cout << "\n-------------Kruskal Test-------------\n";
                     UnDirectedGraph<Airport, double> resultKruskal = kruskal.apply();
-                    resultKruskal.display(); 
-                    isConnectedMsg(resultKruskal.isConnected());
+                    showGraph(resultKruskal);
                     pause();
                     break;
                 }
                 case 3:{
                     std::cout << "\n-------------Prim Test--------------\n";
                     std::string id;
-                    std::cout << "Ingrese id (2789, 2786, 2802): ";
+                    parser.showIDs();
+                    std::cout << "\nInsert ID (2789, 2786, 2802): ";
                     std::cin >> id;
                     UnDirectedGraph<Airport, double> resultPrim = prim.apply(id);
-                    resultPrim.display();
-                    isConnectedMsg(resultPrim.isConnected());
+                    showGraph(resultPrim);
                     pause();
                     break;
                 }
                 case 4:{
-                    std::cout << "\n-------------Kruskal Test-------------\n";
+                    std::cout << "\n-------------Kruskal - Prim Test-------------\n";
                     UnDirectedGraph<Airport, double> resultKruskal = kruskal.apply();
-                    resultKruskal.display(); 
-                    isConnectedMsg(resultKruskal.isConnected());
-                    std::cout << "\n\n--------------Prim Test-------------\n";
                     UnDirectedGraph<Airport, double> resultPrim = prim.apply();
-                    resultPrim.display();
-                    isConnectedMsg(resultPrim.isConnected());
                     if(resultKruskal == resultPrim) std::cout << "Equal graphs\n";
                     else  std::cout << "Different graphs\n";
+                    std::cout << "Kruskal:\n";
+                    showGraph(resultKruskal);
+                    std::cout << "Prim:\n";
+                    showGraph(resultPrim);
                     pause();
                     break;
                 }
                 case 5:{
-                    
+                    std::cout << "\n-------------Display Vertex-------------\n";
+                    std::string id;
+                    parser.showIDs();
+                    std::cout << "\nInsert id (2789, 2786, 2802): ";
+                    std::cin >> id;
+                    graph.displayVertex(id);
                     pause();
                     break;
                 }
                 case 6:{
-                    
+                    std::cout << "\n--------Display Vertex by country--------\n";
+                    std::string id;
+                    parser.showCountries();
+                    std::cout << "\nInsert country: ";
+                    std::cin >> id;
+                    std::vector<std::string> vectorIDs = parser.airportsCountry(id);
+                    for(std::string e : vectorIDs)
+                        graph.displayVertex(e);
                     pause();
                     break;
                 }
                 case 7:{
-                    
+                    std::cout << "\n-------Two Airports Path-----------\n";
+                    std::string id1, id2;
+                    parser.showIDs();
+                    std::cout << "\nInsert id1 (2789, 2786, 2802): ";
+                    std::cin >> id1;
+                    std::cout << "Insert id2 (2789, 2786, 2802): ";
+                    std::cin >> id2;
+                    graph(id1, id2);
                     pause();
                     break;
                 }
@@ -264,8 +283,21 @@ void isConnectedMsg(bool cond){
     else std::cout << "\nIs Disconnected\n";
 }
 
+template<typename TV, typename TE>
+void showGraph(UnDirectedGraph<TV, TE> &graph){
+    graph.graphSize();
+    char show;
+    std::cout << "\nDo you want to see the graph? (Y/N): ";
+    std::cin >> show;
+    if(show == 'Y'){
+        graph.display();
+        isConnectedMsg(graph.isConnected());
+    }
+}
+
 void KruskalPrimExample1(){
     //TEST 1:
+    //https://www.geeksforgeeks.org/kruskals-algorithm-simple-implementation-for-adjacency-matrix/
     UnDirectedGraph<char, int> graph;
     graph.insertVertex("0", '0');
     graph.insertVertex("1", '1');
@@ -318,6 +350,7 @@ void KruskalPrimExample1(){
 
 void KruskalPrimExample2(){
     //TEST 2:
+    //https://towardsdatascience.com/kruskals-minimum-spanning-tree-implementation-8179e6916cd8
     UnDirectedGraph<char, int> graph;
     graph.insertVertex("A", 'A');
     graph.insertVertex("B", 'B');
@@ -369,6 +402,7 @@ void KruskalPrimExample2(){
 
 void KruskalPrimExample3(){
     //TEST 3:
+    //https://www.chegg.com/homework-help/questions-and-answers/consider-unionfindjava-implements-unionfind-data-structure-task-write-kruskal-class-find-m-q49754845
     UnDirectedGraph<char, int> graph;
     graph.insertVertex("A", 'A');
     graph.insertVertex("B", 'B');
