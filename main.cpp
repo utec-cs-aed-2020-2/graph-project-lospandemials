@@ -25,10 +25,13 @@ int main(int argc, char *argv[]) {
                     menu4();
                     Tester::executeParser(false);
                     break;
+                case 5:
+                    Tester::executeGraphCreator();
+                    break;
                 default:
                     break;
             }
-        }while(option != 5);
+        }while(option != 6);
     }catch (const std::exception & ex){
         std::cerr << ex.what() << std::endl;
         return EXIT_FAILURE;

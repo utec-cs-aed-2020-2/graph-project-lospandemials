@@ -7,6 +7,7 @@
 #include <iostream>
 #include <fstream>
 #include <list>
+#include <limits>
 #include <math.h> 
 #include <queue>
 #include <set>
@@ -16,6 +17,8 @@
 #include <unordered_map>
 #include <utility>
 #include <vector>
+
+#define NOMINMAX
 
 bool check(int option, int inf, int sup){
     return option >= inf && option <= sup;
@@ -31,6 +34,21 @@ void console_clear(){
   #else
     system("clear");
   #endif
+}
+
+void isConnectedMsg(bool cond){
+    if(cond) std::cout << "\nIs Connected\n";
+    else std::cout << "\nIs Disconnected\n";
+}
+
+int validInt(){
+    int option;
+    while(!(std::cin >> option)){
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        std::cout << "Invalid input.  Try again: ";
+    }
+    return option;
 }
 
 void pause(){
@@ -55,11 +73,12 @@ int menuMain(){
         std::cout << "\t2. Test graph algorithms.\n";
         std::cout << "\t3. Test graph parser with pe.json.\n";
         std::cout << "\t4. Test graph parser with airports.json.\n";
-        std::cout << "\t5. Exit\n";
+        std::cout << "\t5. Create your graph\n";
+        std::cout << "\t6. Exit\n";
         std::cout << "\nSelect option: ";
-        std::cin >> option;
+        option = validInt();
         console_clear();
-    }while(!check(option, 1, 5));
+    }while(!check(option, 1, 6));
     return option;
 }
 
@@ -75,7 +94,7 @@ int menu1(){
         std::cout << "\t4. Test isBipartite.\n";
         std::cout << "\t5. Back\n";
         std::cout << "\nSelect option: ";
-        std::cin >> option;
+        option = validInt();
         console_clear();
     }while(!check(option, 1, 5));
     return option;
@@ -99,4 +118,9 @@ void menu4(){
     std::cout << "================================================\n";    
 }
 
+void menu5(){
+    std::cout << "================================================\n";
+    std::cout << "MENU GRAPH CREATOR\n";
+    std::cout << "================================================\n";    
+}
 #endif

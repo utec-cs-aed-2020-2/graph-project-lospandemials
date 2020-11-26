@@ -9,7 +9,6 @@
 void KruskalPrimExample1();
 void KruskalPrimExample2();
 void KruskalPrimExample3();
-void isConnectedMsg(bool cond);
 
 template<typename TV, typename TE>
 void showGraph(UnDirectedGraph<TV, TE> &graph);
@@ -190,7 +189,7 @@ namespace Tester{
                 std::cout << "\t7. Check for a path from 2 vertexes\n";
                 std::cout << "\t8. Back\n";
                 std::cout << "\nSelect option: ";
-                std::cin >> option;
+                option = validInt();
                 console_clear();
             }while(!check(option, 1, 8));
             if(cond)  menu3();
@@ -227,8 +226,8 @@ namespace Tester{
                     std::cout << "\n-------------Kruskal - Prim Test-------------\n";
                     UnDirectedGraph<Airport, double> resultKruskal = kruskal.apply();
                     UnDirectedGraph<Airport, double> resultPrim = prim.apply();
-                    if(resultKruskal == resultPrim) std::cout << "Equal graphs\n";
-                    else  std::cout << "Different graphs\n";
+                    if(resultKruskal == resultPrim) std::cout << "\tEqual MST\n";
+                    else  std::cout << "\tDifferent MST\n";
                     std::cout << "Kruskal:\n";
                     showGraph(resultKruskal);
                     std::cout << "Prim:\n";
@@ -276,11 +275,230 @@ namespace Tester{
             }
         }while(option != 8);
     }
-}
 
-void isConnectedMsg(bool cond){
-    if(cond) std::cout << "\nIs Connected\n";
-    else std::cout << "\nIs Disconnected\n";
+    void executeGraphCreator(){
+        Graph<std::string, int>* graph;
+        int option;
+        do{
+            menu5();
+            std::cout << "\t1. Undirected graph.\n";
+            std::cout << "\t2. Directed graph.\n";
+            std::cout << "\t3. Back.\n";
+            std::cout << "\nSelect option: ";
+            option = validInt();
+            console_clear();
+        }while(!check(option, 1, 3));
+        
+        if(option == 1) graph = new UnDirectedGraph<std::string, int>();
+        else if(option == 2)    graph = new DirectedGraph<std::string, int>();
+        else return;
+
+        int option1;
+        do{
+            do{
+                menu5();
+                std::cout << "\t1. Insert Vertex.\n";
+                std::cout << "\t2. Insert Edge.\n";
+                std::cout << "\t3. Delete Vertex.\n";
+                std::cout << "\t4. Delete Edge.\n";
+                std::cout << "\t5. Density.\n";
+                if(option == 1) std::cout << "\t6. Is Connected.\n";
+                else    std::cout << "\t6. Is Strongly Connected.\n";
+                std::cout << "\t7. Display vertex.\n";
+                std::cout << "\t8. Display vertices connection.\n";
+                std::cout << "\t9. is Bipartite (UnDirectedGraph).\n";
+                std::cout << "\t10. Apply Kruskal. \n";
+                std::cout << "\t11. Apply Prim.\n";
+                std::cout << "\t12. Apply Kruskal and Prim.\n";
+                std::cout << "\t13. Back.\n";
+                std::cout << "\nSelect option: ";
+                option1 = validInt();
+                console_clear();
+            }while(!check(option1, 1, 13));
+            
+            menu5();
+            switch(option1){
+                case 1:{
+                    std::cout << "\n-------------Insert Vertex-------------\n\n";
+                    graph->display();
+                    std::string vertex;
+                    std::cout << "\nInsert a vertex (char): ";
+                    std::cin >> vertex;
+                    graph->insertVertex(vertex, vertex);
+                    std::cout << "\n";
+                    graph->display();
+                    pause();
+                    break;
+                }
+                case 2:{
+                    std::cout << "\n-------------Insert Edge-------------\n\n";
+                    graph->display();
+                    std::string id1;
+                    std::string id2;
+                    std::cout << "\nInsert first vertex (char): ";
+                    std::cin >> id1;
+                    std::cout << "\nInsert second vertex (char): ";
+                    std::cin >> id2;
+
+                    int w;
+                    std::cout << "\nInsert weight (int): ";
+                    w = validInt();
+
+                    graph->createEdge(id1, id2, w);
+                    std::cout << "\n";
+                    graph->display();
+                    pause();
+                    break;
+                }
+                case 3:{
+                    std::cout << "\n-------------Delete Vertex-------------\n\n";
+                    graph->display();
+                    std::string id;
+                    std::cout << "\nInsert a vertex (char): ";
+                    std::cin >> id;
+                    graph->deleteVertex(id);
+                    std::cout << "\n";
+                    graph->display();
+                    pause();
+                    break;
+                }
+                case 4:{
+                    std::cout << "\n-------------Delete Edge-------------\n\n";
+                    graph->display();
+                    std::string id1;
+                    std::string id2;
+                    std::cout << "\nInsert first vertex (char): ";
+                    std::cin >> id1;
+                    std::cout << "\nInsert second vertex (char): ";
+                    std::cin >> id2;
+                    graph->deleteEdge(id1, id2);
+                    std::cout << "\n";
+                    graph->display();
+                    pause();
+                    break;
+                }
+                case 5:{
+                    std::cout << "\n-------------Density-------------\n\n";
+                    graph->display();
+                    std::cout << "Density: " << graph->density() << "\n";
+                    pause();
+                    break;
+                }
+                case 6:{
+                    graph->display();
+                    if(option == 1){
+                        std::cout << "\n-------------Is Connected-------------\n\n";
+                        if(graph->isConnected())    std::cout << "YES\n";
+                        else    std::cout << "NO\n";
+                    }else{
+                        std::cout << "\n-------------Is Strongly Connected-------------\n\n";
+                        if(graph->isStronglyConnected())    std::cout << "YES\n";
+                        else    std::cout << "NO\n";
+                    }
+                    pause();
+                    break;
+                }
+                case 7:{
+                    std::cout << "\n-------------Display vertex-------------\n\n";
+                    graph->display();
+                    std::string id;
+                    std::cout << "\nInsert a vertex (char): ";
+                    std::cin >> id;
+                    graph->displayVertex(id);
+                    std::cout << "\n";
+                    pause();
+                    break;
+                }
+                case 8:{
+                    std::cout << "\n-------------Display vertices connection-------------\n\n";
+                    graph->display();
+                    std::string id1;
+                    std::string id2;
+                    std::cout << "\nInsert first vertex (char): ";
+                    std::cin >> id1;
+                    std::cout << "\nInsert second vertex (char): ";
+                    std::cin >> id2;
+                    graph->operator()(id1, id2);
+                    std::cout << "\n";
+                    pause();
+                    break;
+                }
+                case 9:{
+                    std::cout << "\n-------------Is Bipartite-------------\n\n";
+                    graph->display();
+                    if(graph->isBipartite())    std::cout << "YES\n";
+                    else std::cout << "NO\n";
+                    pause();
+                    break;
+                }
+                case 10:{
+                    std::cout << "\n-------------Kruskal-------------\n\n";
+                    if(option == 1){
+                        graph->display();
+                    
+                        Kruskal<std::string, int> kruskal(graph);
+                        UnDirectedGraph<std::string, int> resultKruskal = kruskal.apply();
+                        std::cout << "\n-------------MST from Kruskal--------------\n";
+                        resultKruskal.display(); 
+                        isConnectedMsg(resultKruskal.isConnected());
+                    }else{
+                        std::cout << "Is DirectedGraph\n";
+                    }
+                    
+                    pause();
+                    break;
+                }
+                case 11:{
+                    std::cout << "\n-------------Prim-------------\n\n";
+                    if(option == 1){
+                        graph->display();
+
+                        Prim<std::string, int> prim(graph);
+                        std::string id;
+                        std::cout << "\nInsert a vertex (char): ";
+                        std::cin >> id;
+                        
+                        UnDirectedGraph<std::string, int> resultPrim1 = prim.apply(id);
+                        std::cout << "------Prim since a vertex: " << id << "------\n";
+                        resultPrim1.display(); 
+                        isConnectedMsg(resultPrim1.isConnected());
+                    }else{
+                        std::cout << "Is DirectedGraph\n";
+                    }
+                    pause();
+                    break;
+                }
+                case 12:{
+                    std::cout << "\n-----------Kruskal and Prim (total)-----------\n\n";
+                    if(option == 1){
+                        graph->display();
+
+                        Kruskal<std::string, int> kruskal(graph);
+                        UnDirectedGraph<std::string, int> resultKruskal = kruskal.apply();
+                        std::cout << "\n-------------MST from Kruskal--------------\n";
+                        resultKruskal.display(); 
+                        isConnectedMsg(resultKruskal.isConnected());
+
+                        Prim<std::string, int> prim(graph);
+                        UnDirectedGraph<std::string, int> resultPrim2 = prim.apply();
+                        std::cout << "\n-------------MST from Prim--------------\n";
+                        resultPrim2.display(); 
+                        isConnectedMsg(resultPrim2.isConnected());
+
+                        if(resultKruskal == resultPrim2)    std::cout << "Prim and Kruskal give EQUAL MST\n";
+                        else  std::cout << "Prim and Kruskal give DIFFERENT MST\n";
+                    }else{
+                        std::cout << "Is DirectedGraph\n";
+                    }
+                    pause();
+                    break;
+                }
+                default:
+                    break;
+            }    
+        }while(option1 != 13);
+        delete graph;
+    }
 }
 
 template<typename TV, typename TE>
@@ -289,7 +507,7 @@ void showGraph(UnDirectedGraph<TV, TE> &graph){
     char show;
     std::cout << "\nDo you want to see the graph? (Y/N): ";
     std::cin >> show;
-    if(show == 'Y'){
+    if(show == 'Y' || show == 'y'){
         graph.display();
         isConnectedMsg(graph.isConnected());
     }
@@ -436,15 +654,15 @@ void KruskalPrimExample3(){
     resultP.display();
     isConnectedMsg(resultP.isConnected());
 
-    if(result == resultP) std::cout << "Prim and Kruskal give DIFFERENT MST\n\n";
-    else  std::cout << "Prim and Kruskal give EQUAL MST\n\n";
+    if(result == resultP) std::cout << "Prim and Kruskal give EQUAL MST\n\n";
+    else  std::cout << "Prim and Kruskal give DIFFERENT MST\n\n";
 
     UnDirectedGraph<char, int> resultPcomplete = prim.apply();
     resultPcomplete.display();
     isConnectedMsg(resultPcomplete.isConnected());
     
-    if(result == resultPcomplete) std::cout << "Prim and Kruskal give DIFFERENT MST\n\n";
-    else  std::cout << "Prim and Kruskal give EQUAL MST\n\n";
+    if(result == resultPcomplete) std::cout << "Prim and Kruskal give EQUAL MST\n\n";
+    else  std::cout << "Prim and Kruskal give DIFFERENT MST\n\n";
 }
 
 #endif

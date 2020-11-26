@@ -87,7 +87,10 @@ public:
 
 template<typename TV, typename TE>
 bool Graph<TV, TE>::insertVertex(std::string id, TV vertex){
-    if(this->vertexes.count(id))    return false;
+    if(this->vertexes.count(id)){
+        std::cout << "\n--- ERROR: " << id << " already exists\n";
+        return false;
+    }    
     Vertex<TV, TE>* newVertex = new Vertex<TV, TE>(vertex);
     this->vertexes[id] = newVertex;
     return true;
@@ -95,7 +98,10 @@ bool Graph<TV, TE>::insertVertex(std::string id, TV vertex){
 
 template<typename TV, typename TE>
 bool Graph<TV, TE>::deleteVertex(std::string id){
-    if(!this->vertexes.count(id))    return false;
+    if(!this->vertexes.count(id)){
+        std::cout << "\n--- ERROR: Vertex was not created\n";
+        return false;
+    }
     for(Edge<TV, TE>* e : this->vertexes[id]->edges){
         Vertex<TV, TE>* vertex = e->vertexes[1];
         for(auto it = begin(vertex->edges); it != end(vertex->edges); ++it){

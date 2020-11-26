@@ -44,7 +44,8 @@ bool DirectedGraph<TV, TE>::deleteEdge(std::string id1, std::string id2){
 
 template<typename TV, typename TE>
 bool DirectedGraph<TV, TE>::isConnected(){
-    throw std::runtime_error("RUNTIME ERROR: This is directed graph.");
+    std::cout << "\n--- ERROR: This is directed graph\n";
+    return false;
 }
 
 template<typename TV, typename TE>
@@ -71,7 +72,9 @@ bool DirectedGraph<TV, TE>::isStronglyConnected(){
 
 template<typename TV, typename TE>
 bool DirectedGraph<TV, TE>::isBipartite(){
-    throw std::runtime_error("RUNTIME ERROR: This is directed graph.");
+
+    std::cout << "\n--- ERROR: This is directed graph\n";
+    return false;
 }
 
 template<typename TV, typename TE>
