@@ -15,22 +15,25 @@ private:
     std::unordered_map<std::string, Airport> data;
     std::unordered_map<std::string, std::vector<std::string>> conexions;
     std::string path;
-
+    std::unordered_map<std::string, std::vector<std::string>> countries;
 public:
     Parser(std::string path){
         this->path = path;
     }
     ~Parser(){}
-    void clear(); // Clears parser saved atributes
-    void readJSON(); // Parses JSON file and saves data into class
-    // NOTE: each derived class has its own readJSON method
-    void uGraphMake(UnDirectedGraph<Airport, double> &tempGraph); // Adds the parsed data into the specified undirected graph
-    void dGraphMake(DirectedGraph<Airport, double> &tempGraph); // Adds the parsed data into the specified directed graph
+    void clear();
+    void readJSON();
+    void uGraphMake(UnDirectedGraph<Airport, double> &tempGraph);
+    void dGraphMake(DirectedGraph<Airport, double> &tempGraph);
+    void showIDs();
+    void showCountries();
+    std::vector<std::string> airportsCountry(std::string id);
 };
 
 void Parser::clear(){
     this->data.clear();
     this->conexions.clear();
+    this->countries.clear();
 }
 
 void Parser::readJSON(){
@@ -51,6 +54,7 @@ void Parser::readJSON(){
         this->data[id] = airport;
         for(auto e : p["destinations"])
             this->conexions[id].push_back(e.get<std::string>());
+        this->countries[p["Country"].get<std::string>()].push_back(p["Airport ID"].get<std::string>());
     }
 }
 
@@ -60,7 +64,9 @@ void Parser::uGraphMake(UnDirectedGraph<Airport, double> &tempGraph){
         tempGraph.insertVertex(p.first, p.second);
     for(auto p : this->conexions)
         for(auto e : p.second)
-            tempGraph.createEdge(p.first, e, this->data[p.first] - this->data[e]);
+            if(this->data.count(e))
+                tempGraph.createEdge(p.first, e, this->data[p.first] - this->data[e]);
+    std::cout << "\n" << this->data.size() << " airports created\n\n";
 }
 
 void Parser::dGraphMake(DirectedGraph<Airport, double> &tempGraph){
@@ -70,5 +76,30 @@ void Parser::dGraphMake(DirectedGraph<Airport, double> &tempGraph){
     for(auto p : this->conexions)
         for(auto e : p.second)
             tempGraph.createEdge(p.first, e, this->data[p.first] - this->data[e]);
+    std::cout << "\n" << this->data.size() << " airports created\n\n";
 }
+
+void Parser::showIDs(){
+    std::cout << "ID's in parser (" << this->data.size() << "):\n";
+    for(auto p : this->data)
+        std::cout << "\t" << p.first << " -> " << p.second << "\n";
+}
+
+void Parser::showCountries(){
+    std::cout << "Countries's in parser (" << this->countries.size() << "):\n";
+    for(auto p : this->countries)
+        std::cout << "\t" << p.first << ": " << p.second.size() << " airports\n";
+}
+
+std::vector<std::string> Parser::airportsCountry(std::string id){
+    std::vector<std::string> result;
+    if(!this->countries.count(id)){
+        std::cout << "Country doesn't exist.\n";
+    }
+    else{
+        result = this->countries[id];
+    }
+    return result;
+}
+
 #endif
