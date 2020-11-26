@@ -187,12 +187,9 @@ bool Graph<TV, TE>::BFSisConnected(std::string id){
 template<typename TV, typename TE>
 void Graph<TV, TE>::display(){
     for(auto p : this->vertexes){
-        std::cout << p.first << " (" << p.second->data << "):  ";
-        for(auto it = begin(p.second->edges); it != end(p.second->edges); ){
-            std::cout << (*it)->vertexes[1]->data << "(" << (*it)->weight << ")";
-            if(++it == end(p.second->edges))  break;
-            std::cout << ", ";
-        }
+        std::cout << p.first << " (" << p.second->data << ") <" << p.second->edges.size() << ">:\n";
+        for(auto it = begin(p.second->edges); it != end(p.second->edges); ++it)
+            std::cout << "\t" << (*it)->vertexes[1]->data << " (" << (*it)->weight << ")\n";
         std::cout << "\n";
     }
 }
@@ -203,12 +200,9 @@ bool Graph<TV, TE>::displayVertex(std::string id){
         std::cout << "No ID found.\n";
         return false;
     }
-    std::cout << id << " (" << this->vertexes[id]->data << "):  ";
-    for(auto it = begin(this->vertexes[id]->edges); it != end(this->vertexes[id]->edges); ){
-        std::cout << (*it)->vertexes[1]->data << "(" << (*it)->weight << ")";
-        if(++it == end(this->vertexes[id]->edges))  break;
-        std::cout << ", ";
-    }
+    std::cout << id << " (" << this->vertexes[id]->data << "): <" << this->vertexes[id]->edges.size() << ">:\n";
+    for(auto it = begin(this->vertexes[id]->edges); it != end(this->vertexes[id]->edges); ++it)
+        std::cout << "\t" << (*it)->vertexes[1]->data << " (" << (*it)->weight << ")\n";
     std::cout << "\n";
     return true;
 }

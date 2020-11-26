@@ -54,7 +54,7 @@ public:
                this->latitude != airport.latitude;
     }
     friend std::ostream &operator<<(std::ostream &os, const Airport &o){ 
-        os << o.city << ", " << o.country;
+        os << o.name << " [" << o.city << ", " << o.country << "] ";
         return os;
     }
 };

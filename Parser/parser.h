@@ -39,12 +39,15 @@ void Parser::clear(){
 void Parser::readJSON(){
     std::ifstream datafile(this->path);
     json j = json::parse(datafile);
+    
+    std::cout << "\nThere are " << j.size() << " airpoirts in the jsonfile\n";
     for(auto p : j){
         double longitude = 0.0, latitude = 0.0;
         std::string strLongitude = p["Longitude"].get<std::string>();
         std::string strLatitude = p["Latitude"].get<std::string>();
         if(strLongitude != "GVNP") longitude = atof(strLongitude.c_str());
         if(strLatitude != "GVNP") latitude = atof(strLatitude.c_str());
+
         Airport airport(p["City"].get<std::string>(), 
                         p["Name"].get<std::string>(), 
                         p["Country"].get<std::string>(), 
@@ -94,6 +97,7 @@ void Parser::showCountries(){
 std::vector<std::string> Parser::airportsCountry(std::string id){
     std::vector<std::string> result;
     if(!this->countries.count(id)){
+        std::cout << "\nEra: " << id << "\n";
         std::cout << "Country doesn't exist.\n";
     }
     else{

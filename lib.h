@@ -10,7 +10,9 @@
 #include <math.h> 
 #include <queue>
 #include <set>
+#include <stdio.h>
 #include <stdlib.h>
+#include <string>
 #include <unordered_map>
 #include <utility>
 #include <vector>

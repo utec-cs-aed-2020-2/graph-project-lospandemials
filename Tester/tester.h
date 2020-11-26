@@ -163,9 +163,9 @@ namespace Tester{
 
     void executeParser(bool cond){
         std::string path;
-        if(cond)  path = "/home/runner/ProyectoGrafos/Parser/Data/pe.json";
-        else  path = "/home/runner/ProyectoGrafos/Parser/Data/airports.json";
-
+        if(cond)  path = "Parser/Data/pe.json";
+        else  path = "Parser/Data/airports.json";
+        
         std::cout << "Please wait while the graph is created ...\n";
         
         UnDirectedGraph<Airport, double> graph;
@@ -251,7 +251,8 @@ namespace Tester{
                     std::string id;
                     parser.showCountries();
                     std::cout << "\nInsert country: ";
-                    std::cin >> id;
+                    std::cin.ignore();
+                    std::getline(std::cin, id);
                     std::vector<std::string> vectorIDs = parser.airportsCountry(id);
                     for(std::string e : vectorIDs)
                         graph.displayVertex(e);
