@@ -39,9 +39,11 @@ struct Edge {
 template<typename TV, typename TE>
 struct Vertex {
     TV data;
+    std::string id;
     std::list<Edge<TV, TE>*> edges;
-    Vertex(TV data){
+    Vertex(TV data, std::string id){
         this->data = data;
+        this->id = id;
     }
     void killSelf(){
         edges.clear();
@@ -90,7 +92,7 @@ bool Graph<TV, TE>::insertVertex(std::string id, TV vertex){
         std::cout << "\n--- ERROR: " << id << " already exists\n";
         return false;
     }    
-    Vertex<TV, TE>* newVertex = new Vertex<TV, TE>(vertex);
+    Vertex<TV, TE>* newVertex = new Vertex<TV, TE>(vertex, id);
     this->vertexes[id] = newVertex;
     return true;
 }
@@ -228,6 +230,7 @@ bool Graph<TV, TE>::operator==(Graph& graph){
     for(auto p : this->vertexes){
         std::string id = p.first;
         if(!graph.vertexes.count(id))  return false;
+        if(p.second->id != graph.vertexes[id]->id) return false;
         if(p.second->data != graph.vertexes[id]->data) return false;
         if(p.second->edges.size() != graph.vertexes[id]->edges.size()) return false;
         for(auto e1 : p.second->edges){

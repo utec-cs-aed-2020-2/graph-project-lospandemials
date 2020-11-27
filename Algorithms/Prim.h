@@ -6,7 +6,6 @@
 template<typename TV, typename TE>
 class Prim{
 private:
-    std::unordered_map<Vertex<TV, TE>*, std::string> ids;
     std::unordered_map<std::string, Vertex<TV, TE>*> vertexes;
     std::vector<Vertex<TV, TE>*> data;
     std::unordered_map<Vertex<TV, TE>*, bool> visited;
@@ -26,10 +25,8 @@ Prim<TV, TE>::Prim(Graph<TV, TE>* graph){
     if(!ug) throw std::runtime_error("RUNTIME ERROR: It is not an undirected graph.");
     
     this->vertexes = ug->vertexes;
-    for(auto p : this->vertexes){
-        this->ids[p.second] = p.first;
+    for(auto p : this->vertexes)
         this->data.push_back(p.second);
-    }
 }
 
 template<typename TV, typename TE>
@@ -45,12 +42,12 @@ void Prim<TV, TE>::PrimAlgorithm(UnDirectedGraph<TV, TE>& result, std::string id
         if(ds.FindT(cur->vertexes[0]) != ds.FindT(cur->vertexes[1])){
             Vertex<TV, TE>* vertex1 = cur->vertexes[0];
             Vertex<TV, TE>* vertex2 = cur->vertexes[1];
-            if(!result.vertexes.count(this->ids[vertex1]))
-                result.insertVertex(this->ids[vertex1], vertex1->data);
-            if(!result.vertexes.count(this->ids[vertex2]))
-                result.insertVertex(this->ids[vertex2], vertex2->data);
+            if(!result.vertexes.count(vertex1->id))
+                result.insertVertex(vertex1->id, vertex1->data);
+            if(!result.vertexes.count(vertex2->id))
+                result.insertVertex(vertex2->id, vertex2->data);
 
-            result.createEdge(ids[vertex1], ids[vertex2], cur->weight);
+            result.createEdge(vertex1->id, vertex2->id, cur->weight);
             ds.Union(vertex1, vertex2);
 
             this->visited[cur->vertexes[0]] = true;

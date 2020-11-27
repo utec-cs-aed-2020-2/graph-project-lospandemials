@@ -6,7 +6,6 @@
 template<typename TV, typename TE>
 class Kruskal{
 private:
-    std::unordered_map<Vertex<TV, TE>*, std::string> ids;
     std::unordered_map<std::string, Vertex<TV, TE>*> vertexes;
     std::vector<Vertex<TV, TE>*> data;
 public:
@@ -22,10 +21,8 @@ Kruskal<TV, TE>::Kruskal(Graph<TV, TE>* graph){
     UnDirectedGraph<TV, TE>* ug = dynamic_cast<UnDirectedGraph<TV, TE>*>(graph);
     if(!ug) throw std::runtime_error("RUNTIME ERROR: It is not an undirected graph.");
     this->vertexes = ug->vertexes;
-    for(auto p : this->vertexes){
-        this->ids[p.second] = p.first;
+    for(auto p : this->vertexes)
         this->data.push_back(p.second);
-    }
 }
 
 template<typename TV, typename TE>
@@ -42,12 +39,12 @@ UnDirectedGraph<TV, TE> Kruskal<TV, TE>::apply(){
         if(ds.FindT(cur->vertexes[0]) != ds.FindT(cur->vertexes[1])){
             Vertex<TV, TE>* vertex1 = cur->vertexes[0];
             Vertex<TV, TE>* vertex2 = cur->vertexes[1];
-            if(!result.vertexes.count(ids[vertex1]))
-                result.insertVertex(ids[vertex1], vertex1->data);
-            if(!result.vertexes.count(ids[vertex2]))
-                result.insertVertex(ids[vertex2], vertex2->data);
+            if(!result.vertexes.count(vertex1->id))
+                result.insertVertex(vertex1->id, vertex1->data);
+            if(!result.vertexes.count(vertex2->id))
+                result.insertVertex(vertex2->id, vertex2->data);
 
-            result.createEdge(ids[vertex1], ids[vertex2], cur->weight);
+            result.createEdge(vertex1->id, vertex2->id, cur->weight);
             ds.Union(vertex1, vertex2);
         }
     }
