@@ -5,6 +5,7 @@
 #include "../Algorithms/Kruskal.h"
 #include "../Algorithms/Prim.h"
 #include "../Algorithms/BFS.h"
+#include "../Algorithms/DFS.h"
 #include "../Parser/parser.h"
 
 template<typename TV, typename TE>
@@ -26,6 +27,10 @@ namespace TestAlgorithm{
     void TestBFS(UnDirectedGraph<TV, TE> &graph, int i, std::string id, bool complete);
     template<typename TV, typename TE>
     void TestBFS(DirectedGraph<TV, TE> &graph, int i, std::string id, bool complete);
+    template<typename TV, typename TE>
+    void TestDFS(UnDirectedGraph<TV, TE> &graph, int i, std::string id, bool complete);
+    template<typename TV, typename TE>
+    void TestDFS(DirectedGraph<TV, TE> &graph, int i, std::string id, bool complete);
 }
 
 namespace Menu{
@@ -128,16 +133,16 @@ namespace Tester{
         ugraph2.insertVertex("H", 'H');
         ugraph2.insertVertex("I", 'I');
         ugraph2.insertVertex("J", 'J');
-        ugraph2.createEdge("A", "D", 6);
         ugraph2.createEdge("A", "B", 3);
+        ugraph2.createEdge("A", "D", 6);
         ugraph2.createEdge("A", "E", 9);
-        ugraph2.createEdge("B", "D", 4);
         ugraph2.createEdge("B", "C", 2);
-        ugraph2.createEdge("B", "F", 9);
+        ugraph2.createEdge("B", "D", 4);
         ugraph2.createEdge("B", "E", 9);
+        ugraph2.createEdge("B", "F", 9);
         ugraph2.createEdge("C", "D", 2);
-        ugraph2.createEdge("C", "G", 9);
         ugraph2.createEdge("C", "F", 8);
+        ugraph2.createEdge("C", "G", 9);
         ugraph2.createEdge("D", "G", 9);
         ugraph2.createEdge("E", "F", 8);
         ugraph2.createEdge("E", "J", 18);
@@ -164,8 +169,8 @@ namespace Tester{
         ugraph3.createEdge("A", "D", 10);
         ugraph3.createEdge("B", "C", 5);
         ugraph3.createEdge("B", "E", 8);
-        ugraph3.createEdge("C", "E", 9);
         ugraph3.createEdge("C", "D", 11);
+        ugraph3.createEdge("C", "E", 9);
         ugraph3.createEdge("D", "E", 3);;
         ugraph3.createEdge("F", "G", 4);
         ugraph3.createEdge("F", "H", 2);
@@ -330,11 +335,15 @@ namespace Menu{
                 std::cout << "\t5. Test BFS 2 - big graph.\n";
                 std::cout << "\t6. Test BFS 3 - disconnected graph.\n";
                 std::cout << "\t7. Test BFS 4 - directed graph.\n";
-                std::cout << "\t8. Back\n";
+                std::cout << "\t8. Test DFS 1 - small graph.\n";
+                std::cout << "\t9. Test DFS 2 - big graph.\n";
+                std::cout << "\t10. Test DFS 3 - disconnected graph.\n";
+                std::cout << "\t11. Test DFS 4 - directed graph.\n";
+                std::cout << "\t12. Back\n";
                 std::cout << "\nSelect option: ";
                 option = validInt();
                 console_clear();
-            }while(!check(option, 1, 8));
+            }while(!check(option, 1, 12));
             menu2();
             
             switch(option){
@@ -373,10 +382,30 @@ namespace Menu{
                     pause();
                     break;
                 }
+                case 8:{
+                    TestAlgorithm::TestDFS(ugraph1, 1, "4", false);
+                    pause();
+                    break;
+                }
+                case 9:{
+                    TestAlgorithm::TestDFS(ugraph2, 2, "A", false);
+                    pause();
+                    break;
+                }
+                case 10:{
+                    TestAlgorithm::TestDFS(ugraph3, 3, "G", true);
+                    pause();
+                    break;
+                }
+                case 11:{
+                    TestAlgorithm::TestDFS(dgraph1, 4, "A", false);
+                    pause();
+                    break;
+                }
                 default:
                     break;
             }
-        }while(option != 7);
+        }while(option != 12);
     }
 
     void parser(bool &cond, UnDirectedGraph<Airport, double> &graph, Parser &parser){
@@ -743,6 +772,39 @@ namespace TestAlgorithm{
         std::cout << "\n-----------BFS Test " << i << "(\"" << id << "\")-----------\n";
         BFS<char, int> bfs(&graph);
         DirectedGraph<char, int> res0 = bfs.d_apply(id);
+        res0.display();
+    }
+
+    template<typename TV, typename TE>
+    void TestDFS(UnDirectedGraph<TV, TE> &graph, int i, std::string id, bool complete){
+        std::cout << "\n----------------Graph " << i << "---------------\n";
+        graph.display();
+        
+        std::cout << "\n-----------DFS Test " << i << "(\"" << id << "\")-----------\n";
+        DFS<char, int> dfs(&graph);
+        UnDirectedGraph<char, int> res0 = dfs.u_apply(id);
+        res0.display();
+        isConnectedMsg(res0.isConnected());
+        
+        if(complete){
+            std::cout << "\n------------DFS Full " << i << "------------\n";
+            UnDirectedGraph<char, int> res1 = dfs.u_apply();
+            res1.display();
+            isConnectedMsg(res1.isConnected());
+
+            if(res0 == res1) std::cout << "\nDFS from " << id << " and full DFS give same trees\n\n";
+            else  std::cout << "\nDFS from " << id << " and full DFS give different trees\n\n";
+        }
+    }
+
+    template<typename TV, typename TE>
+    void TestDFS(DirectedGraph<TV, TE> &graph, int i, std::string id, bool complete){
+        std::cout << "\n----------------Graph " << i << "---------------\n";
+        graph.display();
+        
+        std::cout << "\n-----------DFS Test " << i << "(\"" << id << "\")-----------\n";
+        DFS<char, int> dfs(&graph);
+        DirectedGraph<char, int> res0 = dfs.d_apply(id);
         res0.display();
     }
 }
