@@ -13,9 +13,7 @@ int main(int argc, char *argv[]) {
                     Tester::executeFunctionExamples();
                     break;
                 case 2:
-                    menu2();
                     Tester::executeExamples();
-                    pause();
                     break;
                 case 3:
                     menu3();

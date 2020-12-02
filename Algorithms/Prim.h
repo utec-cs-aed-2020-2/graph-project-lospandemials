@@ -63,14 +63,18 @@ void Prim<TV, TE>::PrimAlgorithm(UnDirectedGraph<TV, TE>& result, std::string id
 
 template<typename TV, typename TE>
 UnDirectedGraph<TV, TE> Prim<TV, TE>::apply(std::string id){
-    if(!this->vertexes.count(id)) throw std::runtime_error("RUNTIME ERROR: Invalid id.");
+    UnDirectedGraph<TV, TE> result;
+
+    if(!this->vertexes.count(id)){
+        std::cout << "ERROR: ID not found.\n";
+        return result;
+    }
     
     std::cout << "Prim from vertex: " << this->vertexes[id]->data << "\n";
 
     for(auto p : this->vertexes)
         this->visited[p.second] = false;
 
-    UnDirectedGraph<TV, TE> result;
     DisjoinSetArray<Vertex<TV, TE>*> ds(data);
     ds.MakeSet();
     
