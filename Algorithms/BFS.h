@@ -8,12 +8,14 @@ class BFS{
 private:
     std::unordered_map<std::string, Vertex<TV, TE>*> vertexes;
     std::unordered_map<Vertex<TV, TE>*, bool> visited;
-    void BFSAlgorithm(UnDirectedGraph<TV, TE>& result, std::string id);
+    void BFSAlgorithm(Graph<TV, TE>& result, std::string id);
     bool isUndirectedGraph;
 public:
     BFS(Graph<TV, TE>* graph);
-    UnDirectedGraph<TV, TE> apply(std::string id);
-    UnDirectedGraph<TV, TE> apply();
+    UnDirectedGraph<TV, TE> u_apply(std::string id);
+    UnDirectedGraph<TV, TE> u_apply();
+    DirectedGraph<TV, TE> d_apply(std::string id);
+    DirectedGraph<TV, TE> d_apply();
 };
 
 template<typename TV, typename TE>
@@ -35,7 +37,7 @@ BFS<TV, TE>::BFS(Graph<TV, TE>* graph){
 }
 
 template<typename TV, typename TE>
-void BFS<TV, TE>::BFSAlgorithm(UnDirectedGraph<TV, TE>& result, std::string id){
+void BFS<TV, TE>::BFSAlgorithm(Graph<TV, TE>& result, std::string id){
     std::queue<std::pair<Vertex<TV, TE>*, Vertex<TV, TE>*>> q;
     this->visited[this->vertexes[id]] = true;
     q.push({this->vertexes[id], nullptr});
@@ -68,15 +70,21 @@ void BFS<TV, TE>::BFSAlgorithm(UnDirectedGraph<TV, TE>& result, std::string id){
 }
 
 template<typename TV, typename TE>
-UnDirectedGraph<TV, TE> BFS<TV, TE>::apply(std::string id){
-    if(!this->vertexes.count(id)) throw std::runtime_error("RUNTIME ERROR: Invalid id.");
+UnDirectedGraph<TV, TE> BFS<TV, TE>::u_apply(std::string id){
+    UnDirectedGraph<TV, TE> result;
     
-    std::cout << "\nBFS from vertex: " << this->vertexes[id]->data << "\n";
+    if(!isUndirectedGraph){
+        std::cout << "ERROR: It isn't an undirected graph.\n";
+        return result;
+    }
+    if(!this->vertexes.count(id)){
+        std::cout << "ERROR: ID not found.\n";
+        return result;
+    }
 
+    std::cout << "\nBFS from vertex: " << this->vertexes[id]->data << "\n";
     for(auto p : this->vertexes)
         this->visited[p.second] = false;
-
-    UnDirectedGraph<TV, TE> result;
         
     BFSAlgorithm(result, id);
 
@@ -90,12 +98,70 @@ UnDirectedGraph<TV, TE> BFS<TV, TE>::apply(std::string id){
 }
 
 template<typename TV, typename TE>
-UnDirectedGraph<TV, TE> BFS<TV, TE>::apply(){
+UnDirectedGraph<TV, TE> BFS<TV, TE>::u_apply(){
+    UnDirectedGraph<TV, TE> result;
+    if(!isUndirectedGraph){
+        std::cout << "ERROR: It isn't an undirected graph.\n";
+        return result;
+    }
+
     for(auto p : this->vertexes)
         this->visited[p.second] = false;
-
-    UnDirectedGraph<TV, TE> result;
     
+    auto it = begin(this->vertexes);
+    std::cout << "\nBFS from vertex: " << (*it).second->data << "\n";
+    BFSAlgorithm(result, (*it).first);
+
+    for(auto p : this->vertexes)
+        if(!this->visited[p.second])
+            BFSAlgorithm(result, p.first);
+
+    return result;
+}
+
+template<typename TV, typename TE>
+DirectedGraph<TV, TE> BFS<TV, TE>::d_apply(std::string id){
+    DirectedGraph<TV, TE> result;
+    
+    if(isUndirectedGraph){
+        std::cout << "ERROR: It isn't a directed graph.\n";
+        return result;
+    }
+    if(!this->vertexes.count(id)){
+        std::cout << "ERROR: ID not found.\n";
+        return result;
+    }
+
+    std::cout << "\nBFS from vertex: " << this->vertexes[id]->data << "\n";
+    for(auto p : this->vertexes)
+        this->visited[p.second] = false;
+        
+    BFSAlgorithm(result, id);
+
+    for(auto p : this->vertexes){
+        if(!this->visited[p.second]){
+            std::cout << "WARNING: Some vertex was not visited.\n";
+            break;
+        }
+    }
+    return result;
+}
+
+template<typename TV, typename TE>
+DirectedGraph<TV, TE> BFS<TV, TE>::d_apply(){
+    DirectedGraph<TV, TE> result;
+    if(isUndirectedGraph){
+        std::cout << "ERROR: It isn't a directed graph.\n";
+        return result;
+    }
+
+    for(auto p : this->vertexes)
+        this->visited[p.second] = false;
+    
+    auto it = begin(this->vertexes);
+    std::cout << "\nBFS from vertex: " << (*it).second->data << "\n";
+    BFSAlgorithm(result, (*it).first);
+
     for(auto p : this->vertexes)
         if(!this->visited[p.second])
             BFSAlgorithm(result, p.first);
