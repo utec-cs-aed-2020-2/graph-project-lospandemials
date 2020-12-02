@@ -5,21 +5,19 @@
 
 template<typename TV, typename TE>
 struct Edge;
-
 template<typename TV, typename TE>
 struct Vertex;
-
 template<typename TV, typename TE>
 class Graph;
 
 template<typename TV, typename TE>
 class Kruskal;
-
 template<typename TV, typename TE>
 class Prim;
-
 template<typename TV, typename TE>
 class BFS;
+template<typename TV, typename TE>
+class DFS;
 //////////////////////////////////////////////////////
 
 template<typename TV, typename TE>
@@ -85,6 +83,7 @@ public:
     friend class Prim<TV, TE>;
     friend class Kruskal<TV, TE>;
     friend class BFS<TV, TE>;
+    friend class DFS<TV, TE>;
 };
 
 
