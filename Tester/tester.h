@@ -4,11 +4,13 @@
 #include "../lib.h"
 #include "../Algorithms/Kruskal.h"
 #include "../Algorithms/Prim.h"
+#include "../Algorithms/BFS.h"
 #include "../Parser/parser.h"
 
 void KruskalPrimExample1();
 void KruskalPrimExample2();
 void KruskalPrimExample3();
+void BFSDFS1();
 
 template<typename TV, typename TE>
 void showGraph(UnDirectedGraph<TV, TE> &graph);
@@ -150,14 +152,46 @@ namespace Tester{
     }
 
     void executeExamples(){
-        KruskalPrimExample1();
-        pause("ver otro ejemplo");
-        menu2();
-        KruskalPrimExample2();
-        pause("ver otro ejemplo");
-        menu2();
-        KruskalPrimExample3();
-        
+        int option;
+        do{
+            do{
+                menu2();
+                std::cout << "\t1. Test Kruskal Prim 1.\n";
+                std::cout << "\t2. Test Kruskal Prim 2.\n";
+                std::cout << "\t3. Test Kruskal Prim 3.\n";
+                std::cout << "\t4. Test BFS 1.\n";
+                std::cout << "\t5. Back\n";
+                std::cout << "\nSelect option: ";
+                option = validInt();
+                console_clear();
+            }while(!check(option, 1, 5));
+            menu2();
+            
+            switch(option){
+                case 1:{
+                    KruskalPrimExample1();
+                    pause();
+                    break;
+                }
+                case 2:{
+                    KruskalPrimExample2();
+                    pause();
+                    break;
+                }
+                case 3:{
+                    KruskalPrimExample3();
+                    pause();
+                    break;
+                }
+                case 4:{
+                    BFSDFS1();
+                    pause();
+                    break;
+                }
+                default:
+                    break;
+            }
+        }while(option != 5);
     }
 
     void executeParser(bool cond){
@@ -663,6 +697,51 @@ void KruskalPrimExample3(){
     
     if(result == resultPcomplete) std::cout << "Prim and Kruskal give EQUAL MST\n\n";
     else  std::cout << "Prim and Kruskal give DIFFERENT MST\n\n";
+}
+
+void BFSDFS1(){
+    UnDirectedGraph<char, int> graph;
+    graph.insertVertex("0", '0');
+    graph.insertVertex("1", '1');
+    graph.insertVertex("2", '2');
+    graph.insertVertex("3", '3');
+    graph.insertVertex("4", '4');
+    graph.createEdge("0", "1", 2);
+    graph.createEdge("0", "3", 6);
+    graph.createEdge("1", "2", 3);
+    graph.createEdge("1", "3", 8);
+    graph.createEdge("1", "4", 5);
+    graph.createEdge("2", "4", 7);
+    graph.createEdge("3", "4", 9);
+    std::cout << "\n----------------Graph 1---------------\n";
+
+    graph.display();
+    
+    std::cout << "\n-----------BFS Test 1(\"0\")-----------\n";
+    BFS<char, int> bfs(&graph);
+    UnDirectedGraph<char, int> res0 = bfs.apply("0");
+    res0.display();
+    isConnectedMsg(res0.isConnected());
+    /*
+    std::cout << "\n-----------Prim Test 1(\"1\")-----------\n";
+    UnDirectedGraph<char, int> res1 = prim.apply("1");
+    res1.display();
+    isConnectedMsg(res1.isConnected());
+
+    std::cout << "\n-----------Prim Test 1(\"2\")-----------\n";
+    UnDirectedGraph<char, int> res2 = prim.apply("2");
+    res2.display();
+    isConnectedMsg(res2.isConnected());
+
+    std::cout << "\n-----------Prim Test 1(\"3\")-----------\n";
+    UnDirectedGraph<char, int> res3 = prim.apply("3");
+    res3.display();
+    isConnectedMsg(res3.isConnected());
+
+    std::cout << "\n-----------Prim Test 1(\"4\")-----------\n";
+    UnDirectedGraph<char, int> res4 = prim.apply("4");
+    res4.display();
+    isConnectedMsg(res4.isConnected());*/
 }
 
 #endif

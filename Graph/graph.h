@@ -18,6 +18,8 @@ class Kruskal;
 template<typename TV, typename TE>
 class Prim;
 
+template<typename TV, typename TE>
+class BFS;
 //////////////////////////////////////////////////////
 
 template<typename TV, typename TE>
@@ -77,12 +79,12 @@ public:
     bool empty();
     void clear();
     virtual void display() = 0;
-    bool twoVerticesPath(std::string id1, std::string id2);
     void graphSize();
     bool operator==(Graph& graph);
 
     friend class Prim<TV, TE>;
     friend class Kruskal<TV, TE>;
+    friend class BFS<TV, TE>;
 };
 
 
