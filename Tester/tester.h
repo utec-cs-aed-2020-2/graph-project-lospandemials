@@ -7,13 +7,37 @@
 #include "../Algorithms/BFS.h"
 #include "../Parser/parser.h"
 
-void KruskalPrimExample1();
-void KruskalPrimExample2();
-void KruskalPrimExample3();
-void BFSDFS1();
-
 template<typename TV, typename TE>
-void showGraph(UnDirectedGraph<TV, TE> &graph);
+void showGraph(UnDirectedGraph<TV, TE> &graph){
+    graph.graphSize();
+    char show;
+    std::cout << "\nDo you want to see the graph? (Y/N): ";
+    std::cin >> show;
+    if(show == 'Y' || show == 'y'){
+        graph.display();
+        isConnectedMsg(graph.isConnected());
+    }
+}
+
+namespace TestAlgorithm{
+    template<typename TV, typename TE>
+    void TestKruskalPrim(UnDirectedGraph<TV, TE> &graph, int i, std::string id, bool complete);
+    template<typename TV, typename TE>
+    void TestBFS(UnDirectedGraph<TV, TE> &graph, int i, std::string id, bool complete);
+    template<typename TV, typename TE>
+    void TestBFS(DirectedGraph<TV, TE> &graph, int i, std::string id, bool complete);
+}
+
+namespace Menu{
+    void Functions(UnDirectedGraph<char, int> &ugraph1, UnDirectedGraph<char, int> &ugraph2,
+                   UnDirectedGraph<char, int> &ugraph3, DirectedGraph<char, int> &dgraph1,
+                   DirectedGraph<char, int> &dgraph2);
+    void Examples(UnDirectedGraph<char, int> &ugraph1, UnDirectedGraph<char, int> &ugraph2,
+                   UnDirectedGraph<char, int> &ugraph3, DirectedGraph<char, int> &dgraph1);
+    void parser(bool &cond, UnDirectedGraph<Airport, double> &graph, Parser &parser);
+    template<typename TV, typename TE>
+    void Creator(int &option, Graph<TV, TE>* &graph);
+}
 
 namespace Tester{
     void executeFunctionExamples(){
@@ -74,6 +98,149 @@ namespace Tester{
         dgraph2.createEdge("2", "3", 1);
         dgraph2.createEdge("3", "1", 1);
         dgraph2.createEdge("4", "3", 1);
+
+        Menu::Functions(ugraph1, ugraph2, ugraph3, dgraph1, dgraph2);
+    }
+
+    void executeExamples(){
+        UnDirectedGraph<char, int> ugraph1;
+        ugraph1.insertVertex("0", '0');
+        ugraph1.insertVertex("1", '1');
+        ugraph1.insertVertex("2", '2');
+        ugraph1.insertVertex("3", '3');
+        ugraph1.insertVertex("4", '4');
+        ugraph1.createEdge("0", "1", 2);
+        ugraph1.createEdge("0", "3", 6);
+        ugraph1.createEdge("1", "2", 3);
+        ugraph1.createEdge("1", "3", 8);
+        ugraph1.createEdge("1", "4", 5);
+        ugraph1.createEdge("2", "4", 7);
+        ugraph1.createEdge("3", "4", 9);
+        
+        UnDirectedGraph<char, int> ugraph2;
+        ugraph2.insertVertex("A", 'A');
+        ugraph2.insertVertex("B", 'B');
+        ugraph2.insertVertex("C", 'C');
+        ugraph2.insertVertex("D", 'D');
+        ugraph2.insertVertex("E", 'E');
+        ugraph2.insertVertex("F", 'F');
+        ugraph2.insertVertex("G", 'G');
+        ugraph2.insertVertex("H", 'H');
+        ugraph2.insertVertex("I", 'I');
+        ugraph2.insertVertex("J", 'J');
+        ugraph2.createEdge("A", "D", 6);
+        ugraph2.createEdge("A", "B", 3);
+        ugraph2.createEdge("A", "E", 9);
+        ugraph2.createEdge("B", "D", 4);
+        ugraph2.createEdge("B", "C", 2);
+        ugraph2.createEdge("B", "F", 9);
+        ugraph2.createEdge("B", "E", 9);
+        ugraph2.createEdge("C", "D", 2);
+        ugraph2.createEdge("C", "G", 9);
+        ugraph2.createEdge("C", "F", 8);
+        ugraph2.createEdge("D", "G", 9);
+        ugraph2.createEdge("E", "F", 8);
+        ugraph2.createEdge("E", "J", 18);
+        ugraph2.createEdge("F", "G", 7);
+        ugraph2.createEdge("F", "I", 9);
+        ugraph2.createEdge("F", "J", 10);
+        ugraph2.createEdge("G", "H", 4);
+        ugraph2.createEdge("G", "I", 5);
+        ugraph2.createEdge("H", "I", 1);
+        ugraph2.createEdge("H", "J", 4);
+        ugraph2.createEdge("I", "J", 3);
+    
+        UnDirectedGraph<char, int> ugraph3;
+        ugraph3.insertVertex("A", 'A');
+        ugraph3.insertVertex("B", 'B');
+        ugraph3.insertVertex("C", 'C');
+        ugraph3.insertVertex("D", 'D');
+        ugraph3.insertVertex("E", 'E');
+        ugraph3.insertVertex("F", 'F');
+        ugraph3.insertVertex("G", 'G');
+        ugraph3.insertVertex("H", 'H');
+        ugraph3.createEdge("A", "B", 1);
+        ugraph3.createEdge("A", "C", 7);
+        ugraph3.createEdge("A", "D", 10);
+        ugraph3.createEdge("B", "C", 5);
+        ugraph3.createEdge("B", "E", 8);
+        ugraph3.createEdge("C", "E", 9);
+        ugraph3.createEdge("C", "D", 11);
+        ugraph3.createEdge("D", "E", 3);;
+        ugraph3.createEdge("F", "G", 4);
+        ugraph3.createEdge("F", "H", 2);
+        ugraph3.createEdge("G", "H", 6);
+        
+        DirectedGraph<char, int> dgraph1;
+        dgraph1.insertVertex("A", 'A');
+        dgraph1.insertVertex("B", 'B');
+        dgraph1.insertVertex("C", 'C');
+        dgraph1.insertVertex("D", 'D');
+        dgraph1.insertVertex("E", 'E');
+        dgraph1.insertVertex("F", 'F');
+        dgraph1.insertVertex("G", 'G');
+        dgraph1.insertVertex("H", 'H');
+        dgraph1.createEdge("A", "B", 10);
+        dgraph1.createEdge("A", "C", 8);
+        dgraph1.createEdge("B", "D", 4);
+        dgraph1.createEdge("C", "B", 8);
+        dgraph1.createEdge("C", "E", 5);
+        dgraph1.createEdge("D", "F", 5);
+        dgraph1.createEdge("E", "D", 5);
+        dgraph1.createEdge("E", "F", 7);
+        dgraph1.createEdge("F", "G", 12);
+        dgraph1.createEdge("F", "H", 4);
+        dgraph1.createEdge("G", "C", 7);
+        dgraph1.createEdge("G", "E", 2);
+        dgraph1.createEdge("G", "H", 5);
+
+        Menu::Examples(ugraph1, ugraph2, ugraph3, dgraph1);
+    }
+
+    void executeParser(bool cond){
+        std::string path;
+        if(cond)  path = "Parser/Data/pe.json";
+        else  path = "Parser/Data/airports.json";
+        
+        std::cout << "Please wait while the graph is created ...\n";
+        
+        UnDirectedGraph<Airport, double> graph;
+        Parser parser(path);
+        parser.readJSON();
+        parser.uGraphMake(graph);
+        
+        std::cout << "Graph created.\n";
+        pause();
+        
+        Menu::parser(cond, graph, parser);
+    }
+
+    void executeGraphCreator(){
+        Graph<std::string, int>* graph;
+        int option;
+        do{
+            menu5();
+            std::cout << "\t1. Undirected graph.\n";
+            std::cout << "\t2. Directed graph.\n";
+            std::cout << "\t3. Back.\n";
+            std::cout << "\nSelect option: ";
+            option = validInt();
+            console_clear();
+        }while(!check(option, 1, 3));
+        
+        if(option == 1) graph = new UnDirectedGraph<std::string, int>();
+        else if(option == 2)    graph = new DirectedGraph<std::string, int>();
+        else return;
+
+        Menu::Creator(option, graph);
+        delete graph;
+    }
+}
+
+namespace Menu{
+    void Functions(UnDirectedGraph<char, int> &ugraph1, UnDirectedGraph<char, int> &ugraph2,
+                   UnDirectedGraph<char, int> &ugraph3, DirectedGraph<char, int> &dgraph1,
+                   DirectedGraph<char, int> &dgraph2){
         int option1;
         do{
             option1 = menu1();
@@ -150,65 +317,69 @@ namespace Tester{
             }
         }while(option1 != 5);
     }
-
-    void executeExamples(){
+    void Examples(UnDirectedGraph<char, int> &ugraph1, UnDirectedGraph<char, int> &ugraph2,
+                   UnDirectedGraph<char, int> &ugraph3, DirectedGraph<char, int> &dgraph1){
         int option;
         do{
             do{
                 menu2();
-                std::cout << "\t1. Test Kruskal Prim 1.\n";
-                std::cout << "\t2. Test Kruskal Prim 2.\n";
-                std::cout << "\t3. Test Kruskal Prim 3.\n";
-                std::cout << "\t4. Test BFS 1.\n";
-                std::cout << "\t5. Back\n";
+                std::cout << "\t1. Test Kruskal Prim 1 - small graph.\n";
+                std::cout << "\t2. Test Kruskal Prim 2 - big graph.\n";
+                std::cout << "\t3. Test Kruskal Prim 3 - disconnected graph.\n";
+                std::cout << "\t4. Test BFS 1 - small graph.\n";
+                std::cout << "\t5. Test BFS 2 - big graph.\n";
+                std::cout << "\t6. Test BFS 3 - disconnected graph.\n";
+                std::cout << "\t7. Test BFS 4 - directed graph.\n";
+                std::cout << "\t8. Back\n";
                 std::cout << "\nSelect option: ";
                 option = validInt();
                 console_clear();
-            }while(!check(option, 1, 5));
+            }while(!check(option, 1, 8));
             menu2();
             
             switch(option){
                 case 1:{
-                    KruskalPrimExample1();
+                    TestAlgorithm::TestKruskalPrim(ugraph1, 1, "0", false);
                     pause();
                     break;
                 }
                 case 2:{
-                    KruskalPrimExample2();
+                    TestAlgorithm::TestKruskalPrim(ugraph2, 2, "H", false);
                     pause();
                     break;
                 }
                 case 3:{
-                    KruskalPrimExample3();
+                    TestAlgorithm::TestKruskalPrim(ugraph3, 3, "B", true);
                     pause();
                     break;
                 }
                 case 4:{
-                    BFSDFS1();
+                    TestAlgorithm::TestBFS(ugraph1, 1, "4", false);
+                    pause();
+                    break;
+                }
+                case 5:{
+                    TestAlgorithm::TestBFS(ugraph2, 2, "A", false);
+                    pause();
+                    break;
+                }
+                case 6:{
+                    TestAlgorithm::TestBFS(ugraph3, 3, "G", true);
+                    pause();
+                    break;
+                }
+                case 7:{
+                    TestAlgorithm::TestBFS(dgraph1, 4, "A", false);
                     pause();
                     break;
                 }
                 default:
                     break;
             }
-        }while(option != 5);
+        }while(option != 7);
     }
 
-    void executeParser(bool cond){
-        std::string path;
-        if(cond)  path = "Parser/Data/pe.json";
-        else  path = "Parser/Data/airports.json";
-        
-        std::cout << "Please wait while the graph is created ...\n";
-        
-        UnDirectedGraph<Airport, double> graph;
-        Parser parser(path);
-        parser.readJSON();
-        parser.uGraphMake(graph);
-        
-        std::cout << "Graph created.\n";
-        pause();
-        
+    void parser(bool &cond, UnDirectedGraph<Airport, double> &graph, Parser &parser){
         int option;
         do{
             do{
@@ -296,10 +467,8 @@ namespace Tester{
                     std::cout << "\n-------Two Airports Path-----------\n";
                     std::string id1, id2;
                     parser.showIDs();
-                    std::cout << "\nInsert id1 (2789, 2786, 2802): ";
-                    std::cin >> id1;
-                    std::cout << "Insert id2 (2789, 2786, 2802): ";
-                    std::cin >> id2;
+                    std::cout << "\nInsert id1 and id2 (2789, 2786, 2802): ";
+                    std::cin >> id1 >> id2;
                     graph(id1, id2);
                     pause();
                     break;
@@ -309,24 +478,9 @@ namespace Tester{
             }
         }while(option != 8);
     }
-
-    void executeGraphCreator(){
-        Graph<std::string, int>* graph;
-        int option;
-        do{
-            menu5();
-            std::cout << "\t1. Undirected graph.\n";
-            std::cout << "\t2. Directed graph.\n";
-            std::cout << "\t3. Back.\n";
-            std::cout << "\nSelect option: ";
-            option = validInt();
-            console_clear();
-        }while(!check(option, 1, 3));
-        
-        if(option == 1) graph = new UnDirectedGraph<std::string, int>();
-        else if(option == 2)    graph = new DirectedGraph<std::string, int>();
-        else return;
-
+    
+    template<typename TV, typename TE>
+    void Creator(int &option, Graph<TV, TE>* &graph){
         int option1;
         do{
             do{
@@ -369,13 +523,11 @@ namespace Tester{
                     graph->display();
                     std::string id1;
                     std::string id2;
-                    std::cout << "\nInsert first vertex (char): ";
-                    std::cin >> id1;
-                    std::cout << "\nInsert second vertex (char): ";
-                    std::cin >> id2;
+                    std::cout << "\nInsert first and second vertex (char): ";
+                    std::cin >> id1 >> id2;
 
                     int w;
-                    std::cout << "\nInsert weight (int): ";
+                    std::cout << "Insert weight (int): ";
                     w = validInt();
 
                     graph->createEdge(id1, id2, w);
@@ -401,10 +553,8 @@ namespace Tester{
                     graph->display();
                     std::string id1;
                     std::string id2;
-                    std::cout << "\nInsert first vertex (char): ";
-                    std::cin >> id1;
-                    std::cout << "\nInsert second vertex (char): ";
-                    std::cin >> id2;
+                    std::cout << "\nInsert first and second vertex (char): ";
+                    std::cin >> id1 >> id2;
                     graph->deleteEdge(id1, id2);
                     std::cout << "\n";
                     graph->display();
@@ -448,10 +598,8 @@ namespace Tester{
                     graph->display();
                     std::string id1;
                     std::string id2;
-                    std::cout << "\nInsert first vertex (char): ";
-                    std::cin >> id1;
-                    std::cout << "\nInsert second vertex (char): ";
-                    std::cin >> id2;
+                    std::cout << "\nInsert first and second vertex (char): ";
+                    std::cin >> id1 >> id2;
                     graph->operator()(id1, id2);
                     std::cout << "\n";
                     pause();
@@ -531,217 +679,72 @@ namespace Tester{
                     break;
             }    
         }while(option1 != 13);
-        delete graph;
     }
 }
 
-template<typename TV, typename TE>
-void showGraph(UnDirectedGraph<TV, TE> &graph){
-    graph.graphSize();
-    char show;
-    std::cout << "\nDo you want to see the graph? (Y/N): ";
-    std::cin >> show;
-    if(show == 'Y' || show == 'y'){
+namespace TestAlgorithm{
+    template<typename TV, typename TE>
+    void TestKruskalPrim(UnDirectedGraph<TV, TE> &graph, int i, std::string id, bool complete){
+        std::cout << "\n----------------Graph " << i << "---------------\n";
         graph.display();
-        isConnectedMsg(graph.isConnected());
+
+        std::cout << "\n------------Kruskal Test " << i << "------------\n";
+        Kruskal<char, int> kruskal(&graph);
+        UnDirectedGraph<char, int> resultK = kruskal.apply();
+        resultK.display(); 
+        isConnectedMsg(resultK.isConnected());
+
+        std::cout << "\n-----------Prim Test " << i << "(\"" << id << "\")-----------\n";
+        Prim<char, int> prim(&graph);
+        UnDirectedGraph<char, int> resultP = prim.apply(id);
+        resultP.display();
+        isConnectedMsg(resultP.isConnected());
+
+        if(resultK == resultP) std::cout << "\nPrim and Kruskal give EQUAL MST\n\n";
+        else  std::cout << "\nPrim and Kruskal give DIFFERENT MST\n\n";
+
+        if(complete){
+            UnDirectedGraph<char, int> resultPcomplete = prim.apply();
+            resultPcomplete.display();
+            isConnectedMsg(resultPcomplete.isConnected());
+            
+            if(resultK == resultPcomplete) std::cout << "\nPrim and Kruskal give EQUAL MST\n\n";
+            else  std::cout << "\nPrim and Kruskal give DIFFERENT MST\n\n";
+        }
     }
-}
 
-void KruskalPrimExample1(){
-    //TEST 1:
-    UnDirectedGraph<char, int> graph;
-    graph.insertVertex("0", '0');
-    graph.insertVertex("1", '1');
-    graph.insertVertex("2", '2');
-    graph.insertVertex("3", '3');
-    graph.insertVertex("4", '4');
-    graph.createEdge("0", "1", 2);
-    graph.createEdge("0", "3", 6);
-    graph.createEdge("1", "2", 3);
-    graph.createEdge("1", "3", 8);
-    graph.createEdge("1", "4", 5);
-    graph.createEdge("2", "4", 7);
-    graph.createEdge("3", "4", 9);
-    std::cout << "\n----------------Graph 1---------------\n";
+    template<typename TV, typename TE>
+    void TestBFS(UnDirectedGraph<TV, TE> &graph, int i, std::string id, bool complete){
+        std::cout << "\n----------------Graph " << i << "---------------\n";
+        graph.display();
+        
+        std::cout << "\n-----------BFS Test " << i << "(\"" << id << "\")-----------\n";
+        BFS<char, int> bfs(&graph);
+        UnDirectedGraph<char, int> res0 = bfs.u_apply(id);
+        res0.display();
+        isConnectedMsg(res0.isConnected());
+        
+        if(complete){
+            std::cout << "\n------------BFS Full " << i << "------------\n";
+            UnDirectedGraph<char, int> res1 = bfs.u_apply();
+            res1.display();
+            isConnectedMsg(res1.isConnected());
 
-    graph.display();
-    
-    std::cout << "\n------------Kruskal Test 1------------\n";
-    Kruskal<char, int> kruskal(&graph);
-    UnDirectedGraph<char, int> resultK = kruskal.apply();
-    resultK.display(); 
-    isConnectedMsg(resultK.isConnected());
+            if(res0 == res1) std::cout << "\nBFS from " << id << " and full BFS give same trees\n\n";
+            else  std::cout << "\nBFS from " << id << " and full BFS give different trees\n\n";
+        }
+    }
 
-    std::cout << "\n-----------Prim Test 1(\"0\")-----------\n";
-    Prim<char, int> prim(&graph);
-    UnDirectedGraph<char, int> res0 = prim.apply("0");
-    res0.display();
-    isConnectedMsg(res0.isConnected());
-    
-    std::cout << "\n-----------Prim Test 1(\"1\")-----------\n";
-    UnDirectedGraph<char, int> res1 = prim.apply("1");
-    res1.display();
-    isConnectedMsg(res1.isConnected());
-
-    std::cout << "\n-----------Prim Test 1(\"2\")-----------\n";
-    UnDirectedGraph<char, int> res2 = prim.apply("2");
-    res2.display();
-    isConnectedMsg(res2.isConnected());
-
-    std::cout << "\n-----------Prim Test 1(\"3\")-----------\n";
-    UnDirectedGraph<char, int> res3 = prim.apply("3");
-    res3.display();
-    isConnectedMsg(res3.isConnected());
-
-    std::cout << "\n-----------Prim Test 1(\"4\")-----------\n";
-    UnDirectedGraph<char, int> res4 = prim.apply("4");
-    res4.display();
-    isConnectedMsg(res4.isConnected());
-}
-
-void KruskalPrimExample2(){
-    //TEST 2:
-    UnDirectedGraph<char, int> graph;
-    graph.insertVertex("A", 'A');
-    graph.insertVertex("B", 'B');
-    graph.insertVertex("C", 'C');
-    graph.insertVertex("D", 'D');
-    graph.insertVertex("E", 'E');
-    graph.insertVertex("F", 'F');
-    graph.insertVertex("G", 'G');
-    graph.insertVertex("H", 'H');
-    graph.insertVertex("I", 'I');
-    graph.insertVertex("J", 'J');
-    graph.createEdge("A", "D", 6);
-    graph.createEdge("A", "B", 3);
-    graph.createEdge("A", "E", 9);
-    graph.createEdge("B", "D", 4);
-    graph.createEdge("B", "C", 2);
-    graph.createEdge("B", "F", 9);
-    graph.createEdge("B", "E", 9);
-    graph.createEdge("C", "D", 2);
-    graph.createEdge("C", "G", 9);
-    graph.createEdge("C", "F", 8);
-    graph.createEdge("D", "G", 9);
-    graph.createEdge("E", "F", 8);
-    graph.createEdge("E", "J", 18);
-    graph.createEdge("F", "G", 7);
-    graph.createEdge("F", "I", 9);
-    graph.createEdge("F", "J", 10);
-    graph.createEdge("G", "H", 4);
-    graph.createEdge("G", "I", 5);
-    graph.createEdge("H", "I", 1);
-    graph.createEdge("H", "J", 4);
-    graph.createEdge("I", "J", 3);
-  
-    std::cout << "\n----------------Graph 2---------------\n";
-    graph.display();
-    
-    std::cout << "\n------------Kruskal Test 2------------\n";
-    Kruskal<char, int> kruskal(&graph);
-    UnDirectedGraph<char, int> resultK = kruskal.apply();
-    resultK.display(); 
-    isConnectedMsg(resultK.isConnected());
-
-    std::cout << "\n-----------Prim Test 2(\"H\")-----------\n";
-    Prim<char, int> prim(&graph);
-    UnDirectedGraph<char, int> resultP = prim.apply("H");
-    resultP.display();
-    isConnectedMsg(resultP.isConnected());
-}
-
-void KruskalPrimExample3(){
-    //TEST 3:
-    UnDirectedGraph<char, int> graph;
-    graph.insertVertex("A", 'A');
-    graph.insertVertex("B", 'B');
-    graph.insertVertex("C", 'C');
-    graph.insertVertex("D", 'D');
-    graph.insertVertex("E", 'E');
-    graph.insertVertex("F", 'F');
-    graph.insertVertex("G", 'G');
-    graph.insertVertex("H", 'H');
-    graph.createEdge("A", "B", 1);
-    graph.createEdge("A", "C", 7);
-    graph.createEdge("A", "D", 10);
-    graph.createEdge("B", "C", 5);
-    graph.createEdge("B", "E", 8);
-    graph.createEdge("C", "E", 9);
-    graph.createEdge("C", "D", 11);
-    graph.createEdge("D", "E", 3);;
-    graph.createEdge("F", "G", 4);
-    graph.createEdge("F", "H", 2);
-    graph.createEdge("G", "H", 6);
-
-    std::cout << "\n----------------Graph 3---------------\n";
-    graph.display();
-
-    std::cout << "\n------------Kruskal Test 3------------\n";
-    Kruskal<char, int> kruskal(&graph);
-    UnDirectedGraph<char, int> result = kruskal.apply();
-    result.display(); 
-    isConnectedMsg(result.isConnected());
-
-    std::cout << "\n-----------Prim Test 3(\"B\")-----------\n";
-    Prim<char, int> prim(&graph);
-    UnDirectedGraph<char, int> resultP = prim.apply("B");
-    resultP.display();
-    isConnectedMsg(resultP.isConnected());
-
-    if(result == resultP) std::cout << "Prim and Kruskal give EQUAL MST\n\n";
-    else  std::cout << "Prim and Kruskal give DIFFERENT MST\n\n";
-
-    UnDirectedGraph<char, int> resultPcomplete = prim.apply();
-    resultPcomplete.display();
-    isConnectedMsg(resultPcomplete.isConnected());
-    
-    if(result == resultPcomplete) std::cout << "Prim and Kruskal give EQUAL MST\n\n";
-    else  std::cout << "Prim and Kruskal give DIFFERENT MST\n\n";
-}
-
-void BFSDFS1(){
-    UnDirectedGraph<char, int> graph;
-    graph.insertVertex("0", '0');
-    graph.insertVertex("1", '1');
-    graph.insertVertex("2", '2');
-    graph.insertVertex("3", '3');
-    graph.insertVertex("4", '4');
-    graph.createEdge("0", "1", 2);
-    graph.createEdge("0", "3", 6);
-    graph.createEdge("1", "2", 3);
-    graph.createEdge("1", "3", 8);
-    graph.createEdge("1", "4", 5);
-    graph.createEdge("2", "4", 7);
-    graph.createEdge("3", "4", 9);
-    std::cout << "\n----------------Graph 1---------------\n";
-
-    graph.display();
-    
-    std::cout << "\n-----------BFS Test 1(\"0\")-----------\n";
-    BFS<char, int> bfs(&graph);
-    UnDirectedGraph<char, int> res0 = bfs.apply("0");
-    res0.display();
-    isConnectedMsg(res0.isConnected());
-    /*
-    std::cout << "\n-----------Prim Test 1(\"1\")-----------\n";
-    UnDirectedGraph<char, int> res1 = prim.apply("1");
-    res1.display();
-    isConnectedMsg(res1.isConnected());
-
-    std::cout << "\n-----------Prim Test 1(\"2\")-----------\n";
-    UnDirectedGraph<char, int> res2 = prim.apply("2");
-    res2.display();
-    isConnectedMsg(res2.isConnected());
-
-    std::cout << "\n-----------Prim Test 1(\"3\")-----------\n";
-    UnDirectedGraph<char, int> res3 = prim.apply("3");
-    res3.display();
-    isConnectedMsg(res3.isConnected());
-
-    std::cout << "\n-----------Prim Test 1(\"4\")-----------\n";
-    UnDirectedGraph<char, int> res4 = prim.apply("4");
-    res4.display();
-    isConnectedMsg(res4.isConnected());*/
+    template<typename TV, typename TE>
+    void TestBFS(DirectedGraph<TV, TE> &graph, int i, std::string id, bool complete){
+        std::cout << "\n----------------Graph " << i << "---------------\n";
+        graph.display();
+        
+        std::cout << "\n-----------BFS Test " << i << "(\"" << id << "\")-----------\n";
+        BFS<char, int> bfs(&graph);
+        DirectedGraph<char, int> res0 = bfs.d_apply(id);
+        res0.display();
+    }
 }
 
 #endif
