@@ -18,6 +18,8 @@ template<typename TV, typename TE>
 class BFS;
 template<typename TV, typename TE>
 class DFS;
+template<typename TV, typename TE>
+class SCC;
 //////////////////////////////////////////////////////
 
 template<typename TV, typename TE>
@@ -84,6 +86,7 @@ public:
     friend class Kruskal<TV, TE>;
     friend class BFS<TV, TE>;
     friend class DFS<TV, TE>;
+    friend class SCC<TV, TE>;
 };
 
 
