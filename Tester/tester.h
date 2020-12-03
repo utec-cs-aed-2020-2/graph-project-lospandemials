@@ -6,7 +6,9 @@
 #include "../Algorithms/Prim.h"
 #include "../Algorithms/BFS.h"
 #include "../Algorithms/DFS.h"
+#include "../Algorithms/SCC.h"
 #include "../Parser/parser.h"
+
 
 template<typename TV, typename TE>
 void showGraph(UnDirectedGraph<TV, TE> &graph){
@@ -31,6 +33,8 @@ namespace TestAlgorithm{
     void TestDFS(UnDirectedGraph<TV, TE> &graph, int i, std::string id, bool complete);
     template<typename TV, typename TE>
     void TestDFS(DirectedGraph<TV, TE> &graph, int i, std::string id, bool complete);
+    template<typename TV, typename TE>
+    void TestCSS(DirectedGraph<TV, TE> &graph, int i);
 }
 
 namespace Menu{
@@ -38,7 +42,8 @@ namespace Menu{
                    UnDirectedGraph<char, int> &ugraph3, DirectedGraph<char, int> &dgraph1,
                    DirectedGraph<char, int> &dgraph2);
     void Examples(UnDirectedGraph<char, int> &ugraph1, UnDirectedGraph<char, int> &ugraph2,
-                   UnDirectedGraph<char, int> &ugraph3, DirectedGraph<char, int> &dgraph1);
+                   UnDirectedGraph<char, int> &ugraph3, DirectedGraph<char, int> &dgraph1,
+                   DirectedGraph<char, int> &dgraph2);
     void parser(bool &cond, UnDirectedGraph<Airport, double> &graph, Parser &parser);
     template<typename TV, typename TE>
     void Creator(int &option, Graph<TV, TE>* &graph);
@@ -199,7 +204,31 @@ namespace Tester{
         dgraph1.createEdge("G", "E", 2);
         dgraph1.createEdge("G", "H", 5);
 
-        Menu::Examples(ugraph1, ugraph2, ugraph3, dgraph1);
+        DirectedGraph<char, int> dgraph2;
+        dgraph2.insertVertex("A", 'A');
+        dgraph2.insertVertex("B", 'B');
+        dgraph2.insertVertex("C", 'C');
+        dgraph2.insertVertex("D", 'D');
+        dgraph2.insertVertex("E", 'E');
+        dgraph2.insertVertex("F", 'F');
+        dgraph2.insertVertex("G", 'G');
+        dgraph2.insertVertex("H", 'H');
+        dgraph2.createEdge("A", "B", 1);
+        dgraph2.createEdge("B", "C", 1);
+        dgraph2.createEdge("B", "E", 1);
+        dgraph2.createEdge("B", "F", 1);
+        dgraph2.createEdge("C", "D", 1);
+        dgraph2.createEdge("C", "G", 1);
+        dgraph2.createEdge("D", "C", 1);
+        dgraph2.createEdge("D", "H", 1);
+        dgraph2.createEdge("E", "A", 1);
+        dgraph2.createEdge("E", "F", 1);
+        dgraph2.createEdge("F", "G", 1);
+        dgraph2.createEdge("G", "F", 1);
+        dgraph2.createEdge("H", "D", 1);
+        dgraph2.createEdge("H", "G", 1);
+
+        Menu::Examples(ugraph1, ugraph2, ugraph3, dgraph1, dgraph2);
     }
 
     void executeParser(bool cond){
@@ -323,7 +352,8 @@ namespace Menu{
         }while(option1 != 5);
     }
     void Examples(UnDirectedGraph<char, int> &ugraph1, UnDirectedGraph<char, int> &ugraph2,
-                   UnDirectedGraph<char, int> &ugraph3, DirectedGraph<char, int> &dgraph1){
+                   UnDirectedGraph<char, int> &ugraph3, DirectedGraph<char, int> &dgraph1,
+                   DirectedGraph<char, int> &dgraph2){
         int option;
         do{
             do{
@@ -339,11 +369,13 @@ namespace Menu{
                 std::cout << "\t9. Test DFS 2 - big graph.\n";
                 std::cout << "\t10. Test DFS 3 - disconnected graph.\n";
                 std::cout << "\t11. Test DFS 4 - directed graph.\n";
-                std::cout << "\t12. Back\n";
+                std::cout << "\t12. Test CSS 1.\n";
+                std::cout << "\t13. Test CSS 2.\n";
+                std::cout << "\t14. Back\n";
                 std::cout << "\nSelect option: ";
                 option = validInt();
                 console_clear();
-            }while(!check(option, 1, 12));
+            }while(!check(option, 1, 14));
             menu2();
             
             switch(option){
@@ -402,10 +434,20 @@ namespace Menu{
                     pause();
                     break;
                 }
+                case 12:{
+                    TestAlgorithm::TestCSS(dgraph1, 1);
+                    pause();
+                    break;
+                }
+                case 13:{
+                    TestAlgorithm::TestCSS(dgraph2, 2);
+                    pause();
+                    break;
+                }
                 default:
                     break;
             }
-        }while(option != 12);
+        }while(option != 14);
     }
 
     void parser(bool &cond, UnDirectedGraph<Airport, double> &graph, Parser &parser){
@@ -806,6 +848,27 @@ namespace TestAlgorithm{
         DFS<char, int> dfs(&graph);
         DirectedGraph<char, int> res0 = dfs.d_apply(id);
         res0.display();
+    }
+
+    template<typename TV, typename TE>
+    void TestCSS(DirectedGraph<TV, TE> &graph, int i){
+        std::cout << "\n----------------Graph " << i << "---------------\n";
+        graph.display();
+        
+        std::cout << "\n------------CSS Test " << i << "------------\n";
+        SCC<char, int> scc(&graph);
+        std::list<DirectedGraph<TV, TE>*> res0 = scc.apply();
+        char show;
+        std::cout << "\nDo you want to see the graphs? (Y/N): ";
+        std::cin >> show;
+        if(show == 'Y' || show == 'y'){
+            int i=0;
+            for(auto &graph : res0){
+                std::cout << "\nStrongly Connected Component " << i << ":\n";
+                graph->display();
+                ++i;
+            }
+        }
     }
 }
 
