@@ -5,7 +5,13 @@
 
 template<typename TV, typename TE>
 class Dijkstra{
-
+private:
+    std::unordered_map<std::string, Vertex<TV, TE>*> vertexes;
+    void DijkstraAlgorithm(parentUnorderedMapType &parents, distanceUnorderedMapType &distances, std::string id);
+    #define INF std::numeric_limits<TE>::max();
+public:
+    Dijkstra(Graph<TV, TE>* graph);
+    returnDijkstraType apply(std::string id);
 };
 
 template<typename TV, typename TE>
@@ -25,12 +31,12 @@ Dijkstra<TV, TE>::Dijkstra(Graph<TV, TE>* graph){
 
 template<typename TV, typename TE>
 void Dijkstra<TV, TE>::DijkstraAlgorithm(parentUnorderedMapType &parents, distanceUnorderedMapType &distances, std::string id){
-
+    
 }
 
 template<typename TV, typename TE>
 returnDijkstraType Dijkstra<TV, TE>::apply(std::string id){
-
+   
 }
 
 #endif
