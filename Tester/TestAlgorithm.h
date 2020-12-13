@@ -41,3 +41,57 @@ void TestKruskalPrim(UnDirectedGraph<TV, TE> &graph, int i, std::string id, bool
         else  std::cout << "\nPrim and Kruskal give DIFFERENT MST\n\n";
     }
 }
+
+template<typename TV, typename TE>
+void TestDijkstra(Graph<TV, TE> &graph, int i, std::string id){
+    if(i) std::cout << "\n----------------Graph " << i << "---------------\n";
+    else  std::cout << "\n----------------Graph Creator---------------\n";
+    graph.display();
+    
+    std::cout << "\n---------Dijkstra Test " << i << "----------\n";
+    Dijkstra<char, int> dijkstra(&graph);
+    returnDijkstraType res0 = dijkstra.apply(id);
+    parentUnorderedMapType parents = res0.first;
+    distanceUnorderedMapType distances = res0.second;
+    
+    std::cout << "\nResultado Dijkstra:\n";
+    for(auto p : parents){
+        if(p.second)
+            std::cout << "Vertex: " << p.first->data << " (Parent: " << p.second->data << "): " << distances[p.first] << "\n";
+        else
+            std::cout << "Vertex: " << p.first->data << " (Parent: NA): " << distances[p.first] << "\n";
+    }
+}
+
+template<typename TV, typename TE>
+void TestFloydWarshall(Graph<TV, TE> &graph, int i){
+    if(i) std::cout << "\n----------------Graph " << i << "---------------\n";
+    else  std::cout << "\n----------------Graph Creator---------------\n";
+    graph.display();
+    
+    std::cout << "\n-------FloydWarshall Test " << i << "--------\n";
+    FloydWarshall<char, int> floydwarshall(&graph);
+    returnFloydWarshallType res0 = floydwarshall.apply();
+    distanceMatrixType distances = res0.first;
+    pathMatrixType paths = res0.second;
+    int width = 12;
+
+    std::cout << "Distances: \n";
+    std::cout << std::setw(width) << " ";
+    for(auto i : distances) std::cout << std::setw(width) << i.first;  std::cout << "\n";
+    for(auto i : distances){
+        std::cout << std::setw(width) << i.first;
+        for(auto j : distances)
+            std::cout << std::setw(width) << distances[i.first][j.first];
+        std::cout << "\n";
+    }
+    std::cout << "\n\nPaths: \n";
+    std::cout << std::setw(width) << " ";
+    for(auto i : paths) std::cout << std::setw(width) << i.first;  std::cout << "\n";
+    for(auto i : paths){
+        std::cout << std::setw(width) << i.first;
+        for(auto j : paths)
+            std::cout << std::setw(width) << paths[i.first][j.first];
+        std::cout << "\n";
+    }std::cout << "\n\n";
+}
