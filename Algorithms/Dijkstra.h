@@ -10,7 +10,17 @@ class Dijkstra{
 
 template<typename TV, typename TE>
 Dijkstra<TV, TE>::Dijkstra(Graph<TV, TE>* graph){
-
+    DirectedGraph<TV, TE>* dg = dynamic_cast<DirectedGraph<TV, TE>*>(graph);
+    if(dg){
+        this->vertexes = dg->vertexes;
+        return;
+    }
+    UnDirectedGraph<TV, TE>* ug = dynamic_cast<UnDirectedGraph<TV, TE>*>(graph);
+    if(ug){
+        this->vertexes = ug->vertexes;
+        return;
+    }
+    throw std::runtime_error("RUNTIME ERROR: No graph.");
 }
 
 template<typename TV, typename TE>
