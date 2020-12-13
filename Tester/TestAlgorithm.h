@@ -1,9 +1,15 @@
 #include "../lib.h"
 #include "../Algorithms/Kruskal.h"
 #include "../Algorithms/Prim.h"
+#include "../Algorithms/Dijkstra.h"
+#include "../Algorithms/FloydWarshall.h"
 
 template<typename TV, typename TE>
 void TestKruskalPrim(UnDirectedGraph<TV, TE> &graph, int i, std::string id, bool complete);
+template<typename TV, typename TE>
+void TestDijkstra(Graph<TV, TE> &graph, int i, std::string id);
+template<typename TV, typename TE>
+void TestFloydWarshall(Graph<TV, TE> &graph, int i);
 
 template<typename TV, typename TE>
 void TestKruskalPrim(UnDirectedGraph<TV, TE> &graph, int i, std::string id, bool complete){
