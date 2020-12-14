@@ -38,10 +38,6 @@
 #define returnBellmanFordType std::pair<parentUnorderedMapType, distanceUnorderedMapType>
 #define returnSCCType std::list<DirectedGraph<TV, TE>*>
 
-bool check(int option, int inf, int sup){
-    return option >= inf && option <= sup;
-}
-
 #ifdef _WIN32
 #include<windows.h>
 #endif
@@ -54,9 +50,53 @@ void console_clear(){
 #endif
 }
 
-std::string pathPe = "Parser/Data/pe.json";
-std::string pathAirports = "Parser/Data/airports.json";
-std::string pathConflicts = "Parser/Data/conflicts.json";
+bool check(int option, int inf, int sup){
+    return option >= inf && option <= sup;
+}
+
+std::string pathPe, pathAirports, pathConflicts;
+std::unordered_map<int, std::string> imgAlgorithmsPaths;
+std::unordered_map<int, std::string> imgFunctionsPaths;
+
+void config(){
+    pathPe = "Parser/Data/pe.json";
+    pathAirports = "Parser/Data/airports.json";
+    pathConflicts = "Parser/Data/conflicts.json";
+
+    imgFunctionsPaths[2] = "img\\\"Test Functions\"\\\"Graph density1 - isConnected1 - isBipartite1.PNG\"";
+    imgFunctionsPaths[3] = "img\\\"Test Functions\"\\\"Graph density2 - isStronglyConnected1.PNG\"";
+    imgFunctionsPaths[4] = imgFunctionsPaths[2];
+    imgFunctionsPaths[5] = "img\\\"Test Functions\"\\\"Graph isConnected2.PNG\"";
+    imgFunctionsPaths[6] = imgFunctionsPaths[3];
+    imgFunctionsPaths[7] = "img\\\"Test Functions\"\\\"Graph isStronglyConnected2.PNG\"";
+    imgFunctionsPaths[8] = imgFunctionsPaths[2];
+    imgFunctionsPaths[9] = "img\\\"Test Functions\"\\\"Graph isBipartite2.PNG\"";
+    imgFunctionsPaths[10] = imgFunctionsPaths[3];
+    imgFunctionsPaths[11] = "img\\\"Test Functions\"\\\"Graph isWeaklyConnected3.PNG\"";
+    
+    imgAlgorithmsPaths[1] = "img\\\"Test Algorithm\"\\\"UGraph 1\"\\\"MST-Red.PNG\"";
+    imgAlgorithmsPaths[2] = "img\\\"Test Algorithm\"\\\"UGraph 2\"\\\"MST-Red.PNG\"";
+    imgAlgorithmsPaths[3] = "img\\\"Test Algorithm\"\\\"UGraph 3\"\\\"MST-Red.PNG\"";
+    imgAlgorithmsPaths[4] = "img\\\"Test Algorithm\"\\\"UGraph 1\"\\\"BFS(4)-Red.PNG\"";
+    imgAlgorithmsPaths[5] = "img\\\"Test Algorithm\"\\\"UGraph 2\"\\\"BFS(A)-Red.PNG\"";
+    imgAlgorithmsPaths[6] = "img\\\"Test Algorithm\"\\\"UGraph 3\"\\\"BFS(G)-Red.PNG\"";
+    imgAlgorithmsPaths[66] = "img\\\"Test Algorithm\"\\\"UGraph 3\"\\\"BFS(complete)-Red.PNG\"";
+    imgAlgorithmsPaths[7] = "img\\\"Test Algorithm\"\\\"DGraph 1\"\\\"BFS(A)-Red.PNG\"";
+    imgAlgorithmsPaths[8] = "img\\\"Test Algorithm\"\\\"UGraph 1\"\\\"DFS(4)-Red.PNG\"";
+    imgAlgorithmsPaths[9] = "img\\\"Test Algorithm\"\\\"UGraph 2\"\\\"DFS(A)-Red.PNG\"";
+    imgAlgorithmsPaths[10] = "img\\\"Test Algorithm\"\\\"UGraph 3\"\\\"DFS(G)-Red.PNG\"";
+    imgAlgorithmsPaths[1010] ="img\\\"Test Algorithm\"\\\"UGraph 3\"\\\"DFS(complete)-Red.PNG\"";
+    imgAlgorithmsPaths[11] = "img\\\"Test Algorithm\"\\\"DGraph 1\"\\\"DFS(A)-Red.PNG\"";
+    imgAlgorithmsPaths[12] = "img\\\"Test Algorithm\"\\\"DGraph 1\"\\\"SCC-Red.PNG\"";
+    imgAlgorithmsPaths[13] = "img\\\"Test Algorithm\"\\\"DGraph 2\"\\\"SCC-Red.PNG\"";
+    imgAlgorithmsPaths[14] = "img\\\"Test Algorithm\"\\\"UGraph 2\"\\\"Djkstra(A)-Red.PNG\"";
+    imgAlgorithmsPaths[15] = "img\\\"Test Algorithm\"\\\"DGraph 1\"\\\"Dijkstra(D)-Red.PNG\"";
+    imgAlgorithmsPaths[16] = "img\\\"Test Algorithm\"\\\"UGraph 4\"\\\"Graph 4 - AStar result.PNG\"";
+    imgAlgorithmsPaths[17] = "img\\\"Test Algorithm\"\\\"UGraph 1\"\\\"FloydWarshall Result.PNG\"";
+    imgAlgorithmsPaths[18] = "img\\\"Test Algorithm\"\\\"DGraph 1\"\\\"FloydWarshall Result.PNG\"";
+    imgAlgorithmsPaths[19] = "img\\\"Test Algorithm\"\\\"UGraph 2\"\\\"Djkstra(A)-Red.PNG\"";
+    imgAlgorithmsPaths[20] = "img\\\"Test Algorithm\"\\\"DGraph 3\"\\\"Graph 6.PNG\"";
+}
 
 void open_image(const char img_path[]){
 #ifdef _WIN32
@@ -68,10 +108,10 @@ void open_image(const char img_path[]){
     const char * command =  str2.c_str();
     system(command);
 #else
+    //system("xdg-open ../img/MST-Red.PNG");
     system(&"xdg-open" [ *img_path]);
 #endif
 }
-
 
 void isConnectedMsg(bool cond){
     if(cond) std::cout << "\nIs Connected\n";

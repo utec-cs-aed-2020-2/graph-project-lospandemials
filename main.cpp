@@ -3,6 +3,7 @@
 #include "Parser/parser.h"
 
 int main(int argc, char *argv[]) {
+    config();
     try{
         int option = 0, option1 = 0;
         do{

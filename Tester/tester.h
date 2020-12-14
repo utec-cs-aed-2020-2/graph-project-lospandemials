@@ -95,6 +95,10 @@ namespace Menu{
         do{
             option1 = menu1();
             console_clear();
+            
+            open_image(imgAlgorithmsPaths[2*option1].c_str());
+            open_image(imgAlgorithmsPaths[2*option1 + 1].c_str());
+
             switch(option1){
                 case 1:
                     std::cout << "---------Density---------\n";
@@ -218,97 +222,81 @@ namespace Menu{
             }while(!check(option, 1, 21));
             menu2();
             
+            open_image(imgAlgorithmsPaths[option].c_str());
             switch(option){
                 case 1:{
-                    system(".\\img\\\"Test Algorithm\"\\\"UGraph 1\"\\\"MST-Red.PNG\"");
-//                    system("xdg-open ../img/MST-Red.PNG");
-//                    open_image("img\\\"Test Algorithm\"\\\"UGraph 1\"\\\"MST-Red.PNG\"");
                     TestKruskalPrim(&ugraph1, 1, "0", false);
                     pause();
                     break;
                 }
                 case 2:{
-                    system(".\\img\\\"Test Algorithm\"\\\"UGraph 2\"\\\"MST-Red.PNG\"");
                     TestKruskalPrim(&ugraph2, 2, "H", false);
                     pause();
                     break;
                 }
                 case 3:{
-                    system(".\\img\\\"Test Algorithm\"\\\"UGraph 3\"\\\"MST-Red.PNG\"");
                     TestKruskalPrim(&ugraph3, 3, "B", true);
                     pause();
                     break;
                 }
                 case 4:{
-                    system(".\\img\\\"Test Algorithm\"\\\"UGraph 1\"\\\"BFS(4)-Red.PNG\"");
                     TestBFS(&ugraph1, 1, "4", false);
                     pause();
                     break;
                 }
                 case 5:{
-                    system(".\\img\\\"Test Algorithm\"\\\"UGraph 2\"\\\"BFS(A)-Red.PNG\"");
                     TestBFS(&ugraph2, 2, "A", false);
                     pause();
                     break;
                 }
                 case 6:{
-                    system(".\\img\\\"Test Algorithm\"\\\"UGraph 3\"\\\"BFS(G)-Red.PNG\"");
-                    system(".\\img\\\"Test Algorithm\"\\\"UGraph 3\"\\\"BFS(complete)-Red.PNG\"");
+                    open_image(imgAlgorithmsPaths[66].c_str());
                     TestBFS(&ugraph3, 3, "G", true);
                     pause();
                     break;
                 }
                 case 7:{
-                    system(".\\img\\\"Test Algorithm\"\\\"DGraph 1\"\\\"BFS(A)-Red.PNG\"");
                     TestBFS(&dgraph1, 4, "A", false);
                     pause();
                     break;
                 }
                 case 8:{
-                    system(".\\img\\\"Test Algorithm\"\\\"UGraph 1\"\\\"DFS(4)-Red.PNG\"");
                     TestDFS(&ugraph1, 1, "4", false);
                     pause();
                     break;
                 }
                 case 9:{
-                    system(".\\img\\\"Test Algorithm\"\\\"UGraph 2\"\\\"DFS(A)-Red.PNG\"");
                     TestDFS(&ugraph2, 2, "A", false);
                     pause();
                     break;
                 }
                 case 10:{
-                    system(".\\img\\\"Test Algorithm\"\\\"UGraph 3\"\\\"DFS(G)-Red.PNG\"");
-                    system(".\\img\\\"Test Algorithm\"\\\"UGraph 3\"\\\"DFS(complete)-Red.PNG\"");
+                    open_image(imgAlgorithmsPaths[1010].c_str());
                     TestDFS(&ugraph3, 3, "G", true);
                     pause();
                     break;
                 }
                 case 11:{
-                    system(".\\img\\\"Test Algorithm\"\\\"DGraph 1\"\\\"DFS(A)-Red.PNG\"");
                     TestDFS(&dgraph1, 4, "A", false);
                     pause();
                     break;
                 }
                 case 12:{
-                    system(".\\img\\\"Test Algorithm\"\\\"DGraph 1\"\\\"SCC-Red.PNG\"");
                     TestCSS(&dgraph1, 1);
                     pause();
                     break;
                 }
                 case 13:{
-                    system(".\\img\\\"Test Algorithm\"\\\"DGraph 2\"\\\"SCC-Red.PNG\"");
                     TestCSS(&dgraph2, 2);
                     pause();
                     break;
                 }
                 case 14:{
-                    system(".\\img\\\"Test Algorithm\"\\\"UGraph 2\"\\\"Djkstra(A)-Red.PNG\"");
                     TestDijkstra(&ugraph2, 1, "A");
                     pause();
                     break;
                 }
                 case 15:{
-                    system(".\\img\\\"Test Algorithm\"\\\"DGraph 1\"\\\"Dijkstra(D)-Red.PNG\"");
                     TestDijkstra(&dgraph1, 2, "D");
                     pause();
                     break;
@@ -324,31 +312,26 @@ namespace Menu{
                     hn["G"] = 21;
                     hn["H"] = 19;
                     hn["I"] = 0;
-                    system(".\\img\\\"Test Algorithm\"\\\"UGraph 4\"\\\"Graph 4 - AStar result.PNG\"");
                     TestAStar(&ugraph4, 1, "A", "I", hn);
                     pause();
                     break;
                 }
                 case 17:{
-                    system(".\\img\\\"Test Algorithm\"\\\"UGraph 1\"\\\"FloydWarshall Result.PNG\"");
                     TestFloydWarshall(&ugraph1, 1);
                     pause();
                     break;
                 }
                 case 18:{
-                    system(".\\img\\\"Test Algorithm\"\\\"DGraph 1\"\\\"FloydWarshall Result.PNG\"");
                     TestFloydWarshall(&dgraph1, 2);
                     pause();
                     break;
                 }
                 case 19:{
-                    system(".\\img\\\"Test Algorithm\"\\\"UGraph 2\"\\\"Djkstra(A)-Red.PNG\"");
                     TestBellmanFord(&ugraph2, 1, "A");
                     pause();
                     break;
                 }
                 case 20:{
-                    system(".\\img\\\"Test Algorithm\"\\\"DGraph 3\"\\\"Graph 6.PNG\"");
                     TestBellmanFord(&dgraph3, 2, "A");
                     pause();
                     break;
