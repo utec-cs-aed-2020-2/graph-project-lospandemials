@@ -8,6 +8,7 @@
 #include "../Algorithms/DFS.h"
 #include "../Algorithms/SCC.h"
 #include "../Parser/parser.h"
+#include "../GraphicUserInterface/WindowRender.h"
 
 
 template<typename TV, typename TE>
@@ -463,7 +464,8 @@ namespace Menu{
                 std::cout << "\t5. Print one vertex by id.\n";
                 std::cout << "\t6. Print vertexes by country.\n";
                 std::cout << "\t7. Check for a path from 2 vertexes\n";
-                std::cout << "\t8. Back\n";
+                std::cout << "\t8. Display Airport GUI\n";
+                std::cout << "\t9. Back\n";
                 std::cout << "\nSelect option: ";
                 option = validInt();
                 console_clear();
@@ -544,10 +546,14 @@ namespace Menu{
                     pause();
                     break;
                 }
+                case 8:{
+                    GUI GraphicUserInterface;
+                    GraphicUserInterface.RenderAirportGraph(graph);
+                }
                 default:
                     break;
             }
-        }while(option != 8);
+        }while(option != 9);
     }
     
     template<typename TV, typename TE>
