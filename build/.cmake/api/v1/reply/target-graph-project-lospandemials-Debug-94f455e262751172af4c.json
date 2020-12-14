@@ -2,7 +2,7 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "grafo-prueba"
+			"path" : "graph-project-lospandemials"
 		}
 	],
 	"backtrace" : 1,
@@ -56,7 +56,7 @@
 			]
 		}
 	],
-	"id" : "grafo-prueba::@6890427a1f51a3e7e1df",
+	"id" : "graph-project-lospandemials::@6890427a1f51a3e7e1df",
 	"link" : 
 	{
 		"commandFragments" : 
@@ -72,8 +72,8 @@
 		],
 		"language" : "CXX"
 	},
-	"name" : "grafo-prueba",
-	"nameOnDisk" : "grafo-prueba",
+	"name" : "graph-project-lospandemials",
+	"nameOnDisk" : "graph-project-lospandemials",
 	"paths" : 
 	{
 		"build" : ".",

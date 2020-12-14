@@ -1,3 +1,3 @@
 /home/sebastian/projects/ASD/graph-project-lospandemials/build/CMakeFiles/rebuild_cache.dir
-/home/sebastian/projects/ASD/graph-project-lospandemials/build/CMakeFiles/grafo-prueba.dir
+/home/sebastian/projects/ASD/graph-project-lospandemials/build/CMakeFiles/graph-project-lospandemials.dir
 /home/sebastian/projects/ASD/graph-project-lospandemials/build/CMakeFiles/edit_cache.dir
