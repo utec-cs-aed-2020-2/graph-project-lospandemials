@@ -1,13 +1,14 @@
 #include <SFML/Graphics.hpp>
-#include "../lib.h"
+#include "../UndirectedGraph.h"
+
 
 using namespace std;
 
-double TransformLat(double latitude){
-    return (3.88888*latitude + 800);
+double TransformLon(double longitude){
+    return (3.88888*longitude + 800);
 }
 
-double TransformLon(double longitude){
+double TransformLat(double latitude){
     return (-4.44444*longitude + 500);
 }
 
@@ -30,12 +31,16 @@ void DrawConnection (double longitudeA, double latitudeA, double longitudeB, dou
 }
 
 
-void RenderAirportGraph(){
+void RenderAirportGraph(UnDirectedGraph<Airport, double> &tempGraph){
 sf::RenderWindow* window = new sf::RenderWindow (sf::VideoMode(1000,1600), "Graph Display");
 window->clear(sf::Color(255,255, 255, 255));
 
+for(auto vertex : tempGraph->vertexes){
+    double correctedLon = TransformLon(vertex->data->longitude);
+    double correctedLat = TransformLat(vertex->data->latitude);
 
-
+    DrawAirport(correctedLon, correctedLat);
+}
 
 
 sf::Event event;
