@@ -24,6 +24,8 @@ template<typename TV, typename TE>
 class Dijkstra;
 template<typename TV, typename TE>
 class FloydWarshall;
+template<typename TV, typename TE>
+class AStar;
 //////////////////////////////////////////////////////
 
 template<typename TV, typename TE>
@@ -93,6 +95,7 @@ public:
     friend class SCC<TV, TE>;
     friend class Dijkstra<TV, TE>;
     friend class FloydWarshall<TV, TE>;
+    friend class AStar<TV,TE>;
 };
 
 
