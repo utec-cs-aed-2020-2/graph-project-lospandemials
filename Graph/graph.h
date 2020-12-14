@@ -20,6 +20,14 @@ template<typename TV, typename TE>
 class DFS;
 template<typename TV, typename TE>
 class SCC;
+template<typename TV, typename TE>
+class Dijkstra;
+template<typename TV, typename TE>
+class FloydWarshall;
+template<typename TV, typename TE>
+class AStar;
+template<typename TV, typename TE>
+class BellmanFord;
 
 class GUI;
 //////////////////////////////////////////////////////
@@ -89,7 +97,13 @@ public:
     friend class BFS<TV, TE>;
     friend class DFS<TV, TE>;
     friend class SCC<TV, TE>;
+    friend class Dijkstra<TV, TE>;
+    friend class FloydWarshall<TV, TE>;
+    friend class AStar<TV,TE>;
+    friend class BellmanFord<TV,TE>;
+    
     friend class GUI;
+
 };
 
 
