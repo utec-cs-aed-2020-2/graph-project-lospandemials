@@ -5,6 +5,7 @@
 #include "../Algorithms/DFS.h"
 #include "../Algorithms/SCC.h"
 #include "../Algorithms/Dijkstra.h"
+#include "../Algorithms/AStar.h"
 #include "../Algorithms/FloydWarshall.h"
 
 template<typename TV, typename TE>
@@ -25,7 +26,8 @@ template<typename TV, typename TE>
 void TestCSS(DirectedGraph<TV, TE> &graph, int i);
 template<typename TV, typename TE>
 void TestDijkstra(Graph<TV, TE> &graph, int i, std::string id);
-
+template<typename TV, typename TE>
+void TestAStar(Graph<TV, TE> &graph, int i, std::string idFrom, std::string idTo, std::unordered_map<std::string, TE> hn);
 template<typename TV, typename TE>
 void TestFloydWarshall(Graph<TV, TE> &graph, int i);
 
@@ -167,6 +169,22 @@ void TestDijkstra(Graph<TV, TE> &graph, int i, std::string id){
         else
             std::cout << "Vertex: " << p.first->data << " (Parent: NA): " << distances[p.first] << "\n";
     }
+}
+
+template<typename TV, typename TE>
+void TestAStar(Graph<TV, TE> &graph, int i, std::string idFrom, std::string idTo, std::unordered_map<std::string, TE> hn){
+    std::cout << "\n----------------Graph " << i << "---------------\n";
+    graph.display();
+
+    std::cout << "\n-----------A* Test " << i << "------------\n";
+    AStar<char, int> astar(&graph);
+    returnAStarType res0 = astar.apply(idFrom, idTo, hn);
+    distanceUnorderedMapAStarType distances = res0.first;
+    parentUnorderedMapType parents = res0.second;
+
+    std::cout << "\nResultado A*:\n";
+    for(auto p : distances)
+        std::cout << p.first->data << " -> G(n): " << p.second.first << " | F(n): " << p.second.second << " Parent: " << parents[p.first]->data << "\n";
 }
 
 template<typename TV, typename TE>
