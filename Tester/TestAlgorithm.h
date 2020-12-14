@@ -7,13 +7,10 @@
 #include "../Algorithms/Dijkstra.h"
 #include "../Algorithms/AStar.h"
 #include "../Algorithms/FloydWarshall.h"
+#include "../Algorithms/BellmanFord.h"
 
 template<typename TV, typename TE>
 void TestKruskalPrim(UnDirectedGraph<TV, TE> &graph, int i, std::string id, bool complete);
-template<typename TV, typename TE>
-void TestDijkstra(Graph<TV, TE> &graph, int i, std::string id);
-template<typename TV, typename TE>
-void TestFloydWarshall(Graph<TV, TE> &graph, int i);
 template<typename TV, typename TE>
 void TestBFS(UnDirectedGraph<TV, TE> &graph, int i, std::string id, bool complete);
 template<typename TV, typename TE>
@@ -30,6 +27,8 @@ template<typename TV, typename TE>
 void TestAStar(Graph<TV, TE> &graph, int i, std::string idFrom, std::string idTo, std::unordered_map<std::string, TE> hn);
 template<typename TV, typename TE>
 void TestFloydWarshall(Graph<TV, TE> &graph, int i);
+template<typename TV, typename TE>
+void TestBellmanFord(Graph<TV, TE> &graph, int i, std::string id);
 
 template<typename TV, typename TE>
 void TestKruskalPrim(UnDirectedGraph<TV, TE> &graph, int i, std::string id, bool complete){
@@ -61,7 +60,6 @@ void TestKruskalPrim(UnDirectedGraph<TV, TE> &graph, int i, std::string id, bool
         else  std::cout << "\nPrim and Kruskal give DIFFERENT MST\n\n";
     }
 }
-
 
 template<typename TV, typename TE>
 void TestBFS(UnDirectedGraph<TV, TE> &graph, int i, std::string id, bool complete){
@@ -133,7 +131,6 @@ template<typename TV, typename TE>
 void TestCSS(DirectedGraph<TV, TE> &graph, int i){
     std::cout << "\n----------------Graph " << i << "---------------\n";
     graph.display();
-
     std::cout << "\n------------CSS Test " << i << "------------\n";
     SCC<char, int> scc(&graph);
     std::list<DirectedGraph<TV, TE>*> res0 = scc.apply();
@@ -155,7 +152,6 @@ void TestDijkstra(Graph<TV, TE> &graph, int i, std::string id){
     if(i) std::cout << "\n----------------Graph " << i << "---------------\n";
     else  std::cout << "\n----------------Graph Creator---------------\n";
     graph.display();
-
     std::cout << "\n---------Dijkstra Test " << i << "----------\n";
     Dijkstra<char, int> dijkstra(&graph);
     returnDijkstraType res0 = dijkstra.apply(id);
@@ -218,4 +214,24 @@ void TestFloydWarshall(Graph<TV, TE> &graph, int i){
             std::cout << std::setw(width) << paths[i.first][j.first];
         std::cout << "\n";
     }std::cout << "\n\n";
+}
+
+template<typename TV, typename TE>
+void TestBellmanFord(Graph<TV, TE> &graph, int i, std::string id){
+    std::cout << "\n----------------Graph " << i << "---------------\n";
+    graph.display();
+
+    std::cout << "\n---------BellmanFord Test " << i << "----------\n";
+    BellmanFord<char, int> bellmanford(&graph);
+    returnBellmanFordType res0 = bellmanford.apply(id);
+    parentUnorderedMapType parents = res0.first;
+    distanceUnorderedMapType distances = res0.second;
+
+    std::cout << "\nResultado BellmanFord:\n";
+    for(auto p : parents){
+        if(p.second)
+            std::cout << "Vertex: " << p.first->data << " (Parent: " << p.second->data << "): " << distances[p.first] << "\n";
+        else
+            std::cout << "Vertex: " << p.first->data << " (Parent: NA): " << distances[p.first] << "\n";
+    }
 }
