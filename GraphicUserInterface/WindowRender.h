@@ -1,5 +1,6 @@
 #include <SFML/Graphics.hpp>
-#include "../UndirectedGraph.h"
+#include "../Graph/UndirectedGraph.h"
+#include "../Airport/airport.h"
 
 
 using namespace std;
@@ -9,7 +10,7 @@ double TransformLon(double longitude){
 }
 
 double TransformLat(double latitude){
-    return (-4.44444*longitude + 500);
+    return (-4.44444*latitude + 500);
 }
 
 void DrawAirport(double longitude, double latitude, sf::RenderWindow* window){
@@ -30,16 +31,34 @@ void DrawConnection (double longitudeA, double latitudeA, double longitudeB, dou
     window->draw(line, 2, sf::Lines);
 }
 
+class GUI{
 
-void RenderAirportGraph(UnDirectedGraph<Airport, double> &tempGraph){
+void RenderAirportGraph(UnDirectedGraph<Airport, double> &tempGraph);
+
+};
+
+
+void GUI::RenderAirportGraph(UnDirectedGraph<Airport, double> &tempGraph){
 sf::RenderWindow* window = new sf::RenderWindow (sf::VideoMode(1000,1600), "Graph Display");
 window->clear(sf::Color(255,255, 255, 255));
 
-for(auto vertex : tempGraph->vertexes){
-    double correctedLon = TransformLon(vertex->data->longitude);
-    double correctedLat = TransformLat(vertex->data->latitude);
+for(auto vertex : tempGraph.vertexes){
+    for(auto edge : vertex.second->edges){
+        double correctedLonA = TransformLon(edge->vertexes[0]->data.getLongitude());
+        double correctedLatA = TransformLat(edge->vertexes[0]->data.getLongitude());
 
-    DrawAirport(correctedLon, correctedLat);
+        double correctedLonB = TransformLon(edge->vertexes[1]->data.getLongitude());
+        double correctedLatB = TransformLat(edge->vertexes[1]->data.getLongitude());
+
+        DrawConnection (correctedLonA, correctedLatA, correctedLonB, correctedLatB, window);
+    }
+}
+
+for(auto vertex : tempGraph.vertexes){
+    double correctedLon = TransformLon(vertex.second->data.getLongitude());
+    double correctedLat = TransformLat(vertex.second->data.getLatitude());
+
+    DrawAirport(correctedLon, correctedLat, window);
 }
 
 

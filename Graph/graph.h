@@ -20,6 +20,8 @@ template<typename TV, typename TE>
 class DFS;
 template<typename TV, typename TE>
 class SCC;
+
+class GUI;
 //////////////////////////////////////////////////////
 
 template<typename TV, typename TE>
@@ -87,6 +89,7 @@ public:
     friend class BFS<TV, TE>;
     friend class DFS<TV, TE>;
     friend class SCC<TV, TE>;
+    friend class GUI;
 };
 
 
