@@ -549,6 +549,7 @@ namespace Menu{
                 case 8:{
                     GUI GraphicUserInterface;
                     GraphicUserInterface.RenderAirportGraph(graph);
+                    break;
                 }
                 default:
                     break;
