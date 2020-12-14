@@ -33,6 +33,8 @@ void DrawConnection (double longitudeA, double latitudeA, double longitudeB, dou
 
 class GUI{
 
+public: 
+
 void RenderAirportGraph(UnDirectedGraph<Airport, double> &tempGraph);
 
 };
