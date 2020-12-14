@@ -73,4 +73,22 @@ void AStar<TV, TE>::AStarAlgorithm(distanceUnorderedMapAStarType &distancesAStar
     }
 }
 
+template<typename TV, typename TE>
+returnAStarType AStar<TV, TE>::apply(std::string idFrom, std::string idTo, std::unordered_map<std::string, TE> hn){
+    distanceUnorderedMapAStarType distancesAStar;
+    parentUnorderedMapType parents;
+
+    if(!this->vertexes.count(idFrom) || !this->vertexes.count(idTo)){
+        std::cout << "ERROR: IDs not found.\n";
+        return std::make_pair(distancesAStar, parents);
+    }
+
+    std::cout << "\nA* from vertex: " << this->vertexes[idFrom]->data;
+    std::cout << "\nto vertex: " << this->vertexes[idTo]->data << "\n";
+
+    AStarAlgorithm(distancesAStar, parents, hn, idFrom, idTo);
+
+    return std::make_pair(distancesAStar, parents);
+}
+
 #endif
