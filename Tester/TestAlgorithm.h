@@ -3,6 +3,7 @@
 #include "../Algorithms/Prim.h"
 #include "../Algorithms/Dijkstra.h"
 #include "../Algorithms/FloydWarshall.h"
+#include "../Algorithms/BFS.h"
 
 template<typename TV, typename TE>
 void TestKruskalPrim(UnDirectedGraph<TV, TE> &graph, int i, std::string id, bool complete);
@@ -10,6 +11,12 @@ template<typename TV, typename TE>
 void TestDijkstra(Graph<TV, TE> &graph, int i, std::string id);
 template<typename TV, typename TE>
 void TestFloydWarshall(Graph<TV, TE> &graph, int i);
+
+template<typename TV, typename TE>
+void TestBFS(UnDirectedGraph<TV, TE> &graph, int i, std::string id, bool complete);
+
+template<typename TV, typename TE>
+void TestBFS(DirectedGraph<TV, TE> &graph, int i, std::string id, bool complete);
 
 template<typename TV, typename TE>
 void TestKruskalPrim(UnDirectedGraph<TV, TE> &graph, int i, std::string id, bool complete){
@@ -42,18 +49,63 @@ void TestKruskalPrim(UnDirectedGraph<TV, TE> &graph, int i, std::string id, bool
     }
 }
 
+
+template<typename TV, typename TE>
+void TestBFS(UnDirectedGraph<TV, TE> &graph, int i, std::string id, bool complete){
+    std::cout << "\n----------------Graph " << i << "---------------\n";
+    graph.display();
+
+    std::cout << "\n-----------BFS Test " << i << "(\"" << id << "\")-----------\n";
+    BFS<char, int> bfs(&graph);
+    UnDirectedGraph<char, int> res0 = bfs.u_apply(id);
+    res0.display();
+    isConnectedMsg(res0.isConnected());
+
+    if(complete){
+        std::cout << "\n------------BFS Full " << i << "------------\n";
+        UnDirectedGraph<char, int> res1 = bfs.u_apply();
+        res1.display();
+        isConnectedMsg(res1.isConnected());
+
+        if(res0 == res1) std::cout << "\nBFS from " << id << " and full BFS give same trees\n\n";
+        else  std::cout << "\nBFS from " << id << " and full BFS give different trees\n\n";
+    }
+}
+
+template<typename TV, typename TE>
+void TestBFS(DirectedGraph<TV, TE> &graph, int i, std::string id, bool complete){
+    if(i) std::cout << "\n----------------Graph " << i << "---------------\n";
+    else  std::cout << "\n----------------Graph Creator---------------\n";
+    graph.display();
+
+    std::cout << "\n-----------BFS Test " << i << "(\"" << id << "\")-----------\n";
+    BFS<char, int> bfs(&graph);
+    DirectedGraph<char, int> res0 = bfs.d_apply(id);
+    res0.display();
+
+    if(complete){
+        std::cout << "\n------------BFS Full " << i << "------------\n";
+        DirectedGraph<char, int> res1 = bfs.u_apply();
+        res1.display();
+        isConnectedMsg(res1.isStronglyConnected());
+
+        if(res0 == res1) std::cout << "\nBFS from " << id << " and full BFS give same trees\n\n";
+        else  std::cout << "\nBFS from " << id << " and full BFS give different trees\n\n";
+    }
+}
+
 template<typename TV, typename TE>
 void TestDijkstra(Graph<TV, TE> &graph, int i, std::string id){
     if(i) std::cout << "\n----------------Graph " << i << "---------------\n";
     else  std::cout << "\n----------------Graph Creator---------------\n";
     graph.display();
-    
+
     std::cout << "\n---------Dijkstra Test " << i << "----------\n";
     Dijkstra<char, int> dijkstra(&graph);
     returnDijkstraType res0 = dijkstra.apply(id);
     parentUnorderedMapType parents = res0.first;
     distanceUnorderedMapType distances = res0.second;
-    
+
     std::cout << "\nResultado Dijkstra:\n";
     for(auto p : parents){
         if(p.second)
@@ -68,7 +120,7 @@ void TestFloydWarshall(Graph<TV, TE> &graph, int i){
     if(i) std::cout << "\n----------------Graph " << i << "---------------\n";
     else  std::cout << "\n----------------Graph Creator---------------\n";
     graph.display();
-    
+
     std::cout << "\n-------FloydWarshall Test " << i << "--------\n";
     FloydWarshall<char, int> floydwarshall(&graph);
     returnFloydWarshallType res0 = floydwarshall.apply();
