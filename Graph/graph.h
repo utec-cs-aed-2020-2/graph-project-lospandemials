@@ -26,6 +26,8 @@ template<typename TV, typename TE>
 class FloydWarshall;
 template<typename TV, typename TE>
 class AStar;
+template<typename TV, typename TE>
+class BellmanFord;
 //////////////////////////////////////////////////////
 
 template<typename TV, typename TE>
@@ -96,6 +98,7 @@ public:
     friend class Dijkstra<TV, TE>;
     friend class FloydWarshall<TV, TE>;
     friend class AStar<TV,TE>;
+    friend class BellmanFord<TV,TE>;
 };
 
 
