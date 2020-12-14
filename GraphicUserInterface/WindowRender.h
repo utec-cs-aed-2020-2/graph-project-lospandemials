@@ -1,13 +1,21 @@
 #include <SFML/Graphics.hpp>
-#include <iostream>
+#include "../lib.h"
 
 using namespace std;
 
+double TransformLat(double latitude){
+    return (3.88888*latitude + 800);
+}
+
+double TransformLon(double longitude){
+    return (-4.44444*longitude + 500);
+}
+
 void DrawAirport(double longitude, double latitude, sf::RenderWindow* window){
-    sf::CircleShape circle(25);
+    sf::CircleShape circle(10);
     circle.setFillColor(sf::Color::Cyan);
     circle.setPosition(longitude, latitude);
-    circle.setOrigin(25, 25);
+    circle.setOrigin(10, 10);
     window->draw(circle);
 }
 
@@ -22,8 +30,8 @@ void DrawConnection (double longitudeA, double latitudeA, double longitudeB, dou
 }
 
 
-void RenderGraph(){
-sf::RenderWindow* window = new sf::RenderWindow (sf::VideoMode(1000,1000), "Graph Display");
+void RenderAirportGraph(){
+sf::RenderWindow* window = new sf::RenderWindow (sf::VideoMode(1000,1600), "Graph Display");
 window->clear(sf::Color(255,255, 255, 255));
 
 
