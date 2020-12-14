@@ -26,7 +26,7 @@
 					[
 						0
 					],
-					"name" : "grafo-prueba",
+					"name" : "graph-project-lospandemials",
 					"targetIndexes" : 
 					[
 						0
@@ -37,9 +37,9 @@
 			[
 				{
 					"directoryIndex" : 0,
-					"id" : "grafo-prueba::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-grafo-prueba-Debug-eabec16c969c9fe02ad2.json",
-					"name" : "grafo-prueba",
+					"id" : "graph-project-lospandemials::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-graph-project-lospandemials-Debug-94f455e262751172af4c.json",
+					"name" : "graph-project-lospandemials",
 					"projectIndex" : 0
 				}
 			]

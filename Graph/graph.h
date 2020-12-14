@@ -28,6 +28,8 @@ template<typename TV, typename TE>
 class AStar;
 template<typename TV, typename TE>
 class BellmanFord;
+
+class GUI;
 //////////////////////////////////////////////////////
 
 template<typename TV, typename TE>
@@ -99,6 +101,9 @@ public:
     friend class FloydWarshall<TV, TE>;
     friend class AStar<TV,TE>;
     friend class BellmanFord<TV,TE>;
+    
+    friend class GUI;
+
 };
 
 

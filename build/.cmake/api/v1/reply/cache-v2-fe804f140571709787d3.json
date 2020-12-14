@@ -155,10 +155,10 @@
 				},
 				{
 					"name" : "HELPSTRING",
-					"value" : "CXX compiler"
+					"value" : "No help, variable specified on the command line."
 				}
 			],
-			"type" : "STRING",
+			"type" : "FILEPATH",
 			"value" : "/usr/bin/g++-7"
 		},
 		{
@@ -283,10 +283,10 @@
 				},
 				{
 					"name" : "HELPSTRING",
-					"value" : "C compiler"
+					"value" : "No help, variable specified on the command line."
 				}
 			],
-			"type" : "STRING",
+			"type" : "FILEPATH",
 			"value" : "/usr/bin/gcc-7"
 		},
 		{
@@ -847,7 +847,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "grafo-prueba"
+			"value" : "graph-project-lospandemials"
 		},
 		{
 			"name" : "CMAKE_RANLIB",
@@ -1143,6 +1143,30 @@
 		},
 		{
 			"name" : "grafo-prueba_SOURCE_DIR",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "Value Computed by CMake"
+				}
+			],
+			"type" : "STATIC",
+			"value" : "/home/sebastian/projects/ASD/graph-project-lospandemials"
+		},
+		{
+			"name" : "graph-project-lospandemials_BINARY_DIR",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "Value Computed by CMake"
+				}
+			],
+			"type" : "STATIC",
+			"value" : "/home/sebastian/projects/ASD/graph-project-lospandemials/build"
+		},
+		{
+			"name" : "graph-project-lospandemials_SOURCE_DIR",
 			"properties" : 
 			[
 				{

@@ -130,17 +130,17 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named grafo-prueba
+# Target rules for targets named graph-project-lospandemials
 
 # Build rule for target.
-grafo-prueba: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 grafo-prueba
-.PHONY : grafo-prueba
+graph-project-lospandemials: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 graph-project-lospandemials
+.PHONY : graph-project-lospandemials
 
 # fast build rule for target.
-grafo-prueba/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/grafo-prueba.dir/build.make CMakeFiles/grafo-prueba.dir/build
-.PHONY : grafo-prueba/fast
+graph-project-lospandemials/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/graph-project-lospandemials.dir/build.make CMakeFiles/graph-project-lospandemials.dir/build
+.PHONY : graph-project-lospandemials/fast
 
 main.o: main.cpp.o
 
@@ -148,7 +148,7 @@ main.o: main.cpp.o
 
 # target to build an object file
 main.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/grafo-prueba.dir/build.make CMakeFiles/grafo-prueba.dir/main.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/graph-project-lospandemials.dir/build.make CMakeFiles/graph-project-lospandemials.dir/main.cpp.o
 .PHONY : main.cpp.o
 
 main.i: main.cpp.i
@@ -157,7 +157,7 @@ main.i: main.cpp.i
 
 # target to preprocess a source file
 main.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/grafo-prueba.dir/build.make CMakeFiles/grafo-prueba.dir/main.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/graph-project-lospandemials.dir/build.make CMakeFiles/graph-project-lospandemials.dir/main.cpp.i
 .PHONY : main.cpp.i
 
 main.s: main.cpp.s
@@ -166,7 +166,7 @@ main.s: main.cpp.s
 
 # target to generate assembly for a file
 main.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/grafo-prueba.dir/build.make CMakeFiles/grafo-prueba.dir/main.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/graph-project-lospandemials.dir/build.make CMakeFiles/graph-project-lospandemials.dir/main.cpp.s
 .PHONY : main.cpp.s
 
 # Help Target
@@ -177,7 +177,7 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... grafo-prueba"
+	@echo "... graph-project-lospandemials"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"

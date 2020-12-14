@@ -57,6 +57,14 @@ public:
         os << o.name << " [" << o.city << ", " << o.country << "] ";
         return os;
     }
+
+    double getLatitude(){
+        return latitude;
+    }
+
+    double getLongitude(){
+        return longitude;
+    }
 };
 
 #endif
