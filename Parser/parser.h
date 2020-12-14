@@ -40,14 +40,39 @@ void Parser::readJSON(){
     std::ifstream datafile(this->path);
     json j = json::parse(datafile);
     
+    std::ifstream dataConflicts(pathConflicts);
+    json jConflicts = json::parse(dataConflicts);
+
     std::cout << "\nThere are " << j.size() << " airpoirts in the jsonfile.\n";
     for(auto p : j){
         double longitude = 0.0, latitude = 0.0;
         std::string strLongitude = p["Longitude"].get<std::string>();
         std::string strLatitude = p["Latitude"].get<std::string>();
-        if(strLongitude != "GVNP") longitude = atof(strLongitude.c_str());
-        if(strLatitude != "GVNP") latitude = atof(strLatitude.c_str());
+        
+        if((strLongitude[0] - '0' < 0 || strLongitude[0] - '0' > 9) && strLongitude[0] != '-'){
+            std::cout << "\nProblem with airport: " << p["Name"].get<std::string>() << " (" << p["Country"].get<std::string>() << ") - Longitude = " << strLongitude << "\n";
+            if(jConflicts.contains(strLongitude)){
+                std::cout << "Problem solved with conflicts.json\n";
+                std::string strLongitudeConflict = jConflicts[strLongitude].get<std::string>();
+                longitude = atof(strLongitudeConflict.c_str());
+            }else{
+                std::cout << "Discarded airport due longitude.\n";
+                continue;
+            }
+        }else   longitude = atof(strLongitude.c_str());
 
+        if((strLatitude[0] - '0' < 0 || strLatitude[0] - '0' > 9) && strLatitude[0] != '-'){
+            std::cout << "\nProblem with airport: " << p["Name"].get<std::string>() << " (" << p["Country"].get<std::string>() << ") - Latitude = " << strLatitude << "\n";
+            if(jConflicts.contains(strLatitude)){
+                std::cout << "Problem solved with conflicts.json\n";
+                std::string strLatitudeConflict = jConflicts[strLatitude].get<std::string>();
+                latitude = atof(strLatitudeConflict.c_str());
+            }else{
+                std::cout << "Discarded airport due latitude.\n";
+                continue;
+            }
+        }else   latitude = atof(strLatitude.c_str());
+        
         Airport airport(p["City"].get<std::string>(), 
                         p["Name"].get<std::string>(), 
                         p["Country"].get<std::string>(), 

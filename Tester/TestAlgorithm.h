@@ -10,17 +10,13 @@
 #include "../Algorithms/BellmanFord.h"
 
 template<typename TV, typename TE>
-void TestKruskalPrim(UnDirectedGraph<TV, TE> &graph, int i, std::string id, bool complete);
+void TestKruskalPrim(Graph<TV, TE> *graph, int i, std::string id, bool complete);
 template<typename TV, typename TE>
-void TestBFS(UnDirectedGraph<TV, TE> &graph, int i, std::string id, bool complete);
+void TestBFS(Graph<TV, TE> *graph, int i, std::string id, bool complete);
 template<typename TV, typename TE>
-void TestBFS(DirectedGraph<TV, TE> &graph, int i, std::string id, bool complete);
+void TestDFS(Graph<TV, TE> *graph, int i, std::string id, bool complete);
 template<typename TV, typename TE>
-void TestDFS(UnDirectedGraph<TV, TE> &graph, int i, std::string id, bool complete);
-template<typename TV, typename TE>
-void TestDFS(DirectedGraph<TV, TE> &graph, int i, std::string id, bool complete);
-template<typename TV, typename TE>
-void TestCSS(DirectedGraph<TV, TE> &graph, int i);
+void TestCSS(Graph<TV, TE> *graph, int i);
 template<typename TV, typename TE>
 void TestDijkstra(Graph<TV, TE> &graph, int i, std::string id);
 template<typename TV, typename TE>
@@ -31,20 +27,23 @@ template<typename TV, typename TE>
 void TestBellmanFord(Graph<TV, TE> &graph, int i, std::string id);
 
 template<typename TV, typename TE>
-void TestKruskalPrim(UnDirectedGraph<TV, TE> &graph, int i, std::string id, bool complete){
+void TestKruskalPrim(Graph<TV, TE> *graph, int i, std::string id, bool complete){
+    DirectedGraph<TV, TE>* dgraph = dynamic_cast<DirectedGraph<TV, TE>*>(graph);
+    if(dgraph)  return;
+    UnDirectedGraph<TV, TE>* ugraph = dynamic_cast<UnDirectedGraph<TV, TE>*>(graph);
+
     std::cout << "\n----------------Graph " << i << "---------------\n";
-    graph.display();
+    ugraph->display();
 
     std::cout << "\n------------Kruskal Test " << i << "------------\n";
-    Kruskal<char, int> kruskal(&graph);
-    UnDirectedGraph<char, int> resultK = kruskal.apply();
-    resultK.display();
+    Kruskal<TV, TE> kruskal(ugraph);
+    UnDirectedGraph<TV, TE> resultK = kruskal.apply();
+    resultK.display(); 
     isConnectedMsg(resultK.isConnected());
 
-    //TODO: revisar implementacion
     std::cout << "\n-----------Prim Test " << i << "(\"" << id << "\")-----------\n";
-    Prim<char, int> prim(&graph);
-    UnDirectedGraph<char, int> resultP = prim.apply(id);
+    Prim<TV, TE> prim(ugraph);
+    UnDirectedGraph<TV, TE> resultP = prim.apply(id);
     resultP.display();
     isConnectedMsg(resultP.isConnected());
 
@@ -52,87 +51,106 @@ void TestKruskalPrim(UnDirectedGraph<TV, TE> &graph, int i, std::string id, bool
     else  std::cout << "\nPrim and Kruskal give DIFFERENT MST\n\n";
 
     if(complete){
-        UnDirectedGraph<char, int> resultPcomplete = prim.apply();
+        UnDirectedGraph<TV, TE> resultPcomplete = prim.apply();
         resultPcomplete.display();
         isConnectedMsg(resultPcomplete.isConnected());
-
+        
         if(resultK == resultPcomplete) std::cout << "\nPrim and Kruskal give EQUAL MST\n\n";
         else  std::cout << "\nPrim and Kruskal give DIFFERENT MST\n\n";
     }
 }
 
 template<typename TV, typename TE>
-void TestBFS(UnDirectedGraph<TV, TE> &graph, int i, std::string id, bool complete){
-    std::cout << "\n----------------Graph " << i << "---------------\n";
-    graph.display();
+void TestBFS(Graph<TV, TE> *graph, int i, std::string id, bool complete){
+    if(i) std::cout << "\n----------------Graph " << i << "---------------\n";
+    else  std::cout << "\n----------------Graph Creator---------------\n";
+    graph->display();
+    
+    int option = 0;
+    UnDirectedGraph<TV, TE>* ugraph = dynamic_cast<UnDirectedGraph<TV, TE>*>(graph);
+    if(ugraph)  option = 1;    
 
     std::cout << "\n-----------BFS Test " << i << "(\"" << id << "\")-----------\n";
-    BFS<char, int> bfs(&graph);
-    UnDirectedGraph<char, int> res0 = bfs.u_apply(id);
-    res0.display();
-    isConnectedMsg(res0.isConnected());
-
-    if(complete){
-        std::cout << "\n------------BFS Full " << i << "------------\n";
-        UnDirectedGraph<char, int> res1 = bfs.u_apply();
-        res1.display();
-        isConnectedMsg(res1.isConnected());
-
-        if(res0 == res1) std::cout << "\nBFS from " << id << " and full BFS give same trees\n\n";
-        else  std::cout << "\nBFS from " << id << " and full BFS give different trees\n\n";
+    BFS<TV, TE> bfs(graph);
+    
+    if(option == 1){
+        UnDirectedGraph<TV, TE> res0 = bfs.u_apply(id);
+        res0.display();
+        isConnectedMsg(res0.isConnected());
+        if(complete){
+            std::cout << "\n------------BFS Full " << i << "------------\n";
+            UnDirectedGraph<TV, TE> res1 = bfs.u_apply();
+            res1.display();
+            isConnectedMsg(res1.isConnected());
+            if(res0 == res1) std::cout << "\nBFS from " << id << " and full BFS give same trees.\n\n";
+            else  std::cout << "\nBFS from " << id << " and full BFS give different trees.\n\n";
+        }
+    }else{
+        DirectedGraph<TV, TE> res0 = bfs.d_apply(id);
+        res0.display();
+        isConnectedMsg(res0.isConnected());
+        if(complete){
+            std::cout << "\n------------BFS Full " << i << "------------\n";
+            DirectedGraph<TV, TE> res1 = bfs.d_apply();
+            res1.display();
+            isConnectedMsg(res1.isConnected());
+            if(res0 == res1) std::cout << "\nBFS from " << id << " and full BFS give same trees.\n\n";
+            else  std::cout << "\nBFS from " << id << " and full BFS give different trees.\n\n";
+        }
     }
 }
 
 template<typename TV, typename TE>
-void TestBFS(DirectedGraph<TV, TE> &graph, int i, std::string id, bool complete){
-    std::cout << "\n----------------Graph " << i << "---------------\n";
-    graph.display();
-
-    std::cout << "\n-----------BFS Test " << i << "(\"" << id << "\")-----------\n";
-    BFS<char, int> bfs(&graph);
-    DirectedGraph<char, int> res0 = bfs.d_apply(id);
-    res0.display();
-}
-
-template<typename TV, typename TE>
-void TestDFS(UnDirectedGraph<TV, TE> &graph, int i, std::string id, bool complete){
-    std::cout << "\n----------------Graph " << i << "---------------\n";
-    graph.display();
+void TestDFS(Graph<TV, TE> *graph, int i, std::string id, bool complete){
+    if(i) std::cout << "\n----------------Graph " << i << "---------------\n";
+    else  std::cout << "\n----------------Graph Creator---------------\n";
+    graph->display();
+    
+    int option = 0;
+    UnDirectedGraph<TV, TE>* ugraph = dynamic_cast<UnDirectedGraph<TV, TE>*>(graph);
+    if(ugraph)  option = 1;    
 
     std::cout << "\n-----------DFS Test " << i << "(\"" << id << "\")-----------\n";
-    DFS<char, int> dfs(&graph);
-    UnDirectedGraph<char, int> res0 = dfs.u_apply(id);
-    res0.display();
-    isConnectedMsg(res0.isConnected());
-
-    if(complete){
-        std::cout << "\n------------DFS Full " << i << "------------\n";
-        UnDirectedGraph<char, int> res1 = dfs.u_apply();
-        res1.display();
-        isConnectedMsg(res1.isConnected());
-
-        if(res0 == res1) std::cout << "\nDFS from " << id << " and full DFS give same trees\n\n";
-        else  std::cout << "\nDFS from " << id << " and full DFS give different trees\n\n";
+    DFS<TV, TE> dfs(graph);
+    
+    if(option == 1){
+        UnDirectedGraph<TV, TE> res0 = dfs.u_apply(id);
+        res0.display();
+        isConnectedMsg(res0.isConnected());
+        if(complete){
+            std::cout << "\n------------DFS Full " << i << "------------\n";
+            UnDirectedGraph<TV, TE> res1 = dfs.u_apply();
+            res1.display();
+            isConnectedMsg(res1.isConnected());
+            if(res0 == res1) std::cout << "\nDFS from " << id << " and full DFS give same trees.\n\n";
+            else  std::cout << "\nDFS from " << id << " and full DFS give different trees.\n\n";
+        }
+    }else{
+        DirectedGraph<TV, TE> res0 = dfs.d_apply(id);
+        res0.display();
+        isConnectedMsg(res0.isConnected());
+        if(complete){
+            std::cout << "\n------------DFS Full " << i << "------------\n";
+            DirectedGraph<TV, TE> res1 = dfs.d_apply();
+            res1.display();
+            isConnectedMsg(res1.isConnected());
+            if(res0 == res1) std::cout << "\nDFS from " << id << " and full DFS give same trees.\n\n";
+            else  std::cout << "\nDFS from " << id << " and full DFS give different trees.\n\n";
+        }
     }
 }
 
 template<typename TV, typename TE>
-void TestDFS(DirectedGraph<TV, TE> &graph, int i, std::string id, bool complete){
-    std::cout << "\n----------------Graph " << i << "---------------\n";
-    graph.display();
+void TestCSS(Graph<TV, TE> *graph, int i){
+    UnDirectedGraph<TV, TE>* ugraph = dynamic_cast<UnDirectedGraph<TV, TE>*>(graph);
+    if(ugraph)  return;
 
-    std::cout << "\n-----------DFS Test " << i << "(\"" << id << "\")-----------\n";
-    DFS<char, int> dfs(&graph);
-    DirectedGraph<char, int> res0 = dfs.d_apply(id);
-    res0.display();
-}
-
-template<typename TV, typename TE>
-void TestCSS(DirectedGraph<TV, TE> &graph, int i){
-    std::cout << "\n----------------Graph " << i << "---------------\n";
-    graph.display();
+    if(i) std::cout << "\n----------------Graph " << i << "---------------\n";
+    else  std::cout << "\n----------------Graph Creator---------------\n";
+    graph->display();
+    
     std::cout << "\n------------CSS Test " << i << "------------\n";
-    SCC<char, int> scc(&graph);
+    SCC<TV, TE> scc(graph);
     std::list<DirectedGraph<TV, TE>*> res0 = scc.apply();
     char show;
     std::cout << "\nDo you want to see the graphs? (Y/N): ";
@@ -148,16 +166,17 @@ void TestCSS(DirectedGraph<TV, TE> &graph, int i){
 }
 
 template<typename TV, typename TE>
-void TestDijkstra(Graph<TV, TE> &graph, int i, std::string id){
+void TestDijkstra(Graph<TV, TE> *graph, int i, std::string id){
     if(i) std::cout << "\n----------------Graph " << i << "---------------\n";
     else  std::cout << "\n----------------Graph Creator---------------\n";
-    graph.display();
+    graph->display();
+    
     std::cout << "\n---------Dijkstra Test " << i << "----------\n";
-    Dijkstra<char, int> dijkstra(&graph);
+    Dijkstra<TV, TE> dijkstra(graph);
     returnDijkstraType res0 = dijkstra.apply(id);
     parentUnorderedMapType parents = res0.first;
     distanceUnorderedMapType distances = res0.second;
-
+    
     std::cout << "\nResultado Dijkstra:\n";
     for(auto p : parents){
         if(p.second)
@@ -168,29 +187,30 @@ void TestDijkstra(Graph<TV, TE> &graph, int i, std::string id){
 }
 
 template<typename TV, typename TE>
-void TestAStar(Graph<TV, TE> &graph, int i, std::string idFrom, std::string idTo, std::unordered_map<std::string, TE> hn){
-    std::cout << "\n----------------Graph " << i << "---------------\n";
-    graph.display();
-
+void TestAStar(Graph<TV, TE> *graph, int i, std::string idFrom, std::string idTo, std::unordered_map<std::string, TE> hn){
+    if(i) std::cout << "\n----------------Graph " << i << "---------------\n";
+    else  std::cout << "\n----------------Graph Creator---------------\n";
+    graph->display();
+    
     std::cout << "\n-----------A* Test " << i << "------------\n";
-    AStar<char, int> astar(&graph);
+    AStar<TV, TE> astar(graph);
     returnAStarType res0 = astar.apply(idFrom, idTo, hn);
     distanceUnorderedMapAStarType distances = res0.first;
     parentUnorderedMapType parents = res0.second;
-
+    
     std::cout << "\nResultado A*:\n";
     for(auto p : distances)
         std::cout << p.first->data << " -> G(n): " << p.second.first << " | F(n): " << p.second.second << " Parent: " << parents[p.first]->data << "\n";
 }
 
 template<typename TV, typename TE>
-void TestFloydWarshall(Graph<TV, TE> &graph, int i){
+void TestFloydWarshall(Graph<TV, TE> *graph, int i){
     if(i) std::cout << "\n----------------Graph " << i << "---------------\n";
     else  std::cout << "\n----------------Graph Creator---------------\n";
-    graph.display();
-
+    graph->display();
+    
     std::cout << "\n-------FloydWarshall Test " << i << "--------\n";
-    FloydWarshall<char, int> floydwarshall(&graph);
+    FloydWarshall<TV, TE> floydwarshall(graph);
     returnFloydWarshallType res0 = floydwarshall.apply();
     distanceMatrixType distances = res0.first;
     pathMatrixType paths = res0.second;
@@ -217,12 +237,13 @@ void TestFloydWarshall(Graph<TV, TE> &graph, int i){
 }
 
 template<typename TV, typename TE>
-void TestBellmanFord(Graph<TV, TE> &graph, int i, std::string id){
-    std::cout << "\n----------------Graph " << i << "---------------\n";
-    graph.display();
-
+void TestBellmanFord(Graph<TV, TE> *graph, int i, std::string id){
+    if(i) std::cout << "\n----------------Graph " << i << "---------------\n";
+    else  std::cout << "\n----------------Graph Creator---------------\n";
+    graph->display();
+    
     std::cout << "\n---------BellmanFord Test " << i << "----------\n";
-    BellmanFord<char, int> bellmanford(&graph);
+    BellmanFord<TV, TE> bellmanford(graph);
     returnBellmanFordType res0 = bellmanford.apply(id);
     parentUnorderedMapType parents = res0.first;
     distanceUnorderedMapType distances = res0.second;

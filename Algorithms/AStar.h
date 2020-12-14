@@ -34,9 +34,9 @@ AStar<TV, TE>::AStar(Graph<TV, TE>* graph){
 template<typename TV, typename TE>
 void AStar<TV, TE>::AStarAlgorithm(distanceUnorderedMapAStarType &distancesAStar, parentUnorderedMapType &parents, std::unordered_map<std::string, TE> hn, std::string idFrom, std::string idTo){
     std::priority_queue<
-            std::pair<Vertex<TV, TE>*, TE>,
-            std::vector<std::pair<Vertex<TV, TE>*, TE> >,
-    ComparePairVertexTE<TV, TE>> pq;
+        std::pair<Vertex<TV, TE>*, TE>,
+        std::vector<std::pair<Vertex<TV, TE>*, TE> >,
+        ComparePairVertexTE<TV, TE>> pq;
     std::unordered_map<Vertex<TV, TE>*, bool> visited;
     for(auto p : this->vertexes)    visited[p.second] = false;
     parents[this->vertexes[idFrom]] = this->vertexes[idFrom];

@@ -15,7 +15,7 @@ private:
     void SCCAlgorithm(std::string id);
 public:
     SCC(Graph<TV, TE>* graph);
-    std::list<DirectedGraph<TV, TE>*> apply();
+    returnSCCType apply();
 };
 
 template<typename TV, typename TE>
@@ -58,8 +58,8 @@ void SCC<TV, TE>::SCCAlgorithm(std::string id){
 }
 
 template<typename TV, typename TE>
-std::list<DirectedGraph<TV, TE>*> SCC<TV, TE>::apply(){
-    std::list<DirectedGraph<TV, TE>*> result;
+returnSCCType SCC<TV, TE>::apply(){
+    returnSCCType result;
     
     this->idDFS = 0;
     for(auto p : this->vertexes){

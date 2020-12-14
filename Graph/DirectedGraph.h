@@ -85,7 +85,7 @@ bool DirectedGraph<TV, TE>::isWeaklyConnected(){
     // Check if its connected
     // if not return false
     // else return true
-    if(this->vertexes.empty()) throw std::runtime_error("RUNTIME ERROR: Graph is empty.");
+    if(this->vertexes.size() <= 1) return false;
 
     UnDirectedGraph<TV,TE> ugraph1;
 

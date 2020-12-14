@@ -36,6 +36,7 @@
 #define returnDijkstraType std::pair<parentUnorderedMapType, distanceUnorderedMapType>
 #define returnAStarType std::pair<distanceUnorderedMapAStarType, parentUnorderedMapType>
 #define returnBellmanFordType std::pair<parentUnorderedMapType, distanceUnorderedMapType>
+#define returnSCCType std::list<DirectedGraph<TV, TE>*>
 
 bool check(int option, int inf, int sup){
     return option >= inf && option <= sup;
@@ -53,9 +54,19 @@ void console_clear(){
 #endif
 }
 
+std::string pathPe = "Parser/Data/pe.json";
+std::string pathAirports = "Parser/Data/airports.json";
+std::string pathConflicts = "Parser/Data/conflicts.json";
+
 void open_image(const char img_path[]){
 #ifdef _WIN32
-    system(".\\" + img_path);
+    std::string str1(img_path);
+    std::string str2 = "";
+    str2 += '.';
+    str2 += '\\';
+    str2 += '\\';
+    const char * command =  str2.c_str();
+    system(command);
 #else
     system(&"xdg-open" [ *img_path]);
 #endif

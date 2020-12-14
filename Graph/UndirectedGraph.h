@@ -8,12 +8,12 @@ class UnDirectedGraph : public Graph<TV, TE>{
 public:
     UnDirectedGraph() {}
     ~UnDirectedGraph(){}
-
     bool createEdge(std::string id1, std::string id2, TE w) override;
     bool deleteEdge(std::string id1, std::string id2) override;
     bool isConnected() override;
     bool isStronglyConnected() override;
     bool isBipartite() override;
+    bool isWeaklyConnected() override;
     void display() override;
 };
 
@@ -78,6 +78,12 @@ bool UnDirectedGraph<TV, TE>::isConnected(){
 
 template<typename TV, typename TE>
 bool UnDirectedGraph<TV, TE>::isStronglyConnected(){
+    std::cout << "\n--- ERROR: This is undirected graph\n";
+    return false;
+}
+
+template<typename TV, typename TE>
+bool UnDirectedGraph<TV, TE>::isWeaklyConnected(){
     std::cout << "\n--- ERROR: This is undirected graph\n";
     return false;
 }

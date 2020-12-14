@@ -86,10 +86,12 @@ public:
     virtual bool isConnected() = 0;
     virtual bool isStronglyConnected() = 0;
     virtual bool isBipartite() = 0;
+    virtual bool isWeaklyConnected() = 0;
     bool empty();
     void clear();
     virtual void display() = 0;
     void graphSize();
+    int numberOfVertexes();
     bool operator==(Graph& graph);
 
     friend class Prim<TV, TE>;
@@ -243,6 +245,11 @@ void Graph<TV, TE>::graphSize(){
     int edges = 0;
     for(auto p : this->vertexes)  edges += p.second->edges.size();
     std::cout << "Graph size: " << this->vertexes.size() << " vertices - " << edges << " edges\n";
+}
+
+template<typename TV, typename TE>
+int Graph<TV, TE>::numberOfVertexes(){
+    return this->vertexes.size();
 }
 
 template<typename TV, typename TE>
