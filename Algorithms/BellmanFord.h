@@ -31,4 +31,16 @@ bool BellmanFord<TV, TE>::BellmanFordRelax(distanceUnorderedMapType &distances, 
     return flag;
 }
 
+template<typename TV, typename TE>
+void BellmanFord<TV, TE>::BellmanFordAlgorithm(distanceUnorderedMapType &distances, parentUnorderedMapType &parents, std::vector<std::string> order){
+    TE maxVal = INF;
+    for(int i=1; i<this->vertexes.size(); ++i){
+        if(!BellmanFordRelax(distances, parents, order)) break;
+    }
+
+    if(BellmanFordRelax(distances, parents, order))
+        std::cout << "\n.......¡Negative cycle found!.......\n";
+}
+
+
 #endif
