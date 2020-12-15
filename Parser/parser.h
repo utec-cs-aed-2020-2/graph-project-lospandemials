@@ -28,6 +28,7 @@ public:
     void showIDs();
     void showCountries();
     std::vector<std::string> airportsCountry(std::string id);
+    std::unordered_map<std::string, double> heuristic(std::string id);
 };
 
 void Parser::clear(){
@@ -131,4 +132,17 @@ std::vector<std::string> Parser::airportsCountry(std::string id){
     return result;
 }
 
+std::unordered_map<std::string, double> Parser::heuristic(std::string id){
+    std::unordered_map<std::string, double> heuristic;
+    if(!this->data.count(id)){
+        std::cout << "\n--- ERROR: ID not found.\n";
+        return heuristic;
+    }
+
+    std::cout << "\nCreating heuristic for each ID\n";
+    Airport to = this->data[id];
+    for(auto p : this->data)
+        heuristic[p.first] = to - p.second;
+    return heuristic;
+}
 #endif

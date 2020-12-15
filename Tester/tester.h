@@ -7,18 +7,6 @@
 #include "TestGraph.h"
 //#include "../GraphicUserInterface/WindowRender.h"
 
-template<typename TV, typename TE>
-void showGraph(UnDirectedGraph<TV, TE> &graph){
-    graph.graphSize();
-    char show;
-    std::cout << "\nDo you want to see the graph? (Y/N): ";
-    std::cin >> show;
-    if(show == 'Y' || show == 'y'){
-        graph.display();
-        isConnectedMsg(graph.isConnected());
-    }
-}
-
 namespace Menu{
     void Functions(UnDirectedGraph<char, int> &ugraph1, UnDirectedGraph<char, int> &ugraph2,
                    UnDirectedGraph<char, int> &ugraph3, DirectedGraph<char, int> &dgraph1,
@@ -355,12 +343,18 @@ namespace Menu{
                 std::cout << "\t5. Print one vertex by id.\n";
                 std::cout << "\t6. Print vertexes by country.\n";
                 std::cout << "\t7. Check for a path from 2 vertexes\n";
-                std::cout << "\t8. Display Airport GUI\n";
-                std::cout << "\t9. Back\n";
+                std::cout << "\t8. Apply BFS.\n";
+                std::cout << "\t9. Apply DFS.\n";
+                std::cout << "\t10. Apply Dijkstra.\n";
+                std::cout << "\t11. Apply A*.\n";
+                std::cout << "\t12. Apply Bellman-Ford.\n";
+                std::cout << "\t13. Apply Floyd-Warshall.\n";
+                std::cout << "\t14. Display Airport GUI\n";
+                std::cout << "\t15. Back\n";
                 std::cout << "\nSelect option: ";
                 option = validInt();
                 console_clear();
-            }while(!check(option, 1, 9));
+            }while(!check(option, 1, 15));
             if(cond)  menu3();
             else  menu4();
 
@@ -438,6 +432,64 @@ namespace Menu{
                     break;
                 }
                 case 8:{
+                    std::cout << "\n-----------BFS-----------\n\n";
+                    parser.showIDs();
+                    std::string id;
+                    std::cout << "\nInsert ID: ";
+                    std::cin >> id;
+                    TestBFS(&graph, -1, id, false);
+                    pause();
+                    break;
+                }
+                case 9:{
+                    std::cout << "\n-----------DFS-----------\n\n";
+                    parser.showIDs();
+                    std::string id;
+                    std::cout << "\nInsert ID: ";
+                    std::cin >> id;
+                    TestDFS(&graph, -1, id, false);
+                    pause();
+                    break;
+                }
+                case 10:{
+                    std::cout << "\n-----------Dijkstra-----------\n\n";
+                    parser.showIDs();
+                    std::string id;
+                    std::cout << "\nInsert ID: ";
+                    std::cin >> id;
+                    TestDijkstra(&graph, -1, id);
+                    pause();
+                    break;
+                }
+                case 11:{
+                    std::cout << "\n-----------A*-----------\n\n";
+                    parser.showIDs();
+                    std::string idFrom, idTo;
+                    std::cout << "\nInsert origin's ID and destiny's ID: ";
+                    std::cin >> idFrom >> idTo;
+                    
+                    std::unordered_map<std::string, double> heuristic = parser.heuristic(idTo);
+                    TestAStar(&graph, -1, idFrom, idTo, heuristic);
+                    pause();
+                    break;
+                }
+                case 12:{
+                    std::cout << "\n-----------Bellman Ford-----------\n\n";
+                    parser.showIDs();
+                    std::string id;
+                    std::cout << "\nInsert ID: ";
+                    std::cin >> id;
+                    TestBellmanFord(&graph, -1, id);
+                    pause();
+                    break;
+                }
+                case 13:{
+                    std::cout << "\n-----------Floyd Warshall-----------\n\n";
+                    TestFloydWarshall(&graph, -1);
+                    pause();
+                    break;
+                }
+                case 14:{
                     //GUI GraphicUserInterface;
                     //GraphicUserInterface.RenderAirportGraph(graph);
                     break;
@@ -445,7 +497,7 @@ namespace Menu{
                 default:
                     break;
             }
-        }while(option != 9);
+        }while(option != 15);
     }
     
     template<typename TV, typename TE>

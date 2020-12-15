@@ -39,15 +39,15 @@
 #define returnSCCType std::list<DirectedGraph<TV, TE>*>
 
 #ifdef _WIN32
-#include<windows.h>
+    #include <windows.h>
 #endif
 
 void console_clear(){
-#ifdef _WIN32
-    system("cls");
-#else
-    system("clear");
-#endif
+    #ifdef _WIN32
+        system("cls");
+    #else
+        system("clear");
+    #endif
 }
 
 bool check(int option, int inf, int sup){
@@ -99,18 +99,16 @@ void config(){
 }
 
 void open_image(const char img_path[]){
-#ifdef _WIN32
-    std::string str1(img_path);
-    std::string str2 = "";
-    str2 += '.';
-    str2 += '\\';
-    str2 += '\\';
-    const char * command =  str2.c_str();
-    system(command);
-#else
-    //system("xdg-open ../img/MST-Red.PNG");
-    system(&"xdg-open" [ *img_path]);
-#endif
+    #ifdef _WIN32
+        std::string str1(img_path);
+        std::string str2 = ".\\\\";
+        str2 += str1;
+        const char * command =  str2.c_str();
+        system(command);
+    #else
+        //system("xdg-open ../img/MST-Red.PNG");
+        system(&"xdg-open" [ *img_path]);
+    #endif
 }
 
 void isConnectedMsg(bool cond){

@@ -27,6 +27,20 @@ template<typename TV, typename TE>
 void TestBellmanFord(Graph<TV, TE> &graph, int i, std::string id);
 
 template<typename TV, typename TE>
+void showGraph(Graph<TV, TE> *graph);
+template<typename TV, typename TE>
+void showGraph(UnDirectedGraph<TV, TE> &graph);
+template<typename TV, typename TE>
+void showGraph(DirectedGraph<TV, TE> &graph);
+
+template<typename TV, typename TE, typename R>
+Vertex<TV, TE>* findVertex(std::unordered_map<Vertex<TV, TE>*, R> someMap, std::string id);
+template<typename TV, typename TE>
+void findPath1(parentUnorderedMapType &parents, distanceUnorderedMapType &distances, std::string id);
+template<typename TV, typename TE>
+void findPathAStar(parentUnorderedMapType &parents, distanceUnorderedMapAStarType &distances, std::string idFrom, std::string idTo);
+    
+template<typename TV, typename TE>
 void TestKruskalPrim(Graph<TV, TE> *graph, int i, std::string id, bool complete){
     DirectedGraph<TV, TE>* dgraph = dynamic_cast<DirectedGraph<TV, TE>*>(graph);
     if(dgraph)  return;
@@ -62,9 +76,12 @@ void TestKruskalPrim(Graph<TV, TE> *graph, int i, std::string id, bool complete)
 
 template<typename TV, typename TE>
 void TestBFS(Graph<TV, TE> *graph, int i, std::string id, bool complete){
-    if(i) std::cout << "\n----------------Graph " << i << "---------------\n";
-    else  std::cout << "\n----------------Graph Creator---------------\n";
-    graph->display();
+    if(i == -1) std::cout << "\n----------------Airports---------------\n";
+    else if(i == 0) std::cout << "\n----------------Graph Creator---------------\n";
+    else std::cout << "\n----------------Graph " << i << "---------------\n"; 
+    
+    if(i == -1) showGraph(graph);
+    else graph->display();
     
     int option = 0;
     UnDirectedGraph<TV, TE>* ugraph = dynamic_cast<UnDirectedGraph<TV, TE>*>(graph);
@@ -75,24 +92,37 @@ void TestBFS(Graph<TV, TE> *graph, int i, std::string id, bool complete){
     
     if(option == 1){
         UnDirectedGraph<TV, TE> res0 = bfs.u_apply(id);
-        res0.display();
+        
+        if(i == -1) showGraph(res0);
+        else res0.display();
+        
         isConnectedMsg(res0.isConnected());
+        
         if(complete){
             std::cout << "\n------------BFS Full " << i << "------------\n";
             UnDirectedGraph<TV, TE> res1 = bfs.u_apply();
-            res1.display();
+            
+            if(i == -1) showGraph(res1);
+            else res1.display();
+            
             isConnectedMsg(res1.isConnected());
             if(res0 == res1) std::cout << "\nBFS from " << id << " and full BFS give same trees.\n\n";
             else  std::cout << "\nBFS from " << id << " and full BFS give different trees.\n\n";
         }
     }else{
         DirectedGraph<TV, TE> res0 = bfs.d_apply(id);
-        res0.display();
+        
+        if(i == -1) showGraph(res0);
+        else res0.display();
+
         isConnectedMsg(res0.isConnected());
         if(complete){
             std::cout << "\n------------BFS Full " << i << "------------\n";
             DirectedGraph<TV, TE> res1 = bfs.d_apply();
-            res1.display();
+            
+            if(i == -1) showGraph(res1);
+            else res1.display();
+
             isConnectedMsg(res1.isConnected());
             if(res0 == res1) std::cout << "\nBFS from " << id << " and full BFS give same trees.\n\n";
             else  std::cout << "\nBFS from " << id << " and full BFS give different trees.\n\n";
@@ -102,9 +132,12 @@ void TestBFS(Graph<TV, TE> *graph, int i, std::string id, bool complete){
 
 template<typename TV, typename TE>
 void TestDFS(Graph<TV, TE> *graph, int i, std::string id, bool complete){
-    if(i) std::cout << "\n----------------Graph " << i << "---------------\n";
-    else  std::cout << "\n----------------Graph Creator---------------\n";
-    graph->display();
+    if(i == -1) std::cout << "\n----------------Airports---------------\n";
+    else if(i == 0) std::cout << "\n----------------Graph Creator---------------\n";
+    else std::cout << "\n----------------Graph " << i << "---------------\n"; 
+
+    if(i == -1) showGraph(graph);
+    else graph->display();
     
     int option = 0;
     UnDirectedGraph<TV, TE>* ugraph = dynamic_cast<UnDirectedGraph<TV, TE>*>(graph);
@@ -115,24 +148,36 @@ void TestDFS(Graph<TV, TE> *graph, int i, std::string id, bool complete){
     
     if(option == 1){
         UnDirectedGraph<TV, TE> res0 = dfs.u_apply(id);
-        res0.display();
+        
+        if(i == -1) showGraph(res0);
+        else res0.display();
+
         isConnectedMsg(res0.isConnected());
         if(complete){
             std::cout << "\n------------DFS Full " << i << "------------\n";
             UnDirectedGraph<TV, TE> res1 = dfs.u_apply();
-            res1.display();
+            
+            if(i == -1) showGraph(res1);
+            else res1.display();
+
             isConnectedMsg(res1.isConnected());
             if(res0 == res1) std::cout << "\nDFS from " << id << " and full DFS give same trees.\n\n";
             else  std::cout << "\nDFS from " << id << " and full DFS give different trees.\n\n";
         }
     }else{
         DirectedGraph<TV, TE> res0 = dfs.d_apply(id);
-        res0.display();
+        
+        if(i == -1) showGraph(res0);
+        else res0.display();
+
         isConnectedMsg(res0.isConnected());
         if(complete){
             std::cout << "\n------------DFS Full " << i << "------------\n";
             DirectedGraph<TV, TE> res1 = dfs.d_apply();
-            res1.display();
+            
+            if(i == -1) showGraph(res1);
+            else res1.display();
+
             isConnectedMsg(res1.isConnected());
             if(res0 == res1) std::cout << "\nDFS from " << id << " and full DFS give same trees.\n\n";
             else  std::cout << "\nDFS from " << id << " and full DFS give different trees.\n\n";
@@ -167,9 +212,12 @@ void TestCSS(Graph<TV, TE> *graph, int i){
 
 template<typename TV, typename TE>
 void TestDijkstra(Graph<TV, TE> *graph, int i, std::string id){
-    if(i) std::cout << "\n----------------Graph " << i << "---------------\n";
-    else  std::cout << "\n----------------Graph Creator---------------\n";
-    graph->display();
+    if(i == -1) std::cout << "\n----------------Airports---------------\n";
+    else if(i == 0) std::cout << "\n----------------Graph Creator---------------\n";
+    else std::cout << "\n----------------Graph " << i << "---------------\n"; 
+    
+    if(i == -1) showGraph(graph);
+    else graph->display();
     
     std::cout << "\n---------Dijkstra Test " << i << "----------\n";
     Dijkstra<TV, TE> dijkstra(graph);
@@ -177,20 +225,40 @@ void TestDijkstra(Graph<TV, TE> *graph, int i, std::string id){
     parentUnorderedMapType parents = res0.first;
     distanceUnorderedMapType distances = res0.second;
     
-    std::cout << "\nResultado Dijkstra:\n";
-    for(auto p : parents){
-        if(p.second)
-            std::cout << "Vertex: " << p.first->data << " (Parent: " << p.second->data << "): " << distances[p.first] << "\n";
-        else
-            std::cout << "Vertex: " << p.first->data << " (Parent: NA): " << distances[p.first] << "\n";
+    if(i == -1){
+        char show;
+        std::cout << "\nDo you want to see the result? (Y/N): ";
+        std::cin >> show;
+        if(show == 'Y' || show == 'y'){
+            std::cout << "\nResultado Dijkstra:\n";
+            for(auto p : parents){
+                if(p.second)
+                    std::cout << "Vertex: " << p.first->data << " (Parent: " << p.second->data << "): " << distances[p.first] << "\n";
+                else
+                    std::cout << "Vertex: " << p.first->data << " (Parent: NA): " << distances[p.first] << "\n";
+            }
+        }
+    }else{
+        std::cout << "\nResultado Dijkstra:\n";
+        for(auto p : parents){
+            if(p.second)
+                std::cout << "Vertex: " << p.first->data << " (Parent: " << p.second->data << "): " << distances[p.first] << "\n";
+            else
+                std::cout << "Vertex: " << p.first->data << " (Parent: NA): " << distances[p.first] << "\n";
+        }
     }
+
+    findPath1(parents, distances, id);
 }
 
 template<typename TV, typename TE>
 void TestAStar(Graph<TV, TE> *graph, int i, std::string idFrom, std::string idTo, std::unordered_map<std::string, TE> hn){
-    if(i) std::cout << "\n----------------Graph " << i << "---------------\n";
-    else  std::cout << "\n----------------Graph Creator---------------\n";
-    graph->display();
+    if(i == -1) std::cout << "\n----------------Airports---------------\n";
+    else if(i == 0) std::cout << "\n----------------Graph Creator---------------\n";
+    else std::cout << "\n----------------Graph " << i << "---------------\n"; 
+
+    if(i == -1) showGraph(graph);
+    else graph->display();
     
     std::cout << "\n-----------A* Test " << i << "------------\n";
     AStar<TV, TE> astar(graph);
@@ -198,16 +266,32 @@ void TestAStar(Graph<TV, TE> *graph, int i, std::string idFrom, std::string idTo
     distanceUnorderedMapAStarType distances = res0.first;
     parentUnorderedMapType parents = res0.second;
     
-    std::cout << "\nResultado A*:\n";
-    for(auto p : distances)
-        std::cout << p.first->data << " -> G(n): " << p.second.first << " | F(n): " << p.second.second << " Parent: " << parents[p.first]->data << "\n";
+    if(i == -1){
+        char show;
+        std::cout << "\nDo you want to see the result? (Y/N): ";
+        std::cin >> show;
+        if(show == 'Y' || show == 'y'){
+            std::cout << "\nResultado A*:\n";
+            for(auto p : distances)
+                std::cout << p.first->data << " -> G(n): " << p.second.first << " | F(n): " << p.second.second << " Parent: " << parents[p.first]->data << "\n";
+        }
+    }else{
+        std::cout << "\nResultado A*:\n";
+        for(auto p : distances)
+            std::cout << p.first->data << " -> G(n): " << p.second.first << " | F(n): " << p.second.second << " Parent: " << parents[p.first]->data << "\n";
+    }
+    
+    findPathAStar(parents, distances, idFrom, idTo);
 }
 
 template<typename TV, typename TE>
 void TestFloydWarshall(Graph<TV, TE> *graph, int i){
-    if(i) std::cout << "\n----------------Graph " << i << "---------------\n";
-    else  std::cout << "\n----------------Graph Creator---------------\n";
-    graph->display();
+    if(i == -1) std::cout << "\n----------------Airports---------------\n";
+    else if(i == 0) std::cout << "\n----------------Graph Creator---------------\n";
+    else std::cout << "\n----------------Graph " << i << "---------------\n"; 
+
+    if(i == -1) showGraph(graph);
+    else graph->display();
     
     std::cout << "\n-------FloydWarshall Test " << i << "--------\n";
     FloydWarshall<TV, TE> floydwarshall(graph);
@@ -216,31 +300,60 @@ void TestFloydWarshall(Graph<TV, TE> *graph, int i){
     pathMatrixType paths = res0.second;
     int width = 12;
 
-    std::cout << "Distances: \n";
-    std::cout << std::setw(width) << " ";
-    for(auto i : distances) std::cout << std::setw(width) << i.first;  std::cout << "\n";
-    for(auto i : distances){
-        std::cout << std::setw(width) << i.first;
-        for(auto j : distances)
-            std::cout << std::setw(width) << distances[i.first][j.first];
-        std::cout << "\n";
+    if(i == -1){
+        char show;
+        std::cout << "\nDo you want to see the result? (Y/N): ";
+        std::cin >> show;
+        if(show == 'Y' || show == 'y'){
+            std::cout << "Distances: \n";
+            std::cout << std::setw(width) << " ";
+            for(auto i : distances) std::cout << std::setw(width) << i.first;  std::cout << "\n";
+            for(auto i : distances){
+                std::cout << std::setw(width) << i.first;
+                for(auto j : distances)
+                    std::cout << std::setw(width) << distances[i.first][j.first];
+                std::cout << "\n";
+            }
+            std::cout << "\n\nPaths: \n";
+            std::cout << std::setw(width) << " ";
+            for(auto i : paths) std::cout << std::setw(width) << i.first;  std::cout << "\n";
+            for(auto i : paths){
+                std::cout << std::setw(width) << i.first;
+                for(auto j : paths)
+                    std::cout << std::setw(width) << paths[i.first][j.first];
+                std::cout << "\n";
+            }std::cout << "\n\n";
+        }
+    }else{
+        std::cout << "Distances: \n";
+        std::cout << std::setw(width) << " ";
+        for(auto i : distances) std::cout << std::setw(width) << i.first;  std::cout << "\n";
+        for(auto i : distances){
+            std::cout << std::setw(width) << i.first;
+            for(auto j : distances)
+                std::cout << std::setw(width) << distances[i.first][j.first];
+            std::cout << "\n";
+        }
+        std::cout << "\n\nPaths: \n";
+        std::cout << std::setw(width) << " ";
+        for(auto i : paths) std::cout << std::setw(width) << i.first;  std::cout << "\n";
+        for(auto i : paths){
+            std::cout << std::setw(width) << i.first;
+            for(auto j : paths)
+                std::cout << std::setw(width) << paths[i.first][j.first];
+            std::cout << "\n";
+        }std::cout << "\n\n";
     }
-    std::cout << "\n\nPaths: \n";
-    std::cout << std::setw(width) << " ";
-    for(auto i : paths) std::cout << std::setw(width) << i.first;  std::cout << "\n";
-    for(auto i : paths){
-        std::cout << std::setw(width) << i.first;
-        for(auto j : paths)
-            std::cout << std::setw(width) << paths[i.first][j.first];
-        std::cout << "\n";
-    }std::cout << "\n\n";
 }
 
 template<typename TV, typename TE>
 void TestBellmanFord(Graph<TV, TE> *graph, int i, std::string id){
-    if(i) std::cout << "\n----------------Graph " << i << "---------------\n";
-    else  std::cout << "\n----------------Graph Creator---------------\n";
-    graph->display();
+    if(i == -1) std::cout << "\n----------------Airports---------------\n";
+    else if(i == 0) std::cout << "\n----------------Graph Creator---------------\n";
+    else std::cout << "\n----------------Graph " << i << "---------------\n"; 
+
+    if(i == -1) showGraph(graph);
+    else graph->display();
     
     std::cout << "\n---------BellmanFord Test " << i << "----------\n";
     BellmanFord<TV, TE> bellmanford(graph);
@@ -248,11 +361,134 @@ void TestBellmanFord(Graph<TV, TE> *graph, int i, std::string id){
     parentUnorderedMapType parents = res0.first;
     distanceUnorderedMapType distances = res0.second;
 
-    std::cout << "\nResultado BellmanFord:\n";
-    for(auto p : parents){
-        if(p.second)
-            std::cout << "Vertex: " << p.first->data << " (Parent: " << p.second->data << "): " << distances[p.first] << "\n";
-        else
-            std::cout << "Vertex: " << p.first->data << " (Parent: NA): " << distances[p.first] << "\n";
+    if(i == -1){
+        char show;
+        std::cout << "\nDo you want to see the result? (Y/N): ";
+        std::cin >> show;
+        if(show == 'Y' || show == 'y'){
+            std::cout << "\nResultado BellmanFord:\n";
+            for(auto p : parents){
+                if(p.second)
+                    std::cout << "Vertex: " << p.first->data << " (Parent: " << p.second->data << "): " << distances[p.first] << "\n";
+                else
+                    std::cout << "Vertex: " << p.first->data << " (Parent: NA): " << distances[p.first] << "\n";
+            }
+        }
+    }else{
+        std::cout << "\nResultado BellmanFord:\n";
+        for(auto p : parents){
+            if(p.second)
+                std::cout << "Vertex: " << p.first->data << " (Parent: " << p.second->data << "): " << distances[p.first] << "\n";
+            else
+                std::cout << "Vertex: " << p.first->data << " (Parent: NA): " << distances[p.first] << "\n";
+        }
+    }
+
+    findPath1(parents, distances, id);
+}
+
+template<typename TV, typename TE>
+void showGraph(Graph<TV, TE> *graph){
+    graph->graphSize();
+    char show;
+    std::cout << "\nDo you want to see the graph? (Y/N): ";
+    std::cin >> show;
+    if(show == 'Y' || show == 'y')  graph->display();
+}
+template<typename TV, typename TE>
+void showGraph(UnDirectedGraph<TV, TE> &graph){
+    graph.graphSize();
+    char show;
+    std::cout << "\nDo you want to see the graph? (Y/N): ";
+    std::cin >> show;
+    if(show == 'Y' || show == 'y')  graph.display();
+}
+template<typename TV, typename TE>
+void showGraph(DirectedGraph<TV, TE> &graph){
+    graph.graphSize();
+    char show;
+    std::cout << "\nDo you want to see the graph? (Y/N): ";
+    std::cin >> show;
+    if(show == 'Y' || show == 'y')  graph.display();
+}
+
+template<typename TV, typename TE, typename R>
+Vertex<TV, TE>* findVertex(std::unordered_map<Vertex<TV, TE>*, R> someMap, std::string id){
+    for(auto vertex : someMap)
+        if(vertex.first->id == id)
+            return  vertex.first;
+    return nullptr;
+}
+
+template<typename TV, typename TE>
+void findPath1(parentUnorderedMapType &parents, distanceUnorderedMapType &distances, std::string id){
+    char show;
+    std::cout << "\nDo you want to search a path? (Y/N): ";
+    std::cin >> show;
+    if(show == 'Y' || show == 'y'){
+        while(1){
+            std::string idTo;
+            std::cout << "\nInsert destination ID (-1 to exit): ";
+            std::cin >> idTo;
+            if(idTo == "-1")    break;
+            std::list<TV> path;
+            Vertex<TV, TE>* vertex = findVertex(distances, idTo);
+            TE totalDistance = distances[vertex];
+            if(vertex){
+                path.push_back(vertex->data);
+                bool finded = true;
+                while(vertex->id != id){
+                    if(vertex->id == parents[vertex]->id){
+                        std::cout << "\nThere is no path between " << id << " and " << idTo << "\n";
+                        finded = false;
+                        break;
+                    }
+                    vertex = parents[vertex];
+                    path.push_front(vertex->data);
+                }
+                if(finded){
+                    std::cout << "\nA path was found:\n";
+                    auto it2 = begin(path);
+                    if(path.size() == 1)    std::cout << *it2 << "\n";
+                    auto it1 = it2;
+                    it2++;
+                    while(it2 != end(path)){
+                        std::cout << *it1 << " --> " << *it2 << "\n";
+                        it1++;   it2++;
+                    }
+                    std::cout << "Path size: " << totalDistance << "\n";;
+                }
+            }else   std::cout << "\nVertex not found\n";
+        }
+    }
+}
+
+template<typename TV, typename TE>
+void findPathAStar(parentUnorderedMapType &parents, distanceUnorderedMapAStarType &distances, std::string idFrom, std::string idTo){
+    std::list<TV> path;
+    Vertex<TV, TE>* vertex = findVertex(distances, idTo);
+    TE totalDistance = distances[vertex].second;
+    path.push_back(vertex->data);
+    bool finded = true;
+    while(vertex->id != idFrom){
+        if(vertex->id == parents[vertex]->id){
+            std::cout << "\nThere is no path between " << idFrom << " and " << idTo << "\n";
+            finded = false;
+            break;
+        }
+        vertex = parents[vertex];
+        path.push_front(vertex->data);
+    }
+    if(finded){
+        std::cout << "\nA path was found:\n";
+        auto it2 = begin(path);
+        if(path.size() == 1)    std::cout << *it2 << "\n";
+        auto it1 = it2;
+        it2++;
+        while(it2 != end(path)){
+            std::cout << *it1 << " --> " << *it2 << "\n";
+            it1++;   it2++;
+        }
+        std::cout << "Path size: " << totalDistance << "\n";;
     }
 }
