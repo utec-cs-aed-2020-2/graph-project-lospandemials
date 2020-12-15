@@ -145,10 +145,6 @@ void open_image(const char img_path[]){
         str2 += str1;
         auto command =  str2.c_str();
         system(command);
-//        char var[] = "xdg-open ../img/graph.png";
-        //system("xdg-open ../img/MST-Red.PNG");
-//        system(&"xdg-open" [*img_path]);
-//        system(var1);
     #endif
 }
 

@@ -121,6 +121,9 @@ void uGraphMake(UndirectedGraph<string, double> &tempGraph); // Adds the parsed 
 void dGraphMake(DirectedGraph<string, double> &tempGraph); // Adds the parsed data into the specified directed graph
 ```
 
+## GUI
+* Muestra el grafo de los aeropuertos en una ventana con ayuda de la librería multimedia SFML.
+
 ## Graph Creator
 
 * Se debe seleccionar si se crea un grafo dirigido o no dirigido.
