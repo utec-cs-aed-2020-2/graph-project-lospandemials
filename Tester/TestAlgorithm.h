@@ -115,7 +115,7 @@ void TestBFS(Graph<TV, TE> *graph, int i, std::string id, bool complete){
         if(i == -1) showGraph(res0);
         else res0.display();
 
-        isConnectedMsg(res0.isConnected());
+        isConnectedMsg(res0.isStronglyConnected());
         if(complete){
             std::cout << "\n------------BFS Full " << i << "------------\n";
             DirectedGraph<TV, TE> res1 = bfs.d_apply();
@@ -123,7 +123,7 @@ void TestBFS(Graph<TV, TE> *graph, int i, std::string id, bool complete){
             if(i == -1) showGraph(res1);
             else res1.display();
 
-            isConnectedMsg(res1.isConnected());
+            isConnectedMsg(res1.isStronglyConnected());
             if(res0 == res1) std::cout << "\nBFS from " << id << " and full BFS give same trees.\n\n";
             else  std::cout << "\nBFS from " << id << " and full BFS give different trees.\n\n";
         }
@@ -170,7 +170,7 @@ void TestDFS(Graph<TV, TE> *graph, int i, std::string id, bool complete){
         if(i == -1) showGraph(res0);
         else res0.display();
 
-        isConnectedMsg(res0.isConnected());
+        isConnectedMsg(res0.isStronglyConnected());
         if(complete){
             std::cout << "\n------------DFS Full " << i << "------------\n";
             DirectedGraph<TV, TE> res1 = dfs.d_apply();
@@ -178,7 +178,7 @@ void TestDFS(Graph<TV, TE> *graph, int i, std::string id, bool complete){
             if(i == -1) showGraph(res1);
             else res1.display();
 
-            isConnectedMsg(res1.isConnected());
+            isConnectedMsg(res1.isStronglyConnected());
             if(res0 == res1) std::cout << "\nDFS from " << id << " and full DFS give same trees.\n\n";
             else  std::cout << "\nDFS from " << id << " and full DFS give different trees.\n\n";
         }
@@ -438,7 +438,7 @@ void findPath1(parentUnorderedMapType &parents, distanceUnorderedMapType &distan
                 path.push_back(vertex->data);
                 bool finded = true;
                 while(vertex->id != id){
-                    if(vertex->id == parents[vertex]->id){
+                    if(parents[vertex] == nullptr || vertex->id == parents[vertex]->id){
                         std::cout << "\nThere is no path between " << id << " and " << idTo << "\n";
                         finded = false;
                         break;
