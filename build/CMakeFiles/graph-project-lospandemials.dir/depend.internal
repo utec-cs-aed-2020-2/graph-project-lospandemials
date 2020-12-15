@@ -3,8 +3,12 @@
 
 CMakeFiles/graph-project-lospandemials.dir/main.cpp.o
  /home/sebastian/projects/ASD/graph-project-lospandemials/Airport/airport.h
+ /home/sebastian/projects/ASD/graph-project-lospandemials/Algorithms/AStar.h
  /home/sebastian/projects/ASD/graph-project-lospandemials/Algorithms/BFS.h
+ /home/sebastian/projects/ASD/graph-project-lospandemials/Algorithms/BellmanFord.h
  /home/sebastian/projects/ASD/graph-project-lospandemials/Algorithms/DFS.h
+ /home/sebastian/projects/ASD/graph-project-lospandemials/Algorithms/Dijkstra.h
+ /home/sebastian/projects/ASD/graph-project-lospandemials/Algorithms/FloydWarshall.h
  /home/sebastian/projects/ASD/graph-project-lospandemials/Algorithms/Kruskal.h
  /home/sebastian/projects/ASD/graph-project-lospandemials/Algorithms/Prim.h
  /home/sebastian/projects/ASD/graph-project-lospandemials/Algorithms/SCC.h
@@ -17,6 +21,8 @@ CMakeFiles/graph-project-lospandemials.dir/main.cpp.o
  /home/sebastian/projects/ASD/graph-project-lospandemials/GraphicUserInterface/WindowRender.h
  /home/sebastian/projects/ASD/graph-project-lospandemials/Parser/nlohmann/json.hpp
  /home/sebastian/projects/ASD/graph-project-lospandemials/Parser/parser.h
+ /home/sebastian/projects/ASD/graph-project-lospandemials/Tester/TestAlgorithm.h
+ /home/sebastian/projects/ASD/graph-project-lospandemials/Tester/TestGraph.h
  /home/sebastian/projects/ASD/graph-project-lospandemials/Tester/tester.h
  /home/sebastian/projects/ASD/graph-project-lospandemials/lib.h
  /home/sebastian/projects/ASD/graph-project-lospandemials/main.cpp

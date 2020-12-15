@@ -10,11 +10,27 @@
 ../lib.h
 /home/sebastian/projects/ASD/graph-project-lospandemials/lib.h
 
+/home/sebastian/projects/ASD/graph-project-lospandemials/Algorithms/AStar.h
+graphAlgorithms.h
+/home/sebastian/projects/ASD/graph-project-lospandemials/Algorithms/graphAlgorithms.h
+
 /home/sebastian/projects/ASD/graph-project-lospandemials/Algorithms/BFS.h
 graphAlgorithms.h
 /home/sebastian/projects/ASD/graph-project-lospandemials/Algorithms/graphAlgorithms.h
 
+/home/sebastian/projects/ASD/graph-project-lospandemials/Algorithms/BellmanFord.h
+graphAlgorithms.h
+/home/sebastian/projects/ASD/graph-project-lospandemials/Algorithms/graphAlgorithms.h
+
 /home/sebastian/projects/ASD/graph-project-lospandemials/Algorithms/DFS.h
+graphAlgorithms.h
+/home/sebastian/projects/ASD/graph-project-lospandemials/Algorithms/graphAlgorithms.h
+
+/home/sebastian/projects/ASD/graph-project-lospandemials/Algorithms/Dijkstra.h
+graphAlgorithms.h
+/home/sebastian/projects/ASD/graph-project-lospandemials/Algorithms/graphAlgorithms.h
+
+/home/sebastian/projects/ASD/graph-project-lospandemials/Algorithms/FloydWarshall.h
 graphAlgorithms.h
 /home/sebastian/projects/ASD/graph-project-lospandemials/Algorithms/graphAlgorithms.h
 
@@ -404,7 +420,7 @@ vector
 nlohmann/json.hpp
 /home/sebastian/projects/ASD/graph-project-lospandemials/Parser/nlohmann/json.hpp
 
-/home/sebastian/projects/ASD/graph-project-lospandemials/Tester/tester.h
+/home/sebastian/projects/ASD/graph-project-lospandemials/Tester/TestAlgorithm.h
 ../lib.h
 /home/sebastian/projects/ASD/graph-project-lospandemials/lib.h
 ../Algorithms/Kruskal.h
@@ -417,8 +433,32 @@ nlohmann/json.hpp
 /home/sebastian/projects/ASD/graph-project-lospandemials/Algorithms/DFS.h
 ../Algorithms/SCC.h
 /home/sebastian/projects/ASD/graph-project-lospandemials/Algorithms/SCC.h
+../Algorithms/Dijkstra.h
+/home/sebastian/projects/ASD/graph-project-lospandemials/Algorithms/Dijkstra.h
+../Algorithms/AStar.h
+/home/sebastian/projects/ASD/graph-project-lospandemials/Algorithms/AStar.h
+../Algorithms/FloydWarshall.h
+/home/sebastian/projects/ASD/graph-project-lospandemials/Algorithms/FloydWarshall.h
+../Algorithms/BellmanFord.h
+/home/sebastian/projects/ASD/graph-project-lospandemials/Algorithms/BellmanFord.h
+
+/home/sebastian/projects/ASD/graph-project-lospandemials/Tester/TestGraph.h
+../lib.h
+/home/sebastian/projects/ASD/graph-project-lospandemials/lib.h
+../Graph/UndirectedGraph.h
+/home/sebastian/projects/ASD/graph-project-lospandemials/Graph/UndirectedGraph.h
+../Graph/DirectedGraph.h
+/home/sebastian/projects/ASD/graph-project-lospandemials/Graph/DirectedGraph.h
+
+/home/sebastian/projects/ASD/graph-project-lospandemials/Tester/tester.h
+../lib.h
+/home/sebastian/projects/ASD/graph-project-lospandemials/lib.h
 ../Parser/parser.h
 /home/sebastian/projects/ASD/graph-project-lospandemials/Parser/parser.h
+TestAlgorithm.h
+/home/sebastian/projects/ASD/graph-project-lospandemials/Tester/TestAlgorithm.h
+TestGraph.h
+/home/sebastian/projects/ASD/graph-project-lospandemials/Tester/TestGraph.h
 ../GraphicUserInterface/WindowRender.h
 /home/sebastian/projects/ASD/graph-project-lospandemials/GraphicUserInterface/WindowRender.h
 
