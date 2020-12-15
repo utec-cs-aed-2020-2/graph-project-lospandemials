@@ -14,10 +14,10 @@ double TransformLat(double latitude){
 }
 
 void DrawAirport(double longitude, double latitude, sf::RenderWindow* window){
-    sf::CircleShape circle(10);
+    sf::CircleShape circle(4);
     circle.setFillColor(sf::Color::Cyan);
     circle.setPosition(longitude, latitude);
-    circle.setOrigin(10, 10);
+    circle.setOrigin(4, 4);
     window->draw(circle);
 }
 
@@ -41,39 +41,31 @@ void RenderAirportGraph(UnDirectedGraph<Airport, double> &tempGraph);
 
 
 void GUI::RenderAirportGraph(UnDirectedGraph<Airport, double> &tempGraph){
-sf::RenderWindow* window = new sf::RenderWindow (sf::VideoMode(1000,1600), "Graph Display");
+sf::RenderWindow* window = new sf::RenderWindow (sf::VideoMode(1600,1000), "Graph Display");
 window->clear(sf::Color(255,255, 255, 255));
 
-for(auto vertex : tempGraph.vertexes){
-    for(auto edge : vertex.second->edges){
-        double correctedLonA = TransformLon(edge->vertexes[0]->data.getLongitude());
-        double correctedLatA = TransformLat(edge->vertexes[0]->data.getLongitude());
+    for(auto vertex : tempGraph.vertexes){
+        for(auto edge : vertex.second->edges){
+            double correctedLonA = TransformLon(edge->vertexes[0]->data.getLongitude());
+            double correctedLatA = TransformLat(edge->vertexes[0]->data.getLatitude());
 
-        double correctedLonB = TransformLon(edge->vertexes[1]->data.getLongitude());
-        double correctedLatB = TransformLat(edge->vertexes[1]->data.getLongitude());
+            double correctedLonB = TransformLon(edge->vertexes[1]->data.getLongitude());
+            double correctedLatB = TransformLat(edge->vertexes[1]->data.getLatitude());
 
-        DrawConnection (correctedLonA, correctedLatA, correctedLonB, correctedLatB, window);
+            DrawConnection (correctedLonA, correctedLatA, correctedLonB, correctedLatB, window);
+        }
     }
-}
 
-for(auto vertex : tempGraph.vertexes){
-    double correctedLon = TransformLon(vertex.second->data.getLongitude());
-    double correctedLat = TransformLat(vertex.second->data.getLatitude());
+    for(auto vertex : tempGraph.vertexes){
+        double correctedLon = TransformLon(vertex.second->data.getLongitude());
+        double correctedLat = TransformLat(vertex.second->data.getLatitude());
 
-    DrawAirport(correctedLon, correctedLat, window);
-}
+        DrawAirport(correctedLon, correctedLat, window);
+    }
 
-
-sf::Event event;
-bool close = 1;
-while (close){
     window->display();
-    {
-        if (event.type == sf::Event::Closed)
-            window->close();
-            close = 0;
-    }
-    sf::sleep(sf::Time(sf::milliseconds(10000)));
-    }
+    sf::sleep(sf::Time(sf::milliseconds(4900)));
+    
+    
 
 }

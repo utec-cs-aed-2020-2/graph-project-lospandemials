@@ -18,6 +18,7 @@ CMakeFiles/graph-project-lospandemials.dir/main.cpp.o
  /home/sebastian/projects/ASD/graph-project-lospandemials/Graph/DirectedGraph.h
  /home/sebastian/projects/ASD/graph-project-lospandemials/Graph/UndirectedGraph.h
  /home/sebastian/projects/ASD/graph-project-lospandemials/Graph/graph.h
+ /home/sebastian/projects/ASD/graph-project-lospandemials/GraphicUserInterface/WindowRender.h
  /home/sebastian/projects/ASD/graph-project-lospandemials/Parser/nlohmann/json.hpp
  /home/sebastian/projects/ASD/graph-project-lospandemials/Parser/parser.h
  /home/sebastian/projects/ASD/graph-project-lospandemials/Tester/TestAlgorithm.h

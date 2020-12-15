@@ -76,6 +76,14 @@ graph.h
 ../lib.h
 /home/sebastian/projects/ASD/graph-project-lospandemials/lib.h
 
+/home/sebastian/projects/ASD/graph-project-lospandemials/GraphicUserInterface/WindowRender.h
+SFML/Graphics.hpp
+-
+../Graph/UndirectedGraph.h
+/home/sebastian/projects/ASD/graph-project-lospandemials/Graph/UndirectedGraph.h
+../Airport/airport.h
+/home/sebastian/projects/ASD/graph-project-lospandemials/Airport/airport.h
+
 /home/sebastian/projects/ASD/graph-project-lospandemials/Parser/nlohmann/json.hpp
 algorithm
 -
@@ -451,6 +459,8 @@ TestAlgorithm.h
 /home/sebastian/projects/ASD/graph-project-lospandemials/Tester/TestAlgorithm.h
 TestGraph.h
 /home/sebastian/projects/ASD/graph-project-lospandemials/Tester/TestGraph.h
+../GraphicUserInterface/WindowRender.h
+/home/sebastian/projects/ASD/graph-project-lospandemials/GraphicUserInterface/WindowRender.h
 
 /home/sebastian/projects/ASD/graph-project-lospandemials/lib.h
 algorithm

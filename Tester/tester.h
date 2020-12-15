@@ -5,7 +5,7 @@
 #include "../Parser/parser.h"
 #include "TestAlgorithm.h"
 #include "TestGraph.h"
-//#include "../GraphicUserInterface/WindowRender.h"
+#include "../GraphicUserInterface/WindowRender.h"
 
 namespace Menu{
     void Functions(UnDirectedGraph<char, int> &ugraph1, UnDirectedGraph<char, int> &ugraph2,
@@ -490,8 +490,8 @@ namespace Menu{
                     break;
                 }
                 case 14:{
-                    //GUI GraphicUserInterface;
-                    //GraphicUserInterface.RenderAirportGraph(graph);
+                    GUI GraphicUserInterface;
+                    GraphicUserInterface.RenderAirportGraph(graph);
                     break;
                 }
                 default:
