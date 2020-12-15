@@ -84,8 +84,8 @@ namespace Menu{
             option1 = menu1();
             console_clear();
             
-            open_image(imgAlgorithmsPaths[2*option1].c_str());
-            open_image(imgAlgorithmsPaths[2*option1 + 1].c_str());
+            open_image(imgFunctionsPaths[2*option1].c_str());
+            open_image(imgFunctionsPaths[2*option1 + 1].c_str());
 
             switch(option1){
                 case 1:
