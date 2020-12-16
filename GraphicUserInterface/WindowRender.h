@@ -80,10 +80,10 @@ void GUI::RenderGraphResult(UnDirectedGraph<Airport, double> &graph, UnDirectedG
     sf::RenderWindow* window = new sf::RenderWindow (sf::VideoMode(1600,1000), "Graph Display");
     window->clear(sf::Color(255,255, 255, 255));
     
-    for(auto vertex : graph->vertexes){
+    for(auto vertex : graph.vertexes){
         for(auto edge : vertex.second->edges){
-            Vertex<TV, TE>* vertex1 = edge->vertexes[0];
-            Vertex<TV, TE>* vertex2 = edge->vertexes[1];
+            auto vertex1 = edge->vertexes[0];
+            auto vertex2 = edge->vertexes[1];
             double correctedLonA = TransformLon(vertex1->data.getLongitude());
             double correctedLatA = TransformLat(vertex1->data.getLatitude());
 
