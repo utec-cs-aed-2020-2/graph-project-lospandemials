@@ -371,6 +371,13 @@ namespace Menu{
                     std::cout << "\n-------------Kruskal Test-------------\n";
                     UnDirectedGraph<Airport, double> resultKruskal = kruskal.apply();
                     showGraph(resultKruskal);
+                    char show;
+                    std::cout << "\nDo you want to open the GUI? (Y/N): ";
+                    std::cin >> show;
+                    if(show == 'Y' || show == 'y'){
+                        GUI GraphicUserInterface;
+                        GraphicUserInterface.RenderGraphResult(graph, resultKruskal);
+                    }
                     pause();
                     break;
                 }
@@ -382,6 +389,13 @@ namespace Menu{
                     std::cin >> id;
                     UnDirectedGraph<Airport, double> resultPrim = prim.apply(id);
                     showGraph(resultPrim);
+                    char show;
+                    std::cout << "\nDo you want to open the GUI? (Y/N): ";
+                    std::cin >> show;
+                    if(show == 'Y' || show == 'y'){
+                        GUI GraphicUserInterface;
+                        GraphicUserInterface.RenderGraphResult(graph, resultPrim);
+                    }
                     pause();
                     break;
                 }
