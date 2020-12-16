@@ -8,6 +8,8 @@
 #include "../Algorithms/AStar.h"
 #include "../Algorithms/FloydWarshall.h"
 #include "../Algorithms/BellmanFord.h"
+#include "../GraphicUserInterface/WindowRender.h"
+#include "../Airport/airport.h"
 
 template<typename TV, typename TE>
 void TestKruskalPrim(Graph<TV, TE> *graph, int i, std::string id, bool complete);
@@ -36,9 +38,17 @@ void showGraph(DirectedGraph<TV, TE> &graph);
 template<typename TV, typename TE, typename R>
 Vertex<TV, TE>* findVertex(std::unordered_map<Vertex<TV, TE>*, R> someMap, std::string id);
 template<typename TV, typename TE>
-void findPath1(parentUnorderedMapType &parents, distanceUnorderedMapType &distances, std::string id);
+void findPath1(parentUnorderedMapType &parents, distanceUnorderedMapType &distances, std::string id, Graph<TV, TE>* graph);
 template<typename TV, typename TE>
-void findPathAStar(parentUnorderedMapType &parents, distanceUnorderedMapAStarType &distances, std::string idFrom, std::string idTo);
+void findPathAStar(parentUnorderedMapType &parents, distanceUnorderedMapAStarType &distances, std::string idFrom, std::string idTo, Graph<TV, TE>* graph);
+
+template<typename TV, typename TE>
+void showGUI(Graph<TV, TE>* graph, UnDirectedGraph<TV, TE> &result);
+void showGUI(Graph<Airport, double>* graph, UnDirectedGraph<Airport, double> &result);
+template<typename TV, typename TE>
+void showGUIPath(Graph<TV, TE>* graph, std::list<TV> path);
+void showGUIPath(Graph<Airport, double>* graph, std::list<Airport> path);
+
     
 template<typename TV, typename TE>
 void TestKruskalPrim(Graph<TV, TE> *graph, int i, std::string id, bool complete){
@@ -98,6 +108,8 @@ void TestBFS(Graph<TV, TE> *graph, int i, std::string id, bool complete){
         
         isConnectedMsg(res0.isConnected());
         
+        if(i == -1) showGUI(graph, res0);
+
         if(complete){
             std::cout << "\n------------BFS Full " << i << "------------\n";
             UnDirectedGraph<TV, TE> res1 = bfs.u_apply();
@@ -153,6 +165,9 @@ void TestDFS(Graph<TV, TE> *graph, int i, std::string id, bool complete){
         else res0.display();
 
         isConnectedMsg(res0.isConnected());
+
+        if(i == -1) showGUI(graph, res0);
+
         if(complete){
             std::cout << "\n------------DFS Full " << i << "------------\n";
             UnDirectedGraph<TV, TE> res1 = dfs.u_apply();
@@ -248,7 +263,7 @@ void TestDijkstra(Graph<TV, TE> *graph, int i, std::string id){
         }
     }
 
-    findPath1(parents, distances, id);
+    findPath1(parents, distances, id, graph);
 }
 
 template<typename TV, typename TE>
@@ -281,7 +296,7 @@ void TestAStar(Graph<TV, TE> *graph, int i, std::string idFrom, std::string idTo
             std::cout << p.first->data << " -> G(n): " << p.second.first << " | F(n): " << p.second.second << " Parent: " << parents[p.first]->data << "\n";
     }
     
-    findPathAStar(parents, distances, idFrom, idTo);
+    findPathAStar(parents, distances, idFrom, idTo, graph);
 }
 
 template<typename TV, typename TE>
@@ -384,7 +399,7 @@ void TestBellmanFord(Graph<TV, TE> *graph, int i, std::string id){
         }
     }
 
-    findPath1(parents, distances, id);
+    findPath1(parents, distances, id, graph);
 }
 
 template<typename TV, typename TE>
@@ -421,7 +436,7 @@ Vertex<TV, TE>* findVertex(std::unordered_map<Vertex<TV, TE>*, R> someMap, std::
 }
 
 template<typename TV, typename TE>
-void findPath1(parentUnorderedMapType &parents, distanceUnorderedMapType &distances, std::string id){
+void findPath1(parentUnorderedMapType &parents, distanceUnorderedMapType &distances, std::string id, Graph<TV, TE>* graph){
     char show;
     std::cout << "\nDo you want to search a path? (Y/N): ";
     std::cin >> show;
@@ -457,6 +472,8 @@ void findPath1(parentUnorderedMapType &parents, distanceUnorderedMapType &distan
                         it1++;   it2++;
                     }
                     std::cout << "Path size: " << totalDistance << "\n";;
+                    
+                    showGUIPath(graph, path);
                 }
             }else   std::cout << "\nVertex not found\n";
         }
@@ -464,7 +481,7 @@ void findPath1(parentUnorderedMapType &parents, distanceUnorderedMapType &distan
 }
 
 template<typename TV, typename TE>
-void findPathAStar(parentUnorderedMapType &parents, distanceUnorderedMapAStarType &distances, std::string idFrom, std::string idTo){
+void findPathAStar(parentUnorderedMapType &parents, distanceUnorderedMapAStarType &distances, std::string idFrom, std::string idTo, Graph<TV, TE>* graph){
     std::list<TV> path;
     Vertex<TV, TE>* vertex = findVertex(distances, idTo);
     TE totalDistance = distances[vertex].second;
@@ -490,5 +507,37 @@ void findPathAStar(parentUnorderedMapType &parents, distanceUnorderedMapAStarTyp
             it1++;   it2++;
         }
         std::cout << "Path size: " << totalDistance << "\n";;
+
+        showGUIPath(graph, path);
     }
+}
+
+template<typename TV, typename TE>
+void showGUI(Graph<TV, TE>* graph, UnDirectedGraph<TV, TE> &result){
+    return; //Dummy function
+}
+
+void showGUI(Graph<Airport, double>* graph, UnDirectedGraph<Airport, double> &result){
+    char show;
+    std::cout << "\nDo you want to open the GUI? (Y/N): ";
+    std::cin >> show;
+    if(show == 'Y' || show == 'y'){
+        GUI GraphicUserInterface;
+        GraphicUserInterface.RenderGraphResult(graph, result);
+    }
+}
+
+template<typename TV, typename TE>
+void showGUIPath(Graph<TV, TE>* graph, std::list<TV> path){
+    return; //Dummy function
+}
+
+void showGUIPath(Graph<Airport, double>* graph, std::list<Airport> path){
+    char show;
+    std::cout << "\nDo you want to open the GUI? (Y/N): ";
+    std::cin >> show;
+    if(show == 'Y' || show == 'y'){
+        GUI GraphicUserInterface;
+        GraphicUserInterface.RenderGraphPath(graph, path);
+    }   
 }

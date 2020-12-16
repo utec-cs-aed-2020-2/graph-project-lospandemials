@@ -80,6 +80,7 @@ public:
     bool deleteVertex(std::string id);
     virtual bool deleteEdge(std::string id1, std::string id2) = 0;
     bool operator()(std::string start, std::string end);
+    bool operator()(std::string start, std::string end, int n); //For GUI
     bool operator()(std::string id);
     float density() const;
     bool isDense(float threshold = 0.5) const;
@@ -155,6 +156,18 @@ bool Graph<TV, TE>::operator()(std::string start, std::string end){
         }
     }
     std::cout << "No path found\n";
+    return false;
+}
+
+template<typename TV, typename TE>
+bool Graph<TV, TE>::operator()(std::string start, std::string end, int n){
+    //For GUI
+    if(!this->vertexes.count(start) || !this->vertexes.count(end) || start == end){
+        return false;
+    }    
+    for(Edge<TV, TE>* edge : this->vertexes[start]->edges)
+        if(edge->vertexes[1] == this->vertexes[end])
+            return true;
     return false;
 }
 
