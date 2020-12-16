@@ -376,7 +376,7 @@ namespace Menu{
                     std::cin >> show;
                     if(show == 'Y' || show == 'y'){
                         GUI GraphicUserInterface;
-                        GraphicUserInterface.RenderGraphResult(graph, resultKruskal);
+                        GraphicUserInterface.RenderGraphResult(&graph, resultKruskal);
                     }
                     pause();
                     break;
@@ -394,7 +394,7 @@ namespace Menu{
                     std::cin >> show;
                     if(show == 'Y' || show == 'y'){
                         GUI GraphicUserInterface;
-                        GraphicUserInterface.RenderGraphResult(graph, resultPrim);
+                        GraphicUserInterface.RenderGraphResult(&graph, resultPrim);
                     }
                     pause();
                     break;
@@ -505,7 +505,7 @@ namespace Menu{
                 }
                 case 14:{
                     GUI GraphicUserInterface;
-                    GraphicUserInterface.RenderAirportGraph(graph);
+                    GraphicUserInterface.RenderAirportGraph(&graph);
                     break;
                 }
                 default:
