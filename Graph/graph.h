@@ -5,13 +5,31 @@
 
 template<typename TV, typename TE>
 struct Edge;
-
 template<typename TV, typename TE>
 struct Vertex;
-
 template<typename TV, typename TE>
 class Graph;
 
+template<typename TV, typename TE>
+class Kruskal;
+template<typename TV, typename TE>
+class Prim;
+template<typename TV, typename TE>
+class BFS;
+template<typename TV, typename TE>
+class DFS;
+template<typename TV, typename TE>
+class SCC;
+template<typename TV, typename TE>
+class Dijkstra;
+template<typename TV, typename TE>
+class FloydWarshall;
+template<typename TV, typename TE>
+class AStar;
+template<typename TV, typename TE>
+class BellmanFord;
+
+class GUI;
 //////////////////////////////////////////////////////
 
 template<typename TV, typename TE>
@@ -33,9 +51,11 @@ struct Edge {
 template<typename TV, typename TE>
 struct Vertex {
     TV data;
+    std::string id;
     std::list<Edge<TV, TE>*> edges;
-    Vertex(TV data){
+    Vertex(TV data, std::string id){
         this->data = data;
+        this->id = id;
     }
     void killSelf(){
         edges.clear();
@@ -43,239 +63,229 @@ struct Vertex {
     }
 };
 
+//////////////////////////////////////////////////////
+
 template<typename TV, typename TE>
 class Graph{
 protected:    
-    std::unordered_map<std::string, Vertex<TV, TE>*>  vertexes;
-    
+    std::unordered_map<std::string, Vertex<TV, TE>*> vertexes;
+    bool BFSisConnected(std::string id);
 public:
-    virtual bool insertVertex(std::string id, TV vertex) = 0;
+    Graph(){}
+    virtual ~Graph(){
+        this->clear();
+    }
+    bool insertVertex(std::string id, TV vertex);
     virtual bool createEdge(std::string id1, std::string id2, TE w) = 0;
-    virtual bool deleteVertex(std::string id) = 0;
+    bool deleteVertex(std::string id);
     virtual bool deleteEdge(std::string id1, std::string id2) = 0;
-    TE &operator()(std::string start, std::string end);
-    float density();
-    bool isDense(float threshold = 0.5);
-    bool isConnected();
-    bool isStronglyConnected();
+    bool operator()(std::string start, std::string end);
+    bool operator()(std::string start, std::string end, int n); //For GUI
+    bool operator()(std::string id);
+    float density() const;
+    bool isDense(float threshold = 0.5) const;
+    virtual bool isConnected() = 0;
+    virtual bool isStronglyConnected() = 0;
+    virtual bool isBipartite() = 0;
+    virtual bool isWeaklyConnected() = 0;
     bool empty();
     void clear();
-      
-    void displayVertex(std::string id);
-    bool findById(std::string id);
     virtual void display() = 0;
+    void graphSize();
+    int numberOfVertexes();
+    bool operator==(Graph& graph);
+
+    friend class Prim<TV, TE>;
+    friend class Kruskal<TV, TE>;
+    friend class BFS<TV, TE>;
+    friend class DFS<TV, TE>;
+    friend class SCC<TV, TE>;
+    friend class Dijkstra<TV, TE>;
+    friend class FloydWarshall<TV, TE>;
+    friend class AStar<TV,TE>;
+    friend class BellmanFord<TV,TE>;
+    
+    friend class GUI;
+
 };
 
-template<typename TV, typename TE>
-TE& Graph<TV, TE>::operator()(std::string start, std::string end){
-    TE tmp;
-    return tmp;
-}
 
 template<typename TV, typename TE>
-float Graph<TV, TE>::density(){
-    float res = 0.0;
-    return res;
-}
-
-template<typename TV, typename TE>
-bool Graph<TV, TE>::isDense(float threshold){
-    //default = 0.5
+bool Graph<TV, TE>::insertVertex(std::string id, TV vertex){
+    if(this->vertexes.count(id)){
+        std::cout << "\n--- ERROR: " << id << " already exists\n";
+        return false;
+    }    
+    Vertex<TV, TE>* newVertex = new Vertex<TV, TE>(vertex, id);
+    this->vertexes[id] = newVertex;
     return true;
 }
 
 template<typename TV, typename TE>
-bool Graph<TV, TE>::isConnected(){
+bool Graph<TV, TE>::deleteVertex(std::string id){
+    if(!this->vertexes.count(id)){
+        std::cout << "\n--- ERROR: Vertex was not deleted\n";
+        return false;
+    }
+    for(Edge<TV, TE>* e : this->vertexes[id]->edges){
+        Vertex<TV, TE>* vertex = e->vertexes[1];
+        for(auto it = begin(vertex->edges); it != end(vertex->edges); ++it){
+            if((*it)->vertexes[1] == this->vertexes[id]){
+                (*it)->killSelf();
+                vertex->edges.erase(it);
+                break;
+            }
+        }
+        e->killSelf();
+    }
+    this->vertexes[id]->killSelf();
+    this->vertexes.erase(id);
+    return true;    
+}
+
+template<typename TV, typename TE>
+bool Graph<TV, TE>::operator()(std::string start, std::string end){
+    if(!this->vertexes.count(start) || !this->vertexes.count(end) || start == end){
+        std::cout << "Invalid ids\n";
+        return false;
+    }    
+    for(Edge<TV, TE>* edge : this->vertexes[start]->edges){
+        if(edge->vertexes[1] == this->vertexes[end]){
+            std::cout << "There is a path from " << this->vertexes[start]->data << " to " << this->vertexes[end]->data << " with a distance of " << edge->weight << "\n";
+            return true;
+        }
+    }
+    std::cout << "No path found\n";
+    return false;
+}
+
+template<typename TV, typename TE>
+bool Graph<TV, TE>::operator()(std::string start, std::string end, int n){
+    //For GUI
+    if(!this->vertexes.count(start) || !this->vertexes.count(end) || start == end){
+        return false;
+    }    
+    for(Edge<TV, TE>* edge : this->vertexes[start]->edges)
+        if(edge->vertexes[1] == this->vertexes[end])
+            return true;
+    return false;
+}
+
+template<typename TV, typename TE>
+bool Graph<TV, TE>::operator()(std::string id){
+    if(!this->vertexes.count(id)){
+        std::cout << "Invalid id\n";
+        return false;
+    }    
+    std::cout << id << " (" << this->vertexes[id]->data << "): <" << this->vertexes[id]->edges.size() << ">:\n";
+    for(auto it = begin(this->vertexes[id]->edges); it != end(this->vertexes[id]->edges); ++it)
+        std::cout << "\t" << (*it)->vertexes[1]->data << " (" << (*it)->weight << ")\n";
+    std::cout << "\n";
     return true;
 }
 
 template<typename TV, typename TE>
-bool Graph<TV, TE>::isStronglyConnected(){
-    return true;
+float Graph<TV, TE>::density() const{
+    float d = 0.0;
+    if(this->vertexes.size() <= 1)  return d;
+    int edges = 0;
+    for(auto p : this->vertexes)  edges += p.second->edges.size();
+    d = ((float)edges)/ this->vertexes.size() / (this->vertexes.size() - 1);
+    return d;
+}
+
+template<typename TV, typename TE>
+bool Graph<TV, TE>::isDense(float threshold) const{
+    return density() >= threshold;
 }
 
 template<typename TV, typename TE>
 bool Graph<TV, TE>::empty(){
-    return true;
+    return this->vertexes.size() == 0;
 }
 
 template<typename TV, typename TE>
 void Graph<TV, TE>::clear(){
-    for(auto v : this->vertexes)
-        for(Edge<TV, TE>* e : v.second->edges)    
+    for(auto &v : this->vertexes)
+        for(Edge<TV, TE>* &e : v.second->edges)
             e->killSelf();
-    for(auto v : this->vertexes)
-        v.second->killSelf();
-}
-
-
-template<typename TV, typename TE>
-void Graph<TV, TE>::displayVertex(std::string id){
-    return;
+    for(auto &v : this->vertexes)
+        if(v.second)
+            v.second->killSelf();
+    this->vertexes.clear();
 }
 
 template<typename TV, typename TE>
-bool Graph<TV, TE>::findById(std::string id){
-    return this->vertexes.count(id);
+bool Graph<TV, TE>::BFSisConnected(std::string id){
+    if(!this->vertexes.count(id)) throw std::runtime_error("RUNTIME ERROR: No ID found.");
+
+    Vertex<TV, TE>* curVertex = this->vertexes[id];
+    std::queue<Vertex<TV, TE>*> q;
+    std::unordered_map<Vertex<TV, TE>*, bool> visited;
+    for(auto p : this->vertexes)  visited[p.second] = false;
+    q.push(curVertex);
+    visited[curVertex] = true;
+    while(!q.empty()){
+        curVertex = q.front();
+        q.pop();
+        for(auto edge : curVertex->edges){
+            if(!visited[edge->vertexes[1]]){
+                visited[edge->vertexes[1]] = true;
+                q.push(edge->vertexes[1]);
+            }
+        }
+    }
+    for(auto p : visited) if(!p.second) return false;
+    return true;
 }
 
 template<typename TV, typename TE>
 void Graph<TV, TE>::display(){
+    if(empty()){
+        std::cout << "Empty Graph\n";
+        return;
+    }
     for(auto p : this->vertexes){
-        std::cout << p.first << " (" << p.second->data << "):  ";
-        for(auto it = begin(p.second->edges); it != end(p.second->edges); ){
-            std::cout << (*it)->vertexes[1]->data << "(" << (*it)->weight << ")";
-            if(++it == end(p.second->edges))  break;
-            std::cout << ", ";
-        }
+        std::cout << p.first << " (" << p.second->data << ") <" << p.second->edges.size() << ">:\n";
+        for(auto it = begin(p.second->edges); it != end(p.second->edges); ++it)
+            std::cout << "\t" << (*it)->vertexes[1]->data << " (" << (*it)->weight << ")\n";
         std::cout << "\n";
     }
 }
 
+template<typename TV, typename TE>
+void Graph<TV, TE>::graphSize(){
+    int edges = 0;
+    for(auto p : this->vertexes)  edges += p.second->edges.size();
+    std::cout << "Graph size: " << this->vertexes.size() << " vertices - " << edges << " edges\n";
+}
+
+template<typename TV, typename TE>
+int Graph<TV, TE>::numberOfVertexes(){
+    return this->vertexes.size();
+}
+
+template<typename TV, typename TE>
+bool Graph<TV, TE>::operator==(Graph& graph){
+    if(this->vertexes.size() != graph.vertexes.size())return false;
+    for(auto p : this->vertexes){
+        std::string id = p.first;
+        if(!graph.vertexes.count(id))  return false;
+        if(p.second->id != graph.vertexes[id]->id) return false;
+        if(p.second->data != graph.vertexes[id]->data) return false;
+        if(p.second->edges.size() != graph.vertexes[id]->edges.size()) return false;
+        for(auto e1 : p.second->edges){
+            bool flag = false;
+            for(auto e2 : graph.vertexes[id]->edges){
+                if(e1->vertexes[1]->data == e2->vertexes[1]->data){
+                    if(e1->weight == e2->weight)  flag = true;
+                    break;
+                }
+            }
+            if(!flag) return false;
+        }
+    }
+    return true;
+}
+
 #endif
-
-
-/*
-    void displayVertex(int id){
-        if(!findById(id))   throw "Invalid id";
-        cout << vertexes[id]->data << ":   ";
-        for(auto it = vertexes[id]->edges.begin(); it != vertexes[id]->edges.end(); ){
-            if((*it)->vertexes[0]->data == vertexes[id]->data)     
-                cout << (*it)->vertexes[1]->data << "(" << (*it)->weight << ")";
-            else                                                            
-                cout << (*it)->vertexes[0]->data << "(" << (*it)->weight << ")";
-            if(++it == vertexes[id]->edges.end())  break;
-            cout << ", ";
-        }
-        cout << endl;
-    }
-    
-    /*algorithms
-    Graph<TV, TE> execKruskal();
-    Graph<TV, TE> execDFS();
-    Graph<TV, TE> execBFS();
-    bool isConnected();
-};
-
-template<typename TV, typename TE>
-struct CompareEdge { 
-    bool operator()(Edge<TV, TE>* const& e1, Edge<TV, TE>* const& e2) { 
-        return e1->weight > e2->weight; 
-    } 
-};
-
-template<typename TV, typename TE>
-Graph<TV, TE> Graph<TV, TE>::execKruskal(){
-    Graph<TV, TE> mst;
-    priority_queue<Edge<TV, TE>*, vector<Edge<TV, TE>*>, CompareEdge<TV, TE>> pq;
-
-    for(auto v : vertexes)  for(auto e : v.second->edges)   pq.push(e);
-    
-    vector<Vertex<TV, TE>*> data;
-    for(auto v : vertexes)  data.push_back(v.second);
-    DisjoinSetArray<Vertex<TV, TE>*> ds(data);
-    ds.MakeSet();
-
-    int i = 1;
-    while(!pq.empty()){
-        auto cur = pq.top();
-        pq.pop();
-
-        if(ds.FindT(cur->vertexes[0]) != ds.FindT(cur->vertexes[1])){
-            if(!mst.findIndexByData(cur->vertexes[0]->data)){
-                mst.insertVertex(i, cur->vertexes[0]->data);
-                ++i;
-            }   
-            if(!mst.findIndexByData(cur->vertexes[1]->data)){
-                mst.insertVertex(i, cur->vertexes[1]->data);
-                ++i;
-            }   
-            mst.createEdge(mst.findIndexByData(cur->vertexes[0]->data), mst.findIndexByData(cur->vertexes[1]->data), cur->weight);
-            ds.UnionT(cur->vertexes[0], cur->vertexes[1]);
-        }
-    }
-
-    return mst;
-}
-
-template<typename TV, typename TE>
-void DFS(Graph<TV, TE> &dfs, unordered_map<Vertex<TV, TE>*, bool> &visited, Vertex<TV, TE>* vertex, Vertex<TV, TE>* parent = nullptr){
-    visited[vertex] = true;
-    if(!dfs.findIndexByData(vertex->data))
-        dfs.insertVertex(dfs.nodes() + 1, vertex->data);
-
-    if(parent){
-        for(auto e : parent->edges){
-        if((e->vertexes[0]->data == parent->data && e->vertexes[1]->data == vertex->data) || (e->vertexes[1]->data == parent->data && e->vertexes[0]->data == vertex->data) )
-            dfs.createEdge(dfs.findIndexByData(parent->data), dfs.findIndexByData(vertex->data), e->weight);
-        }
-    }
-    for(auto e : vertex->edges){
-        Vertex<TV, TE>* adj;
-        if(e->vertexes[0]->data == vertex->data)  adj = e->vertexes[1];
-        else  adj = e->vertexes[0];
-        if(!visited[adj])
-        DFS(dfs, visited, adj, vertex);
-    }
-}
-
-template<typename TV, typename TE>
-Graph<TV, TE> Graph<TV, TE>::execDFS(){
-    Graph<TV, TE> dfs;
-    unordered_map<Vertex<TV, TE>*, bool> visited;
-    for(auto v : vertexes)  visited[v.second] = false;
-    for(int i=1; i<=visited.size(); ++i)  if(!visited[vertexes[i]]) DFS(dfs, visited, vertexes[i]);
-    return dfs;
-}
-
-template<typename TV, typename TE>
-void BFS(Graph<TV, TE> &bfs, unordered_map<Vertex<TV, TE>*, bool> &visited, Vertex<TV, TE>* vertex){
-    queue<pair<Vertex<TV, TE>*, Vertex<TV, TE>*>> q;
-    visited[vertex] = true;
-    q.push({vertex, nullptr});
-
-    while(!q.empty()){
-        pair<Vertex<TV, TE>*, Vertex<TV, TE>*> cur = q.front();
-        q.pop();
-        Vertex<TV, TE>* vertex = cur.first;
-        Vertex<TV, TE>* parent = cur.second;
-        if(!bfs.findIndexByData(vertex->data))
-        bfs.insertVertex(bfs.nodes() + 1, vertex->data);
-        
-        if(parent){
-            for(auto e : parent->edges){
-                if((e->vertexes[0]->data == parent->data && e->vertexes[1]->data == vertex->data) || (e->vertexes[1]->data == parent->data && e->vertexes[0]->data == vertex->data) )
-                bfs.createEdge(bfs.findIndexByData(parent->data), bfs.findIndexByData(vertex->data), e->weight);
-            }
-        }
-    
-        for(auto e : vertex->edges){
-            Vertex<TV, TE>* adj;
-            if(e->vertexes[0]->data == vertex->data)  adj = e->vertexes[1];
-            else  adj = e->vertexes[0];
-            if(!visited[adj]){
-                visited[adj] = true;
-                q.push({adj, vertex});
-            }
-        }
-    }
-}
-
-template<typename TV, typename TE>
-Graph<TV, TE> Graph<TV, TE>::execBFS(){
-    Graph<TV, TE> bfs;
-    unordered_map<Vertex<TV, TE>*, bool> visited;
-    for(auto v : vertexes)  visited[v.second] = false;
-    for(int i=1; i<=visited.size(); ++i) if(!visited[vertexes[i]]) BFS(bfs, visited, vertexes[i]);
-    return bfs;
-}
-
-template<typename TV, typename TE>
-bool Graph<TV, TE>::isConnected(){
-    Graph<TV, TE> bfs;
-    unordered_map<Vertex<TV, TE>*, bool> visited;
-    for(auto v : vertexes)  visited[v.second] = false;
-    BFS(bfs, visited, vertexes[1]);
-    return nodes() == bfs.nodes();
-}
-*/

@@ -1,0 +1,7 @@
+[
+{
+  "directory": "/home/sebastian/projects/ASD/graph-project-lospandemials/build",
+  "command": "/usr/bin/g++-7   -g -std=gnu++1z -o CMakeFiles/graph-project-lospandemials.dir/main.cpp.o -c /home/sebastian/projects/ASD/graph-project-lospandemials/main.cpp",
+  "file": "/home/sebastian/projects/ASD/graph-project-lospandemials/main.cpp"
+}
+]
